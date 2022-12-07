@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const { errorWrap } = require("../middleware");
-const User = require("../models/user");
 
 router.get(
   "/google",
@@ -11,9 +10,9 @@ router.get(
 
 router.get(
   "/google/callback",
-  passport.authenticate("google", { failureRedirect: "/api" }),
+  passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    res.redirect("/log");
+    res.redirect("/api/log");
   }
 );
 
