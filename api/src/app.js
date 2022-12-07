@@ -4,11 +4,14 @@ const express = require("express");
 const helmet = require("helmet");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+const passport = require("passport");
+const session = require("express-session");
 const apiRoutes = require("./routes");
 const { errorHandler } = require("./middleware");
 
 const app = express();
 
+app.use(session({ secret: "melody hensley is my spirit animal" }));
 app.use(helmet());
 app.use(cors());
 
@@ -19,6 +22,11 @@ app.use(bodyParser.urlencoded({ limit: "2.1mb", extended: false }));
 
 // Mongo setup
 require("./utils/mongo-setup");
+
+// Google oauth setup
+require("./config/passport")(passport);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/api", apiRoutes);
