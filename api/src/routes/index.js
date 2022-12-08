@@ -1,13 +1,23 @@
 const express = require("express");
 const router = express.Router();
-const { ensureAuth, ensureGuest } = require("../middleware/auth");
+const { errorWrap, ensureAuth, ensureGuest } = require("../middleware");
 
 router.get("/", ensureGuest, (req, res) => {
-  res.render("login"); // TODO: react router? move middleware to frontend?
+  res.status(200).json({
+    message: "Successfully logged in or something",
+    success: true,
+    result: "um",
+  });
+  // res.render('login') <-- login page
 });
 
 router.get("/log", ensureAuth, async (req, res) => {
-  res.render("index", { userinfo: req.user }); // TODO: react router?
+  res.status(200).json({
+    message: "Successfully arrived at /log apparently",
+    success: true,
+    result: req.user,
+  });
+  // res.render('index',{userinfo:req.user}) <-- main page, after user login
 });
 router.use("/day", require("./day"));
 router.use("/auth", require("./auth"));
