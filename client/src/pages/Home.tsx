@@ -2,6 +2,7 @@ import React from 'react';
 
 import Entry from '../components/Entry';
 import Thoughts from '../components/Thoughts';
+import Signup from '../pages/Signup';
 
 const Home = (): React.ReactElement => {
   // const formatDate = (date: Date): string => {
@@ -16,8 +17,7 @@ const Home = (): React.ReactElement => {
 
   return (
     <>
-      <Entry/>
-      <Thoughts/>
+      <Signup/>
     </>
   );
 };
