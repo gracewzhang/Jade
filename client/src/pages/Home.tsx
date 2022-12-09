@@ -5,19 +5,9 @@ import Thoughts from '../components/Thoughts';
 import Signup from '../pages/Signup';
 
 const Home = (): React.ReactElement => {
-  // const formatDate = (date: Date): string => {
-  //   const year = date.getFullYear();
-  //   const month = date.getMonth() + 1;
-  //   const day = date.getDate();
-
-  //   return `${year}-${month}-${day}`;
-  // };
-  // const [date, setDate] = useState(() => formatDate(new Date()));
-  // const [entry, setEntry] = useState({});
-
   return (
     <>
-      <Signup/>
+      <p>Home Screen!</p>
     </>
   );
 };
