@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { DayResult, Day } from '../models/day';
+import axios from 'axios';
+import { DayResult } from '../models/day';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined

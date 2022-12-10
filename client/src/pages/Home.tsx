@@ -2,7 +2,7 @@ import React from 'react';
 
 import Entry from '../components/Entry';
 import Thoughts from '../components/Thoughts';
-import Signup from '../pages/Signup';
+import Login from './Login';
 
 const Home = (): React.ReactElement => {
   return (
