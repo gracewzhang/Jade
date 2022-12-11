@@ -1,13 +1,12 @@
 import React from 'react';
 
-// import Entry from '../components/Entry';
-// import Thoughts from '../components/Thoughts';
-// import Login from './Login';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Home = (): React.ReactElement => {
+  const { user } = useAuthContext();
   return (
     <>
-      <p>Home Screen!</p>
+      <p>{user?.name ?? 'oh'}</p>
     </>
   );
 };
