@@ -8,7 +8,7 @@ const BASE_URL =
     ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
     : 'http://localhost:9000/api';
 
-export const useAuth = (): UseAuthReturn => {
+export const useAuth = (): any => {
   const [user, setUser] = useState(null);
 
   const signIn = async (data: NewUser): Promise<void> => {
