@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { GoogleLogin } from '@react-oauth/google';
 import styled from 'styled-components';
+import jwt_decode from 'jwt-decode';
 
 const LoginPageContainer = styled.span`
   display: grid;
@@ -21,7 +22,7 @@ const Login = (): React.ReactElement => {
       <LoginContainer>
         <GoogleLogin
           onSuccess={(credentialResponse) => {
-            console.log(credentialResponse);
+            console.log(jwt_decode(credentialResponse.credential ?? ''));
           }}
           onError={() => {
             console.log('Login Failed');
