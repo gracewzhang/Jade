@@ -1,5 +1,6 @@
 export interface Day {
   id: string;
+  user_id: string;
   date: string;
   title: string;
   entry: string;

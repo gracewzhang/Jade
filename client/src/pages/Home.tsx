@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Entry from '../components/Entry';
-import Thoughts from '../components/Thoughts';
-import Login from './Login';
+// import Entry from '../components/Entry';
+// import Thoughts from '../components/Thoughts';
+// import Login from './Login';
 
 const Home = (): React.ReactElement => {
   return (
