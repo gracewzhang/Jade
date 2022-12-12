@@ -5,6 +5,8 @@ import jwt_decode from 'jwt-decode';
 
 import { useAuthContext } from '../contexts/AuthContext';
 import { DecodedUser, User } from '../models/user';
+import { LoginIllustration } from '../illustrations/Login.illustration';
+import Logo from '../components/Logo/Logo';
 
 const LoginPageContainer = styled.span`
   display: grid;
@@ -14,13 +16,25 @@ const LoginPageContainer = styled.span`
 
 const LoginContainer = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
 
 const Login = (): React.ReactElement => {
   const { checkIfNewUser, signIn, signUp } = useAuthContext();
-  const handleSuccess = async (credentialResponse: CredentialResponse): Promise<void> => {
+
+  const handleSuccess = (credentialResponse: CredentialResponse): void => {
+    void (async (credentialResponse) => {
+      await handleLogin(credentialResponse);
+    })(credentialResponse);
+  };
+
+  const handleError = (): void => {
+    console.log('Login failed');
+  };
+
+  const handleLogin = async (credentialResponse: CredentialResponse): Promise<void> => {
     const userInfo: DecodedUser = jwt_decode(credentialResponse.credential ?? '');
     const user: User = {
       google_id: userInfo?.sub,
@@ -40,17 +54,12 @@ const Login = (): React.ReactElement => {
 
   return (
     <LoginPageContainer>
-      <p>Hello!</p>
+      <LoginIllustration/>
       <LoginContainer>
+        <Logo/>
         <GoogleLogin
-          onSuccess={(credentialResponse) => {
-            void (async (credentialResponse) => {
-              await handleSuccess(credentialResponse);
-            })(credentialResponse);
-          }}
-          onError={() => {
-            console.log('Login Failed');
-          }}
+          onSuccess={handleSuccess}
+          onError={handleError}
         />
       </LoginContainer>
     </LoginPageContainer>
