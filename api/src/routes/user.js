@@ -42,7 +42,7 @@ router.post(
 router.get(
   "/:googleId",
   errorWrap(async (req, res) => {
-    const user = await User.find({
+    const user = await User.findOne({
       google_id: req.params.googleId
     });
 
@@ -58,6 +58,21 @@ router.get(
         message: "Successfully retrieved user",
       });
     }
+  })
+);
+
+router.get(
+  "/exists/:googleId",
+  errorWrap(async (req, res) => {
+    const userExists = await User.exists({
+      google_id: req.params.googleId
+    });
+
+    res.status(200).json({
+      success: true,
+      result: userExists !== null,
+      message: "Successfully checked if user exists",
+    });
   })
 );
 
