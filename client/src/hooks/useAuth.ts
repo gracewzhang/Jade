@@ -10,7 +10,7 @@ const BASE_URL =
 export const useAuth = (): any => {
   const [user, setUser] = useState(null);
 
-  const isNewUser = async (data: NewUser): Promise<boolean> => {
+  const checkIfNewUser = async (data: NewUser): Promise<boolean> => {
     try {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
       return authResult?.data.success;
@@ -48,5 +48,5 @@ export const useAuth = (): any => {
     setUser(null);
   };
 
-  return { user, isNewUser, signIn, signUp, signOut };
+  return { user, checkIfNewUser, signIn, signUp, signOut };
 };

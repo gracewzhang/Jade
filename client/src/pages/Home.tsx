@@ -8,7 +8,7 @@ const Home = (): React.ReactElement => {
   console.log(user);
   return (
     <>
-      <p>{user[0]?.name ?? 'oh'}</p>
+      <p>{user?.name ?? 'oh'}</p>
     </>
   );
 };

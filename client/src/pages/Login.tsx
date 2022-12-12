@@ -19,17 +19,18 @@ const LoginContainer = styled.div`
 `;
 
 const Login = (): React.ReactElement => {
-  const { user, isNewUser, signIn, signUp } = useAuthContext();
-  const handleSuccess = (credentialResponse: CredentialResponse): void => {
+  const { user, checkIfNewUser, signIn, signUp } = useAuthContext();
+  const handleSuccess = async (credentialResponse: CredentialResponse): Promise<void> => {
     const userInfo: DecodedUser = jwt_decode(credentialResponse.credential ?? '');
     const user = {
       google_id: userInfo?.sub,
       email: userInfo?.email,
       name: userInfo?.name,
       image: userInfo?.picture,
-      created_at: Date.now
+      created_at: Date.now()
     };
-    if (isNewUser(user) === true) {
+    const isNewUser = await checkIfNewUser(user);
+    if (isNewUser === true) {
       signUp(user);
     } else {
       signIn(user);
@@ -41,7 +42,11 @@ const Login = (): React.ReactElement => {
       <p>{user?.name ?? 'hello'}</p>
       <LoginContainer>
         <GoogleLogin
-          onSuccess={handleSuccess}
+          onSuccess={(credentialResponse) => {
+            void (async (credentialResponse) => {
+              await handleSuccess(credentialResponse);
+            })(credentialResponse);
+          }}
           onError={() => {
             console.log('Login Failed');
           }}
