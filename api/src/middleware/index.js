@@ -3,5 +3,5 @@ const errorWrap = require("./errorWrap");
 
 module.exports = {
   errorHandler,
-  errorWrap,
+  errorWrap
 };

@@ -6,9 +6,8 @@ const Day = require("../models/day");
 router.post(
   "/",
   errorWrap(async (req, res) => {
-    let newDay = await Day.create(req.body);
+    const newDay = await Day.create(req.body);
     if (newDay) {
-      newDay = await Day.findById(newDay._id); // add .populate()
       res.status(200).json({
         message: "Successfully created new day",
         success: true,

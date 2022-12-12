@@ -7,12 +7,13 @@
         "plugin:react/recommended",
         "standard-with-typescript"
     ],
-    "overrides": [
-    ],
+    "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module",
-        "project": ["./tsconfig.json"],
+        "project": [
+            "./tsconfig.json"
+        ],
         "react": "999.99.99"
     },
     "plugins": [
@@ -20,7 +21,21 @@
         "@typescript-eslint"
     ],
     "rules": {
-        "semi": [1, "always"],
-        "@typescript-eslint/semi": "off"
+        "semi": [
+            1,
+            "always"
+        ],
+        "no-unused-vars": 1,
+        "@typescript-eslint/no-unused-vars": 1,
+        "@typescript-eslint/semi": "off",
+        "@typescript-eslint/member-delimiter-style": [
+            "error",
+            {
+                "singleline": {
+                    "delimiter": "semi", 
+                    "requireLast": true
+                }
+            }
+        ]
     }
 }

@@ -1,23 +1,13 @@
 import React from 'react';
 
-import Entry from '../components/Entry';
-import Thoughts from '../components/Thoughts';
+import { useAuthContext } from '../contexts/AuthContext';
 
 const Home = (): React.ReactElement => {
-  // const formatDate = (date: Date): string => {
-  //   const year = date.getFullYear();
-  //   const month = date.getMonth() + 1;
-  //   const day = date.getDate();
-
-  //   return `${year}-${month}-${day}`;
-  // };
-  // const [date, setDate] = useState(() => formatDate(new Date()));
-  // const [entry, setEntry] = useState({});
-
+  // TODO: const [user, setUser] = useLocalStorage("user", null);
+  const { user } = useAuthContext();
   return (
     <>
-      <Entry/>
-      <Thoughts/>
+      <p>{user?.name}</p>
     </>
   );
 };

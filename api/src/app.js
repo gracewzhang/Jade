@@ -4,11 +4,13 @@ const express = require("express");
 const helmet = require("helmet");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
+const session = require("express-session");
 const apiRoutes = require("./routes");
 const { errorHandler } = require("./middleware");
 
 const app = express();
 
+app.use(session({ secret: "melody hensley is my spirit animal" }));
 app.use(helmet());
 app.use(cors());
 
