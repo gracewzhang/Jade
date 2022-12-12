@@ -6,7 +6,7 @@ const User = new mongoose.Schema(
     email: { type: String, default: "" },
     name: { type: String, default: "" },
     image: { type: String, default: "" },
-    created_at: { type: Date, default: Date.now() },
+    created_at: { type: Date, default: new Date() },
   },
   { collection: "users" }
 );
