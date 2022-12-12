@@ -4,15 +4,15 @@ import styled from 'styled-components';
 
 const LogoContainer = styled.span`
   display: flex;
-  padding: 5%;
 `;
 
 const Title = styled.h1`
 `;
 
-const Logo = (): JSX.Element => {
+const Logo = (props: any): JSX.Element => {
+  const { className } = props;
   return (
-    <LogoContainer>
+    <LogoContainer className={className}>
       <LogoIllustration/>
       <Title>Jade</Title>
     </LogoContainer>

@@ -7,18 +7,46 @@ import { useAuthContext } from '../contexts/AuthContext';
 import { DecodedUser, User } from '../models/user';
 import { LoginIllustration } from '../illustrations/Login.illustration';
 import Logo from '../components/Logo/Logo';
+import colors from '../styles/colors';
 
 const LoginPageContainer = styled.span`
   display: grid;
   grid-template-columns: 50% 50%;
-  padding: 10%;
 `;
 
-const LoginContainer = styled.div`
+const LeftContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 10%;
+  padding-left: 30%;
+`;
+
+const RightContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 10%;
+  padding-right: 30%;
+`;
+
+const StyledLoginIllustration = styled(LoginIllustration)`
+  max-width: 90%;
+  align-self: center;
+`;
+
+const LoginTitle = styled.h1`
+`;
+
+const LoginSubtitle = styled.h3`
+  color: ${colors['light-gray']};
+  font-weight: 400;
+  line-height: 25px;
+`;
+
+const StyledLogo = styled(Logo)`
+  padding-bottom: 10%;
 `;
 
 const Login = (): React.ReactElement => {
@@ -54,14 +82,18 @@ const Login = (): React.ReactElement => {
 
   return (
     <LoginPageContainer>
-      <LoginIllustration/>
-      <LoginContainer>
-        <Logo/>
+      <LeftContainer>
+        <StyledLoginIllustration />
+        <LoginTitle>Thrive</LoginTitle>
+        <LoginSubtitle>&quot;It&apos;s shining with all its might. Thump, thump, like a heartbeat. This is the light of life.&quot; - Kaori</LoginSubtitle>
+      </LeftContainer>
+      <RightContainer>
+        <StyledLogo />
         <GoogleLogin
           onSuccess={handleSuccess}
           onError={handleError}
         />
-      </LoginContainer>
+      </RightContainer>
     </LoginPageContainer>
   );
 };
