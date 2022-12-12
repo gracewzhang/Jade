@@ -1,14 +1,27 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { NewUser } from '../models/user';
+import { NewUser, User } from '../models/user';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined
     ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
     : 'http://localhost:9000/api';
 
-export const useAuth = (): any => {
-  const [user, setUser] = useState(null);
+export const useAuth = (): {
+  user: User;
+  checkIfNewUser: (data: NewUser) => Promise<boolean>;
+  signIn: (data: NewUser) => Promise<void>;
+  signUp: (data: NewUser) => Promise<void>;
+  signOut: () => void;
+} => {
+  const [user, setUser] = useState({
+    _id: 'null',
+    google_id: 'null',
+    email: 'null',
+    name: 'null',
+    image: 'null',
+    created_at: new Date()
+  });
 
   const checkIfNewUser = async (data: NewUser): Promise<boolean> => {
     try {
@@ -45,7 +58,14 @@ export const useAuth = (): any => {
   };
 
   const signOut = (): void => {
-    setUser(null);
+    setUser({
+      _id: 'null',
+      google_id: 'null',
+      email: 'null',
+      name: 'null',
+      image: 'null',
+      created_at: new Date()
+    });
   };
 
   return { user, checkIfNewUser, signIn, signUp, signOut };

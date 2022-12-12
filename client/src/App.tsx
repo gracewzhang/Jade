@@ -1,10 +1,10 @@
 import React from 'react';
 import { createGlobalStyle } from 'styled-components';
-import { BrowserRouter, Route, Routes, useLocation, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { useAuthContext } from './contexts/AuthContext';
 
-import RequireAuth from './contexts/RequireAuth';
+import RequireAuth from './components/RequireAuth/RequireAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
 
@@ -21,14 +21,14 @@ const App = (): React.ReactElement => {
 
   return (
     <>
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
-      <GlobalStyle/>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-          { user !== null ? <Route path='/login' element={<Navigate to={pathName} />} /> : <Route path='/login' element={<Login />} /> }
-        </Routes>
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
+        <GlobalStyle />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+            {user?._id !== 'null' ? <Route path='/login' element={<Navigate to={pathName} />} /> : <Route path='/login' element={<Login />} />}
+          </Routes>
+        </BrowserRouter>
       </GoogleOAuthProvider>
     </>
   );
