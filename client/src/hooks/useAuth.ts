@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { NewUser, User } from '../models/user';
+import { User } from '../models/user';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined
@@ -9,13 +9,12 @@ const BASE_URL =
 
 export const useAuth = (): {
   user: User;
-  checkIfNewUser: (data: NewUser) => Promise<boolean>;
-  signIn: (data: NewUser) => Promise<void>;
-  signUp: (data: NewUser) => Promise<void>;
+  checkIfNewUser: (data: User) => Promise<boolean>;
+  signIn: (data: User) => Promise<void>;
+  signUp: (data: User) => Promise<void>;
   signOut: () => void;
 } => {
   const [user, setUser] = useState({
-    _id: 'null',
     google_id: 'null',
     email: 'null',
     name: 'null',
@@ -23,7 +22,7 @@ export const useAuth = (): {
     created_at: new Date()
   });
 
-  const checkIfNewUser = async (data: NewUser): Promise<boolean> => {
+  const checkIfNewUser = async (data: User): Promise<boolean> => {
     try {
       const authResult = await axios.get(`${BASE_URL}/user/exists/${data.google_id}`);
       return authResult?.data.result === false;
@@ -33,7 +32,7 @@ export const useAuth = (): {
     }
   };
 
-  const signIn = async (data: NewUser): Promise<void> => {
+  const signIn = async (data: User): Promise<void> => {
     try {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
       const newUser = authResult?.data?.result?._doc;
@@ -45,7 +44,7 @@ export const useAuth = (): {
     }
   };
 
-  const signUp = async (data: NewUser): Promise<void> => {
+  const signUp = async (data: User): Promise<void> => {
     try {
       const authResult = await axios.post(`${BASE_URL}/user`, data);
       const newUser = authResult?.data.result;
@@ -59,7 +58,6 @@ export const useAuth = (): {
 
   const signOut = (): void => {
     setUser({
-      _id: 'null',
       google_id: 'null',
       email: 'null',
       name: 'null',

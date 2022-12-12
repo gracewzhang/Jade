@@ -16,17 +16,3 @@ export const getDays = async (): Promise<DayResult> => {
     return e.data;
   }).catch((error) => { throw new Error(error); });
 };
-
-/*
-  const [days, setDays] = useState<Day[] | null>(null);
-
-  const fetchDays = async (): Promise<any> => {
-    const days = await getDays();
-    setDays(days.result);
-    console.log(days.result);
-  };
-
-  useEffect(() => {
-    fetchDays().catch((e) => console.log(e));
-  }, []);
-*/

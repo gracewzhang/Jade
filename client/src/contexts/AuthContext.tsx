@@ -1,27 +1,26 @@
 import React, { createContext, useContext } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { NewUser, User } from '../models/user';
+import { User } from '../models/user';
 
 const AuthContext = createContext({
   user: {
-    _id: 'null',
     google_id: 'null',
     email: 'null',
     name: 'null',
     image: 'null',
     created_at: new Date()
   },
-  checkIfNewUser: async (data: NewUser) => { return true; },
-  signIn: async (data: NewUser) => {},
-  signUp: async (data: NewUser) => {},
+  checkIfNewUser: async (data: User) => { return true; },
+  signIn: async (data: User) => {},
+  signUp: async (data: User) => {},
   signOut: () => {}
 });
 
 const useAuthContext = (): {
   user: User;
-  checkIfNewUser: (data: NewUser) => Promise<boolean>;
-  signIn: (data: NewUser) => Promise<void>;
-  signUp: (data: NewUser) => Promise<void>;
+  checkIfNewUser: (data: User) => Promise<boolean>;
+  signIn: (data: User) => Promise<void>;
+  signUp: (data: User) => Promise<void>;
   signOut: () => void;
 } => useContext(AuthContext);
 

@@ -1,13 +1,4 @@
 export interface User {
-  _id: string;
-  google_id: string;
-  email: string;
-  name: string;
-  image: string;
-  created_at: Date;
-}
-
-export interface NewUser {
   google_id: string;
   email: string;
   name: string;

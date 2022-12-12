@@ -26,7 +26,7 @@ const App = (): React.ReactElement => {
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-            {user?._id !== 'null' ? <Route path='/login' element={<Navigate to={pathName} />} /> : <Route path='/login' element={<Login />} />}
+            {user?.google_id !== 'null' ? <Route path='/login' element={<Navigate to={pathName} />} /> : <Route path='/login' element={<Login />} />}
           </Routes>
         </BrowserRouter>
       </GoogleOAuthProvider>

@@ -6,7 +6,7 @@ const RequireAuth = (props: any): any => {
   const { children } = props;
   const location = useLocation();
   const auth = useAuthContext();
-  if (auth.user?._id === 'null') {
+  if (auth.user?.google_id === 'null') {
     return <Navigate to='/login' state={{ from: location.pathname }} />;
   }
   return children;
