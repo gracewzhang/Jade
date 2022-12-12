@@ -12,8 +12,8 @@ export const useAuth = (): any => {
 
   const checkIfNewUser = async (data: NewUser): Promise<boolean> => {
     try {
-      const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
-      return authResult?.data.success;
+      const authResult = await axios.get(`${BASE_URL}/user/exists/${data.google_id}`);
+      return authResult?.data.result === false;
     } catch (err) {
       console.log(err);
       return false;
@@ -23,7 +23,7 @@ export const useAuth = (): any => {
   const signIn = async (data: NewUser): Promise<void> => {
     try {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
-      const newUser = authResult?.data.result;
+      const newUser = authResult?.data?.result?._doc;
       setUser(newUser);
       // toastsuccess('Login Successfull'); // TODO
     } catch (err) {

@@ -30,6 +30,7 @@ const Login = (): React.ReactElement => {
       created_at: Date.now()
     };
     const isNewUser = await checkIfNewUser(user);
+
     if (isNewUser === true) {
       signUp(user);
     } else {
