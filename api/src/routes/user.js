@@ -27,7 +27,6 @@ router.post(
   errorWrap(async (req, res) => {
     const newUser = await User.create(req.body);
     if (newUser) {
-      newUser = await User.findById(newUser._id); 
       res.status(200).json({
         message: "Successfully created new user",
         success: true,
@@ -45,7 +44,7 @@ router.get(
   errorWrap(async (req, res) => {
     const user = await User.find({
       google_id: req.params.googleId
-    }).lean();
+    });
 
     if (!user) {
       res.status(404).json({
