@@ -51,6 +51,7 @@ const StyledLogo = styled(Logo)`
 
 const Login = (): React.ReactElement => {
   const { checkIfNewUser, signIn, signUp } = useAuthContext();
+  const loginSubtitle = '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Kaori';
 
   const handleSuccess = (credentialResponse: CredentialResponse): void => {
     void (async (credentialResponse) => {
@@ -85,7 +86,7 @@ const Login = (): React.ReactElement => {
       <LeftContainer>
         <StyledLoginIllustration />
         <LoginTitle>Thrive</LoginTitle>
-        <LoginSubtitle>&quot;It&apos;s shining with all its might. Thump, thump, like a heartbeat. This is the light of life.&quot; - Kaori</LoginSubtitle>
+        <LoginSubtitle>{loginSubtitle}</LoginSubtitle>
       </LeftContainer>
       <RightContainer>
         <StyledLogo />
