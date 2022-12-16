@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Navbar from './components/Navbar';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #FFB2A7;
@@ -33,21 +34,47 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const SplitContainer = styled.span`
+  display: grid;
+  grid-template-columns: 10% 90%;
+`;
+
+// const AllRoutes = (props: any): React.ReactElement => {
+//   const { pathName } = props;
+//   return (
+//     <Routes>
+//       <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+//       <Route path="/hello" element={<RequireAuth><div>yo</div></RequireAuth>} />
+//       <Route path='/login' element={<Navigate to={pathName} />} />
+//     </Routes>);
+// };
+
 const App = (): React.ReactElement => {
   const { user } = useAuthContext();
   // const location = useLocation();
   const pathName = '/'; // TODO
+  const isLoggedIn = user?.google_id !== 'null';
 
   return (
     <>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
         <GlobalStyle />
-        <StyledToastContainer/>
+        <StyledToastContainer />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-            {user?.google_id !== 'null' ? <Route path='/login' element={<Navigate to={pathName} />} /> : <Route path='/login' element={<Login />} />}
-          </Routes>
+          {isLoggedIn
+            ? <SplitContainer>
+              <Navbar />
+              <Routes>
+                <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+                <Route path="/hello" element={<RequireAuth><div>yo</div></RequireAuth>} />
+                <Route path='/login' element={<Navigate to={pathName} />} />
+              </Routes>
+            </SplitContainer>
+            : <Routes>
+              <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
+              <Route path="/hello" element={<RequireAuth><div>yo</div></RequireAuth>} />
+              <Route path='/login' element={<Login />} />
+            </Routes>}
         </BrowserRouter>
       </GoogleOAuthProvider>
     </>
