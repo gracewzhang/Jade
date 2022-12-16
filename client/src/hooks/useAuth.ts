@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { toast } from 'react-toastify';
 import { User } from '../models/user';
 
 const BASE_URL =
@@ -37,10 +38,28 @@ export const useAuth = (): {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
       const newUser = authResult?.data?.result?._doc;
       setUser(newUser);
-      // toastsuccess('Login Successfull'); // TODO
+      toast.success('🦄 Successfully signed in!', {
+        position: 'top-right',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored'
+      });
     } catch (err) {
       console.error(err);
-      // toasterror('Login Failed'); // TODO
+      toast.error('🦄 Unsuccessful login :(', {
+        position: 'top-right',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored'
+      });
     }
   };
 
@@ -49,10 +68,28 @@ export const useAuth = (): {
       const authResult = await axios.post(`${BASE_URL}/user`, data);
       const newUser = authResult?.data.result;
       setUser(newUser);
-      // toastsuccess('Sign Up Successfull'); // TODO
+      toast.success('🦄 Successfully signed up!', {
+        position: 'top-right',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored'
+      });
     } catch (error) {
       console.error(error);
-      // toasterror('An Error Occuered'); // TODO
+      toast.error('🦄 Unsuccessfully signed up :(', {
+        position: 'top-right',
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'colored'
+      });
     }
   };
 
