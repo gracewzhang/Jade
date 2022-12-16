@@ -37,17 +37,8 @@ const GlobalStyle = createGlobalStyle`
 const SplitContainer = styled.span`
   display: grid;
   grid-template-columns: 10% 90%;
+  height: 100%;
 `;
-
-// const AllRoutes = (props: any): React.ReactElement => {
-//   const { pathName } = props;
-//   return (
-//     <Routes>
-//       <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-//       <Route path="/hello" element={<RequireAuth><div>yo</div></RequireAuth>} />
-//       <Route path='/login' element={<Navigate to={pathName} />} />
-//     </Routes>);
-// };
 
 const App = (): React.ReactElement => {
   const { user } = useAuthContext();
