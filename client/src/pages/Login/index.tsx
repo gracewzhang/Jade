@@ -3,11 +3,11 @@ import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import styled from 'styled-components';
 import jwt_decode from 'jwt-decode';
 
-import { useAuthContext } from '../contexts/AuthContext';
-import { DecodedUser, User } from '../models/user';
-import { LoginIllustration } from '../illustrations/Login.illustration';
-import Logo from '../components/Logo/Logo';
-import colors from '../styles/colors';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { DecodedUser, User } from '../../models/user';
+import { LoginIllustration } from '../../illustrations/Login.illustration';
+import Logo from '../../components/Logo/Logo';
+import colors from '../../styles/colors';
 
 const LoginPageContainer = styled.span`
   display: grid;
