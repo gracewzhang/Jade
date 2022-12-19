@@ -17,7 +17,7 @@ const NavbarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 10px 1px lightgrey;
+  box-shadow: 0px 0px 40px 3px lightgrey;
 `;
 
 const LinkContainer = styled.div`
@@ -66,20 +66,20 @@ const StyledUser = styled(BiUser)`
 const StyledLogout = styled(MdLogout)`
   width: 30px;
   height: 30px;
-  color: ${colors['light-gray']};
+  color: ${colors.grey};
 `;
 
 const Navbar = (): React.ReactElement => {
   return (
     <NavbarContainer>
       <LinkContainer>
-        <StyledLink to="/"><StyledLogoIllustration /></StyledLink>
+        <StyledLink to='/'><StyledLogoIllustration /></StyledLink>
         <MiddleIconsContainer>
-          <StyledLink to="/hello"><StyledHome/></StyledLink>
-          <StyledLink to="/hello"><StyledHeart/></StyledLink>
-          <StyledLink to="/hello"><StyledUser/></StyledLink>
+          <StyledLink to='/'><StyledHome/></StyledLink>
+          <StyledLink to='/memories'><StyledHeart/></StyledLink>
+          <StyledLink to='/profile'><StyledUser/></StyledLink>
         </MiddleIconsContainer>
-        <StyledLink to="/hello"><StyledLogout/></StyledLink>
+        <StyledLink to='/hello'><StyledLogout/></StyledLink>
       </LinkContainer>
     </NavbarContainer>
   );

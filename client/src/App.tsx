@@ -9,7 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Memories from './pages/Memories';
 import Navbar from './components/Navbar';
+import Profile from './pages/Profile';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #FFB2A7;
@@ -56,15 +58,19 @@ const App = (): React.ReactElement => {
             ? <SplitContainer>
               <Navbar />
               <Routes>
-                <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-                <Route path="/hello" element={<RequireAuth><div>yo</div></RequireAuth>} />
+                <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
+                <Route path='/hello' element={<RequireAuth><div>Temporary screen</div></RequireAuth>} />
                 <Route path='/login' element={<Navigate to={pathName} />} />
+                <Route path='/memories' element={<RequireAuth><Memories/></RequireAuth>}/>
+                <Route path='/profile' element={<RequireAuth><Profile/></RequireAuth>}/>
               </Routes>
             </SplitContainer>
             : <Routes>
-              <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-              <Route path="/hello" element={<RequireAuth><div>yo</div></RequireAuth>} />
+              <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
+              <Route path='/hello' element={<RequireAuth><div>Temporary screen</div></RequireAuth>} />
               <Route path='/login' element={<Login />} />
+              <Route path='/memories' element={<RequireAuth><Memories/></RequireAuth>}/>
+              <Route path='/profile' element={<RequireAuth><Profile/></RequireAuth>}/>
             </Routes>}
         </BrowserRouter>
       </GoogleOAuthProvider>
