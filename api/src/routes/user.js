@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { errorWrap } = require("../middleware");
 const User = require("../models/user");
+const Day = require("../models/day");
 
 /**
  * Return all users
@@ -56,6 +57,45 @@ router.get(
         success: true,
         result: { ...user },
         message: "Successfully retrieved user",
+      });
+    }
+  })
+);
+
+router.get(
+  "/:googleId/day/",
+  errorWrap(async (req, res) => {
+    const days = await Day.find({
+      google_id: req.params.googleId
+    }).lean();
+
+
+    res.status(200).json({
+      success: true,
+      result: { ...days },
+      message: "Successfully retrieved day",
+    });
+  })
+);
+
+router.get(
+  "/:googleId/day/date/:date",
+  errorWrap(async (req, res) => {
+    const day = await Day.findOne({
+      google_id: req.params.googleId,
+      date: req.params.date
+    }).lean();
+
+    if (!day) {
+      res.status(404).json({
+        success: false,
+        message: "Day with given user and date not found",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        result: { ...day },
+        message: "Successfully retrieved day",
       });
     }
   })
