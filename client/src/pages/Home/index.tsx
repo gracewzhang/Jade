@@ -7,7 +7,7 @@ import Entry from './Entry';
 import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
-import { useAuthContext } from '../../contexts/AuthContext';
+// import { useAuthContext } from '../../contexts/AuthContext';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -70,7 +70,7 @@ const ThoughtsContainer = styled.div`
 
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
-  const { user } = useAuthContext();
+  // const { user } = useAuthContext();
   return (
     <HomeContainer>
       <Welcome />
@@ -81,14 +81,14 @@ const Home = (): React.ReactElement => {
           </PhotosContainer>
           <BottomContentContainer>
             <EntryContainer>
-              <Entry/>
+              <Entry />
             </EntryContainer>
             <BottomRightContentContainer>
               <SongFoodContainer>
-                <SongFood/>
+                <SongFood />
               </SongFoodContainer>
               <SongFoodContainer>
-                <SongFood/>
+                <SongFood />
               </SongFoodContainer>
             </BottomRightContentContainer>
           </BottomContentContainer>
@@ -98,7 +98,7 @@ const Home = (): React.ReactElement => {
             <Calendar />
           </CalendarContainer>
           <ThoughtsContainer>
-            <Thoughts/>
+            <Thoughts />
           </ThoughtsContainer>
         </RightContentContainer>
       </ContentContainer>
