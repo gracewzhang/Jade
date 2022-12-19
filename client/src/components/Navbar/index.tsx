@@ -8,6 +8,8 @@ import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
 import colors from '../../styles/colors';
 
+const iconLen = '25px';
+
 const NavbarContainer = styled.div`
   position: sticky;
   top: 0;
@@ -46,26 +48,26 @@ const StyledLink = styled(Link)`
 `;
 
 const StyledHome = styled(RxHome)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: black;
 `;
 
 const StyledHeart = styled(FiHeart)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: black;
 `;
 
 const StyledUser = styled(BiUser)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: black;
 `;
 
 const StyledLogout = styled(MdLogout)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: ${colors.grey};
 `;
 

@@ -46,7 +46,7 @@ const EntryContainer = styled.div`
 const BottomRightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 50% 50%;
-  padding-left: 60px;
+  padding-left: 80px;
   padding-right: 40px;
 `;
 
@@ -68,6 +68,7 @@ const ThoughtsContainer = styled.div`
   padding-left: 40px;
 `;
 
+// TODO: use a ref for the day/date to keep everything from re-rendering?
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
   // const { user } = useAuthContext();
