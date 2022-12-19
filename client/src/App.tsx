@@ -9,6 +9,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import RequireAuth from './components/RequireAuth/RequireAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
+import Memories from './pages/Memories';
+import Navbar from './components/Navbar';
+import Profile from './pages/Profile';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #FFB2A7;
@@ -33,21 +36,42 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
+const SplitContainer = styled.span`
+  display: grid;
+  grid-template-columns: 10% 90%;
+  height: 100%;
+`;
+
 const App = (): React.ReactElement => {
   const { user } = useAuthContext();
   // const location = useLocation();
   const pathName = '/'; // TODO
+  const isLoggedIn = user?.google_id !== 'null';
 
   return (
     <>
       <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
         <GlobalStyle />
-        <StyledToastContainer/>
+        <StyledToastContainer />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<RequireAuth><Home /></RequireAuth>} />
-            {user?.google_id !== 'null' ? <Route path='/login' element={<Navigate to={pathName} />} /> : <Route path='/login' element={<Login />} />}
-          </Routes>
+          {isLoggedIn
+            ? <SplitContainer>
+              <Navbar />
+              <Routes>
+                <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
+                <Route path='/hello' element={<RequireAuth><div>Temporary screen</div></RequireAuth>} />
+                <Route path='/login' element={<Navigate to={pathName} />} />
+                <Route path='/memories' element={<RequireAuth><Memories/></RequireAuth>}/>
+                <Route path='/profile' element={<RequireAuth><Profile/></RequireAuth>}/>
+              </Routes>
+            </SplitContainer>
+            : <Routes>
+              <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
+              <Route path='/hello' element={<RequireAuth><div>Temporary screen</div></RequireAuth>} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/memories' element={<RequireAuth><Memories/></RequireAuth>}/>
+              <Route path='/profile' element={<RequireAuth><Profile/></RequireAuth>}/>
+            </Routes>}
         </BrowserRouter>
       </GoogleOAuthProvider>
     </>

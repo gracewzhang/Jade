@@ -40,7 +40,7 @@ const LoginTitle = styled.h1`
 `;
 
 const LoginSubtitle = styled.h3`
-  color: ${colors['light-gray']};
+  color: ${colors.grey};
   font-weight: 400;
   line-height: 25px;
 `;
