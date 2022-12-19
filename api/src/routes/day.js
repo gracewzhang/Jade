@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { errorWrap } = require("../middleware");
 const Day = require("../models/day");
+const moment = require("moment");
 
 router.post(
   "/",
@@ -22,7 +23,7 @@ router.get(
   errorWrap(async (req, res) => {
     const days = await Day.find({});
     res.status(200).json({
-      message: `Successfully retrieved all days.`,
+      message: "Successfully retrieved all days.",
       success: true,
       result: days,
     });
