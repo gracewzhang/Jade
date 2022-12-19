@@ -2,12 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Welcome from './Welcome';
+import Block from '../../components/Block';
 import { useAuthContext } from '../../contexts/AuthContext';
 import colors from '../../styles/colors';
 
 const HomeContainer = styled.div`
   display: grid;
-  grid-template-rows: 10% 90%;
+  grid-template-rows: 15% 85%;
   padding: 5%;
 `;
 
@@ -39,7 +40,7 @@ const Home = (): React.ReactElement => {
       <Welcome/>
       <ContentContainer>
         <LeftContentContainer>
-          <p>hello</p>
+          <Block>hi</Block>
           <BottomContentContainer>
             <p>hello 2</p>
             <p>hello 3</p>

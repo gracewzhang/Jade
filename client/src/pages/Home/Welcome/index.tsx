@@ -23,7 +23,8 @@ const NameHeading = styled(NormalHeading)`
 
 const Subheading = styled.h3`
   font-weight: 500;
-  color: ${colors['dark-grey']}
+  color: ${colors['dark-grey']};
+  padding-top: 15px;
 `;
 
 const Welcome = (): React.ReactElement => {
