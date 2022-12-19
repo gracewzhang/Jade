@@ -2,9 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Welcome from './Welcome';
-import Block from '../../components/Block';
+import Photos from './Photos';
+import Entry from './Entry';
+import SongFood from './SongFood';
+import Calendar from './Calendar';
+import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/AuthContext';
-import colors from '../../styles/colors';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -27,6 +30,11 @@ const BottomContentContainer = styled.span`
   grid-template-columns: 60% 40%;
 `;
 
+const BottomRightContentContainer = styled.div`
+  display: grid;
+  grid-template-rows: 50% 50%;
+`;
+
 const RightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 70% 30%;
@@ -40,15 +48,18 @@ const Home = (): React.ReactElement => {
       <Welcome/>
       <ContentContainer>
         <LeftContentContainer>
-          <Block>hi</Block>
+          <Photos/>
           <BottomContentContainer>
-            <p>hello 2</p>
-            <p>hello 3</p>
+            <Entry/>
+            <BottomRightContentContainer>
+              <SongFood/>
+              <SongFood/>
+            </BottomRightContentContainer>
           </BottomContentContainer>
         </LeftContentContainer>
         <RightContentContainer>
-          <p>fdjls</p>
-          <p>fjdks;lafjdlks;</p>
+          <Calendar/>
+          <Thoughts/>
         </RightContentContainer>
       </ContentContainer>
     </HomeContainer>
