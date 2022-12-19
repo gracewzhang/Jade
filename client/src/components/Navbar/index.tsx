@@ -8,8 +8,6 @@ import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
 import colors from '../../styles/colors';
 
-const iconLen = '25px';
-
 const NavbarContainer = styled.div`
   position: sticky;
   top: 0;
@@ -46,6 +44,8 @@ const StyledLink = styled(Link)`
   display: flex;
   justify-content: center;
 `;
+
+const iconLen = '25px';
 
 const StyledHome = styled(RxHome)`
   width: ${iconLen};
