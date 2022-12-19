@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const Day = new mongoose.Schema(
   {
-    user_id: { type: String, default: ""}, // google id
+    google_id: { type: String, default: ""}, 
     date: { type: String, default: "" },
     title: { type: String, default: "" },
     entry: { type: String, default: "" },
