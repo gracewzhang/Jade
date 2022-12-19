@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import Welcome from './Welcome';
 import { useAuthContext } from '../../contexts/AuthContext';
 import colors from '../../styles/colors';
 
 const HomeContainer = styled.div`
-  // background-color: ${colors['light-grey']}
+  display: grid;
+  grid-template-rows: 10% 90%;
+  padding: 5%;
 `;
 
 const Home = (): React.ReactElement => {
@@ -13,7 +16,8 @@ const Home = (): React.ReactElement => {
   const { user } = useAuthContext();
   return (
     <HomeContainer>
-      <p>{user?.name}</p>
+      <Welcome/>
+      <p>yo</p>
     </HomeContainer>
   );
 };
