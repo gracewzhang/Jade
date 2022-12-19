@@ -17,7 +17,7 @@ const NavbarContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0px 0px 40px 3px lightgrey;
+  box-shadow: 0px 0px 30px 4px lightgrey;
 `;
 
 const LinkContainer = styled.div`

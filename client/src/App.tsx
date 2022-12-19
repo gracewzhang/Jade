@@ -26,6 +26,8 @@ const StyledToastContainer = styled(ToastContainer)`
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Ubuntu', sans-serif;
+    padding: 0;
+    margin: 0;
   }
 
   h1 {
@@ -33,6 +35,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     align-items: center;
     display: flex;
+  }
+
+  h3 {
+    margin: 0;
   }
 `;
 

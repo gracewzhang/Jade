@@ -1,11 +1,17 @@
 import React from 'react';
-// import { HeartIcon, CheckIcon } from '@heroicons/react/outline';
+import styled from 'styled-components';
+
+import Block from '../../../components/Block';
+
+const ThoughtsContainer = styled(Block)`
+
+`;
 
 const Thoughts = (): React.ReactElement => {
   return (
-    <div>
-      Goodbye
-    </div>
+    <ThoughtsContainer>
+      Thoughts
+    </ThoughtsContainer>
   );
 };
 
