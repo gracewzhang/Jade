@@ -11,18 +11,27 @@ import { useAuthContext } from '../../contexts/AuthContext';
 
 const HomeContainer = styled.div`
   display: grid;
-  grid-template-rows: 15% 85%;
-  padding: 5%;
+  grid-template-rows: 10% 90%;
+  padding-top: 5%;
+  padding-left: 7%;
+  padding-right: 9%;
+  padding-bottom: 5%;
 `;
 
 const ContentContainer = styled.span`
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 65% 35%;
 `;
 
 const LeftContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 40% 60%;
+  grid-template-rows: 45% 55%;
+`;
+
+const PhotosContainer = styled.div`
+  padding: 40px;
+  padding-top: 60px;
+  padding-left: 0;
 `;
 
 const BottomContentContainer = styled.span`
@@ -30,9 +39,19 @@ const BottomContentContainer = styled.span`
   grid-template-columns: 60% 40%;
 `;
 
+const EntryContainer = styled.div`
+  padding-top: 40px;
+`;
+
 const BottomRightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 50% 50%;
+  padding-left: 60px;
+  padding-right: 40px;
+`;
+
+const SongFoodContainer = styled.div`
+  padding-top: 40px;
 `;
 
 const RightContentContainer = styled.div`
@@ -40,26 +59,47 @@ const RightContentContainer = styled.div`
   grid-template-rows: 70% 30%;
 `;
 
+const CalendarContainer = styled.div`
+  padding-bottom: 40px;
+  padding-left: 40px;
+`;
+
+const ThoughtsContainer = styled.div`
+  padding-left: 40px;
+`;
+
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
   const { user } = useAuthContext();
   return (
     <HomeContainer>
-      <Welcome/>
+      <Welcome />
       <ContentContainer>
         <LeftContentContainer>
-          <Photos/>
+          <PhotosContainer>
+            <Photos />
+          </PhotosContainer>
           <BottomContentContainer>
-            <Entry/>
+            <EntryContainer>
+              <Entry/>
+            </EntryContainer>
             <BottomRightContentContainer>
-              <SongFood/>
-              <SongFood/>
+              <SongFoodContainer>
+                <SongFood/>
+              </SongFoodContainer>
+              <SongFoodContainer>
+                <SongFood/>
+              </SongFoodContainer>
             </BottomRightContentContainer>
           </BottomContentContainer>
         </LeftContentContainer>
         <RightContentContainer>
-          <Calendar/>
-          <Thoughts/>
+          <CalendarContainer>
+            <Calendar />
+          </CalendarContainer>
+          <ThoughtsContainer>
+            <Thoughts/>
+          </ThoughtsContainer>
         </RightContentContainer>
       </ContentContainer>
     </HomeContainer>
