@@ -1,5 +1,4 @@
 export interface Day {
-  id: string;
   user_id: string;
   date: string;
   title: string;
@@ -9,8 +8,14 @@ export interface Day {
   is_favorite: boolean;
 }
 
-export interface DayResult {
+export interface GetDaysResults {
   message: string;
   success: boolean;
   result: Day[];
+}
+
+export interface GetDayResults {
+  message: string;
+  success: boolean;
+  result: Day;
 }

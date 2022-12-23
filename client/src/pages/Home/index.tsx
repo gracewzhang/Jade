@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
 import Welcome from './Welcome';
@@ -7,7 +7,9 @@ import Entry from './Entry';
 import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
-// import { useAuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { getDay } from '../../hooks/useDay';
+import { Day } from '../../models/day';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -68,20 +70,36 @@ const ThoughtsContainer = styled.div`
   padding-left: 40px;
 `;
 
-// const formatDate = (date: Date): string => {
-//   let newDate = date;
-//   const offset = newDate.getTimezoneOffset();
-//   newDate = new Date(newDate.getTime() - offset * 60 * 1000);
-//   return newDate.toISOString().split('T')[0];
-// };
+const formatDate = (date: Date): string => {
+  let newDate = date;
+  const offset = newDate.getTimezoneOffset();
+  newDate = new Date(newDate.getTime() - offset * 60 * 1000);
+  return newDate.toISOString().split('T')[0];
+};
 
 // TODO: use a ref for the day/date to keep everything from re-rendering?
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
-  // const { user } = useAuthContext();
+  const { user } = useAuthContext();
+  const [day, setDay] = useState<Day>(); // TODO: change the other instances of setting default state to <Type> syntax
   const [date, setDate] = useState(new Date());
 
   const calendarProps = { setDate };
+
+  const retrieveDay = useCallback(async () => {
+    const res = await getDay(user.google_id, formatDate(date));
+    if (res.success) {
+      setDay(res.result);
+    } else {
+      // TODO: create a new day
+      console.log('oh hi');
+    }
+  }, [date]);
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    retrieveDay();
+  }, [retrieveDay]);
 
   return (
     <HomeContainer>
