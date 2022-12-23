@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Welcome from './Welcome';
@@ -46,7 +46,7 @@ const EntryContainer = styled.div`
 const BottomRightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 50% 50%;
-  padding-left: 60px;
+  padding-left: 80px;
   padding-right: 40px;
 `;
 
@@ -68,9 +68,21 @@ const ThoughtsContainer = styled.div`
   padding-left: 40px;
 `;
 
+// const formatDate = (date: Date): string => {
+//   let newDate = date;
+//   const offset = newDate.getTimezoneOffset();
+//   newDate = new Date(newDate.getTime() - offset * 60 * 1000);
+//   return newDate.toISOString().split('T')[0];
+// };
+
+// TODO: use a ref for the day/date to keep everything from re-rendering?
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
   // const { user } = useAuthContext();
+  const [date, setDate] = useState(new Date());
+
+  const calendarProps = { setDate };
+
   return (
     <HomeContainer>
       <Welcome />
@@ -95,7 +107,7 @@ const Home = (): React.ReactElement => {
         </LeftContentContainer>
         <RightContentContainer>
           <CalendarContainer>
-            <Calendar />
+            <Calendar {...calendarProps} />
           </CalendarContainer>
           <ThoughtsContainer>
             <Thoughts />

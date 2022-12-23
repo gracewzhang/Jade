@@ -45,27 +45,29 @@ const StyledLink = styled(Link)`
   justify-content: center;
 `;
 
+const iconLen = '25px';
+
 const StyledHome = styled(RxHome)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: black;
 `;
 
 const StyledHeart = styled(FiHeart)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: black;
 `;
 
 const StyledUser = styled(BiUser)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: black;
 `;
 
 const StyledLogout = styled(MdLogout)`
-  width: 30px;
-  height: 30px;
+  width: ${iconLen};
+  height: ${iconLen};
   color: ${colors.grey};
 `;
 

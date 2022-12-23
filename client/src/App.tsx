@@ -14,7 +14,7 @@ import Navbar from './components/Navbar';
 import Profile from './pages/Profile';
 
 const StyledToastContainer = styled(ToastContainer)`
-  --toastify-color-success: #FFB2A7;
+  --toastify-color-success: #ffb2a7;
   --toastify-color-error: #e74c3c;
   --toastify-font-family: 'Ubuntu', sans-serif;
   --toastify-text-color-info: #ffff;
@@ -60,24 +60,82 @@ const App = (): React.ReactElement => {
         <GlobalStyle />
         <StyledToastContainer />
         <BrowserRouter>
-          {isLoggedIn
-            ? <SplitContainer>
+          {isLoggedIn ? (
+            <SplitContainer>
               <Navbar />
               <Routes>
-                <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
-                <Route path='/hello' element={<RequireAuth><div>Temporary screen</div></RequireAuth>} />
-                <Route path='/login' element={<Navigate to={pathName} />} />
-                <Route path='/memories' element={<RequireAuth><Memories/></RequireAuth>}/>
-                <Route path='/profile' element={<RequireAuth><Profile/></RequireAuth>}/>
+                <Route
+                  path="/"
+                  element={
+                    <RequireAuth>
+                      <Home />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/hello"
+                  element={
+                    <RequireAuth>
+                      <div>Temporary screen</div>
+                    </RequireAuth>
+                  }
+                />
+                <Route path="/login" element={<Navigate to={pathName} />} />
+                <Route
+                  path="/memories"
+                  element={
+                    <RequireAuth>
+                      <Memories />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="/profile"
+                  element={
+                    <RequireAuth>
+                      <Profile />
+                    </RequireAuth>
+                  }
+                />
               </Routes>
             </SplitContainer>
-            : <Routes>
-              <Route path='/' element={<RequireAuth><Home /></RequireAuth>} />
-              <Route path='/hello' element={<RequireAuth><div>Temporary screen</div></RequireAuth>} />
-              <Route path='/login' element={<Login />} />
-              <Route path='/memories' element={<RequireAuth><Memories/></RequireAuth>}/>
-              <Route path='/profile' element={<RequireAuth><Profile/></RequireAuth>}/>
-            </Routes>}
+          ) : (
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <RequireAuth>
+                    <Home />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/hello"
+                element={
+                  <RequireAuth>
+                    <div>Temporary screen</div>
+                  </RequireAuth>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/memories"
+                element={
+                  <RequireAuth>
+                    <Memories />
+                  </RequireAuth>
+                }
+              />
+              <Route
+                path="/profile"
+                element={
+                  <RequireAuth>
+                    <Profile />
+                  </RequireAuth>
+                }
+              />
+            </Routes>
+          )}
         </BrowserRouter>
       </GoogleOAuthProvider>
     </>
