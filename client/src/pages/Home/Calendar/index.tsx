@@ -79,7 +79,8 @@ const StyledCalendar = styled(_Calendar)`
     color: white;
   }
 
-  .react-calendar__tile--active:enabled:hover, .react-calendar__tile--active:enabled:focus {
+  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active:enabled:focus {
     background: ${colors.rose};
     color: white;
   }
@@ -95,9 +96,7 @@ const StyledCalendar = styled(_Calendar)`
   }
 `;
 
-const handleDayChange = (value: any, event: any): void => {
-
-};
+const handleDayChange = (value: any, event: any): void => {};
 
 const Calendar = (): React.ReactElement => {
   return (
