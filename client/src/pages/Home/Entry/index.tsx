@@ -23,8 +23,8 @@ const HeaderContainer = styled.span`
 `;
 
 const StyledHeart = styled(FiHeart)`
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   color: ${colors['light-grey']};
 
   :hover {
@@ -58,13 +58,14 @@ const InputContainer = styled.textarea`
 
 const TitleContainer = styled(InputContainer)`
   height: 10%;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
 `;
 
 const BodyContainer = styled(InputContainer)`
   height: 70%;
-  font-size: 16px;
+  font-size: 15px;
+  line-height: 30px;
 `;
 
 const MAX_LEN = 200;
