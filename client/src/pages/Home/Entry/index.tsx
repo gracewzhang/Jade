@@ -11,8 +11,8 @@ const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 80%;
-  padding: 10%;
+  height: 84%;
+  padding: 8%;
 `;
 
 const HeaderContainer = styled.span`
@@ -26,6 +26,15 @@ const StyledHeart = styled(FiHeart)`
   width: 20px;
   height: 20px;
   color: ${colors['light-grey']};
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const FilledHeart = styled(StyledHeart)`
+  stroke-width: 0;
+  fill: ${colors.rose};
 `;
 
 const LengthIndicator = styled.p`
@@ -41,34 +50,40 @@ const InputContainer = styled.textarea`
   line-height: 25px;
   outline: 0;
   border: 0;
+
+  ::placeholder {
+    color: ${colors.grey};
+  }
 `;
 
 const TitleContainer = styled(InputContainer)`
   height: 10%;
-  font-size: 17px;
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 const BodyContainer = styled(InputContainer)`
   height: 70%;
-  font-size: 15px;
+  font-size: 16px;
 `;
 
-const maxLen = 200;
+const MAX_LEN = 200;
 
 const Entry = (): React.ReactElement => {
   const [title, setTitle] = useState('');
   const [note, setNote] = useState('');
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const onTitleChange = (e: BaseSyntheticEvent): void => {
     const newTitle = e.target.value;
-    if ((newTitle as string).length + note.length <= maxLen) {
+    if ((newTitle as string).length + note.length <= MAX_LEN) {
       setTitle(newTitle);
     }
   };
 
   const onNoteChange = (e: BaseSyntheticEvent): void => {
     const newNote = e.target.value;
-    if ((newNote as string).length + title.length <= maxLen) {
+    if ((newNote as string).length + title.length <= MAX_LEN) {
       setNote(newNote);
     }
   };
@@ -77,20 +92,24 @@ const Entry = (): React.ReactElement => {
     <EntryContainer>
       <PaddingContainer>
         <HeaderContainer>
-          <StyledHeart />
+          {isFavorite ? (
+            <FilledHeart onClick={() => setIsFavorite(false)} />
+          ) : (
+            <StyledHeart onClick={() => setIsFavorite(true)} />
+          )}
           <LengthIndicator>
-            {maxLen - note.length - title.length}
+            {MAX_LEN - note.length - title.length}
           </LengthIndicator>
         </HeaderContainer>
         <TitleContainer
           placeholder="Title"
           onChange={onTitleChange}
-          maxLength={maxLen - note.length}
+          maxLength={MAX_LEN - note.length}
         />
         <BodyContainer
           placeholder="Note"
           onChange={onNoteChange}
-          maxLength={maxLen - title.length}
+          maxLength={MAX_LEN - title.length}
         />
       </PaddingContainer>
     </EntryContainer>
