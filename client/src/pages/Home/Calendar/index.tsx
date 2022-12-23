@@ -17,6 +17,10 @@ const StyledCalendar = styled(_Calendar)`
   padding: 30px;
   font-family: 'Ubuntu', sans-serif;
 
+  * {
+    text-decoration: none;
+  }
+
   button {
     font-family: 'Ubuntu', sans-serif;
     border-radius: 30px;
@@ -25,6 +29,10 @@ const StyledCalendar = styled(_Calendar)`
   .react-calendar__navigation {
     height: 10%;
     margin-bottom: 5%;
+  }
+
+  .react-calendar__navigation__label__labelText {
+    font-weight: bold;
   }
 
   .react-calendar__viewContainer {
