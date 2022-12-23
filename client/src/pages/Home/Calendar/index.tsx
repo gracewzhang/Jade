@@ -5,6 +5,7 @@ import Block from '../../../components/Block';
 import { Calendar as _Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import colors from '../../../styles/colors';
+import { CalendarProps } from '../../../models/calendar';
 
 const CalendarContainer = styled(Block)``;
 
@@ -80,6 +81,16 @@ const StyledCalendar = styled(_Calendar)`
   .react-calendar__tile--active:enabled:focus:hover,
   .react-calendar__tile--now:enabled:focus:hover {
     background: ${colors.yellow};
+    color: white;
+  }
+
+  .react-calendar__tile--hasActive {
+    background: ${colors['light-yellow']};
+    color: white;
+  }
+
+  .react-calendar__tile--hasActive:hover {
+    background: ${colors.yellow};
   }
 
   .react-calendar__tile--now:hover {
@@ -98,9 +109,13 @@ const StyledCalendar = styled(_Calendar)`
   }
 `;
 
-const handleDayChange = (value: any, event: any): void => {};
+const Calendar = (props: CalendarProps): React.ReactElement => {
+  const { setDate } = props;
 
-const Calendar = (): React.ReactElement => {
+  const handleDayChange = (value: Date, event: any): void => {
+    setDate(value);
+  };
+
   return (
     <CalendarContainer>
       <StyledCalendar
