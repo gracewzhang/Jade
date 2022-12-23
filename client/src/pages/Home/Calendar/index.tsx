@@ -16,12 +16,9 @@ const StyledCalendar = styled(_Calendar)`
   padding: 30px;
   font-family: 'Ubuntu', sans-serif;
 
-  .react-calendar__tile {
-    border-radius: 30px;
-  }
-
   button {
     font-family: 'Ubuntu', sans-serif;
+    border-radius: 30px;
   }
 
   .react-calendar__navigation {
@@ -55,44 +52,49 @@ const StyledCalendar = styled(_Calendar)`
     color: black;
   }
 
+  .react-calendar__navigation__label:hover,
+  .react-calendar__navigation__arrow:hover {
+    color: white;
+  }
+
   .react-calendar__month-view__days__day--neighboringMonth {
-    color: grey; // TODO
-  }
-
-  .react-calendar__navigation button {
-    border-radius: 30px;
-  }
-
-  .react-calendar__tile:disabled {
-    color: lightgrey; // TODO
-    background-color: white; // TODO
+    color: ${colors['medium-grey']};
   }
 
   .react-calendar__navigation button:disabled {
-    color: lightgrey;
+    color: ${colors['medium-grey']};
     background-color: white;
   }
 
-  .react-calendar__tile--active {
-    background-color: ${colors.rose};
-    background: ${colors.rose};
+  .react-calendar__tile:hover {
+    background: ${colors['light-grey']};
     color: white;
   }
 
-  .react-calendar__tile--active:enabled:hover,
+  .react-calendar__tile--active,
   .react-calendar__tile--active:enabled:focus {
-    background: ${colors.rose};
+    background-color: ${colors['light-yellow']};
     color: white;
+  }
+
+  .react-calendar__tile--active:enabled:focus:hover,
+  .react-calendar__tile--now:enabled:focus:hover {
+    background: ${colors.yellow};
   }
 
   .react-calendar__tile--now:hover {
-    background: lavender;
+    background: ${colors['dark-rose']};
     color: white;
   }
 
   .react-calendar__tile--now {
-    background: skyblue;
+    background: ${colors.rose};
     color: white;
+  }
+
+  .react-calendar__tile:disabled {
+    color: ${colors['medium-grey']};
+    background-color: white;
   }
 `;
 
