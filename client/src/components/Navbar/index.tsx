@@ -71,17 +71,28 @@ const StyledLogout = styled(MdLogout)`
   color: ${colors.grey};
 `;
 
+// TOOD: add indicator for the page you've selected
 const Navbar = (): React.ReactElement => {
   return (
     <NavbarContainer>
       <LinkContainer>
-        <StyledLink to='/'><StyledLogoIllustration /></StyledLink>
+        <StyledLink to="/">
+          <StyledLogoIllustration />
+        </StyledLink>
         <MiddleIconsContainer>
-          <StyledLink to='/'><StyledHome/></StyledLink>
-          <StyledLink to='/memories'><StyledHeart/></StyledLink>
-          <StyledLink to='/profile'><StyledUser/></StyledLink>
+          <StyledLink to="/">
+            <StyledHome />
+          </StyledLink>
+          <StyledLink to="/memories">
+            <StyledHeart />
+          </StyledLink>
+          <StyledLink to="/profile">
+            <StyledUser />
+          </StyledLink>
         </MiddleIconsContainer>
-        <StyledLink to='/hello'><StyledLogout/></StyledLink>
+        <StyledLink to="/hello">
+          <StyledLogout />
+        </StyledLink>
       </LinkContainer>
     </NavbarContainer>
   );
