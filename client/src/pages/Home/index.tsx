@@ -84,8 +84,6 @@ const Home = (): React.ReactElement => {
   const [day, setDay] = useState<Day>(); // TODO: change the other instances of setting default state to <Type> syntax
   const [date, setDate] = useState(new Date());
 
-  const calendarProps = { setDate };
-
   const retrieveDay = useCallback(async () => {
     const existsParams = { googleId: user.google_id, date: formatDate(date) };
     const res = await getDayExists(existsParams);
@@ -98,9 +96,6 @@ const Home = (): React.ReactElement => {
       const day = await getDay({ dayId });
       setDay(day.result);
     }
-
-    console.log('DATE CHANGED');
-    console.log('NEW ENTRY', day?.entry);
   }, [date]);
 
   const updateDay = async (updateParams: UpdateDayParams): Promise<void> => {
@@ -119,7 +114,7 @@ const Home = (): React.ReactElement => {
     <HomeContainer>
       <Welcome />
       {/* TODO: loading thing like kada's if day is loading */}
-      {day !== undefined ? (
+      {day !== undefined && day.date === formatDate(date) ? (
         <ContentContainer>
           <LeftContentContainer>
             <PhotosContainer>
@@ -129,6 +124,7 @@ const Home = (): React.ReactElement => {
               <EntryContainer>
                 <Entry
                   updateDay={updateDay}
+                  key={formatDate(date)}
                   title={day.title}
                   entry={day.entry}
                 />
@@ -145,8 +141,9 @@ const Home = (): React.ReactElement => {
           </LeftContentContainer>
           <RightContentContainer>
             <CalendarContainer>
+              {/* TODO: calendar should take in default selected date so it retains that selection during rerender */}
               {/* TODO modify so that it's like entry's props */}
-              <Calendar {...calendarProps} />
+              <Calendar date={date} setDate={setDate} />
             </CalendarContainer>
             <ThoughtsContainer>
               <Thoughts />

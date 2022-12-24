@@ -128,7 +128,7 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
     <CalendarContainer>
       <StyledCalendar
         calendarType="US"
-        defaultValue={new Date()}
+        defaultValue={props.date}
         maxDate={new Date()}
         showFixedNumberOfWeeks
         onClickDay={handleDayChange}

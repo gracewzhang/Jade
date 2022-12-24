@@ -95,8 +95,8 @@ interface EntryProps {
 }
 
 const Entry = (props: EntryProps): React.ReactElement => {
-  const [title, setTitle] = useState('');
-  const [entry, setEntry] = useState('');
+  const [title, setTitle] = useState(props.title);
+  const [entry, setEntry] = useState(props.entry);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const onTitleChange = (e: BaseSyntheticEvent): void => {
