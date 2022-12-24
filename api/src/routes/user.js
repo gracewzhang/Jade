@@ -102,6 +102,22 @@ router.get(
 );
 
 router.get(
+  "/:googleId/day/exists/date/:date",
+  errorWrap(async (req, res) => {
+    const dayExists = await Day.exists({
+      google_id: req.params.googleId,
+      date: req.params.date
+    }).lean();
+
+    res.status(200).json({
+      success: true,
+      result: dayExists === null? false : dayExists,
+      message: "Successfully checked if user exists",
+    })
+  })
+);
+
+router.get(
   "/exists/:googleId",
   errorWrap(async (req, res) => {
     const userExists = await User.exists({
@@ -110,7 +126,7 @@ router.get(
 
     res.status(200).json({
       success: true,
-      result: userExists !== null,
+      result: userExists === null? false: userExists,
       message: "Successfully checked if user exists",
     });
   })
