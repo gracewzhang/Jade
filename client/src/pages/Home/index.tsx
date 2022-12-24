@@ -8,7 +8,7 @@ import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { getDay } from '../../hooks/useDay';
+import { createDay, getDay, getDayExists } from '../../hooks/useDay';
 import { Day } from '../../models/day';
 
 const HomeContainer = styled.div`
@@ -87,12 +87,15 @@ const Home = (): React.ReactElement => {
   const calendarProps = { setDate };
 
   const retrieveDay = useCallback(async () => {
-    const res = await getDay(user.google_id, formatDate(date));
-    if (res.success) {
-      setDay(res.result);
+    const res = await getDayExists(user.google_id, formatDate(date));
+    if (typeof res.result === 'boolean') {
+      const dayParams = { google_id: user.google_id, date: formatDate(date) };
+      const newDay = await createDay(dayParams);
+      setDay(newDay.result);
     } else {
-      // TODO: create a new day
-      console.log('oh hi');
+      const dayId = res.result._id;
+      const day = await getDay(dayId);
+      setDay(day.result);
     }
   }, [date]);
 
@@ -100,6 +103,10 @@ const Home = (): React.ReactElement => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     retrieveDay();
   }, [retrieveDay]);
+
+  useEffect(() => {
+    console.log(day);
+  }, [day]);
 
   return (
     <HomeContainer>
