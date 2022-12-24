@@ -77,7 +77,6 @@ const formatDate = (date: Date): string => {
   return newDate.toISOString().split('T')[0];
 };
 
-// TODO: use a ref for the day/date to keep everything from re-rendering?
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
   const { user } = useAuthContext();
@@ -141,8 +140,6 @@ const Home = (): React.ReactElement => {
           </LeftContentContainer>
           <RightContentContainer>
             <CalendarContainer>
-              {/* TODO: calendar should take in default selected date so it retains that selection during rerender */}
-              {/* TODO modify so that it's like entry's props */}
               <Calendar date={date} setDate={setDate} />
             </CalendarContainer>
             <ThoughtsContainer>

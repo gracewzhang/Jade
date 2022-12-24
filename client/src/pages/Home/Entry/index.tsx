@@ -114,12 +114,11 @@ const Entry = (props: EntryProps): React.ReactElement => {
   };
 
   const handleClick = (): void => {
+    const save = async (): Promise<void> => {
+      await props.updateDay({ title, entry });
+    };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     save();
-  };
-
-  const save = async (): Promise<void> => {
-    await props.updateDay({ title, entry });
   };
 
   return (
