@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/indent */
 import axios from 'axios';
 import {
-  GetDaysResults,
   GetDayResults,
-  DayExistsResults,
+  GetDayExistsParams,
+  GetDayExistsResults,
   CreateDayResults,
-  CreateDayParams
+  CreateDayParams,
+  EditDayResults,
+  EditDayParams,
+  GetDayParams
 } from '../models/day';
 
 const BASE_URL =
@@ -14,30 +17,16 @@ const BASE_URL =
     : 'http://localhost:9000/api';
 
 // TODO: make all of this an actual hook
-export const getDays = async (): Promise<GetDaysResults> => {
-  const requestString = `${BASE_URL}/day/`;
-  return await axios
-    .get<GetDaysResults>(requestString, {
-      headers: {
-        'Content-Type': 'application/JSON'
-      }
-    })
-    .then((e) => {
-      return e.data;
-    })
-    .catch((error) => {
-      throw new Error(error);
-    });
-};
-
 export const getDayExists = async (
-  googleId: string,
-  date: string
-): Promise<DayExistsResults> => {
-  const requestString = `${BASE_URL}/user/${googleId}/day/exists/date/${date}`;
+  dayParams: GetDayExistsParams
+): Promise<GetDayExistsResults> => {
+  const { googleId, date } = dayParams;
+  const requestString = `${BASE_URL}/user/${String(
+    googleId
+  )}/day/exists/date/${String(date)}`;
 
   return await axios
-    .get<DayExistsResults>(requestString, {
+    .get<GetDayExistsResults>(requestString, {
       headers: {
         'Content-Type': 'application/JSON'
       }
@@ -50,8 +39,10 @@ export const getDayExists = async (
     });
 };
 
-export const getDay = async (dayId: string): Promise<GetDayResults> => {
-  const requestString = `${BASE_URL}/day/${dayId}`;
+export const getDay = async (
+  dayParams: GetDayParams
+): Promise<GetDayResults> => {
+  const requestString = `${BASE_URL}/day/${String(dayParams.dayId)}`;
 
   return await axios
     .get<GetDayResults>(requestString, {
@@ -74,6 +65,21 @@ export const createDay = async (
 
   return await axios
     .post(requestString, dayParams)
+    .then((e) => {
+      return e.data;
+    })
+    .catch((error) => {
+      throw new Error(error);
+    });
+};
+
+export const editDay = async (
+  dayParams: EditDayParams
+): Promise<EditDayResults> => {
+  const requestString = `${BASE_URL}/day/${String(dayParams._id)}`;
+
+  return await axios
+    .put(requestString, dayParams)
     .then((e) => {
       return e.data;
     })

@@ -87,14 +87,15 @@ const Home = (): React.ReactElement => {
   const calendarProps = { setDate };
 
   const retrieveDay = useCallback(async () => {
-    const res = await getDayExists(user.google_id, formatDate(date));
+    const existsParams = { googleId: user.google_id, date: formatDate(date) };
+    const res = await getDayExists(existsParams);
     if (typeof res.result === 'boolean') {
       const dayParams = { google_id: user.google_id, date: formatDate(date) };
       const newDay = await createDay(dayParams);
       setDay(newDay.result);
     } else {
       const dayId = res.result._id;
-      const day = await getDay(dayId);
+      const day = await getDay({ dayId });
       setDay(day.result);
     }
   }, [date]);
@@ -103,10 +104,6 @@ const Home = (): React.ReactElement => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     retrieveDay();
   }, [retrieveDay]);
-
-  useEffect(() => {
-    console.log(day);
-  }, [day]);
 
   return (
     <HomeContainer>
