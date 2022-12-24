@@ -8,8 +8,8 @@ import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { createDay, getDay, getDayExists } from '../../hooks/useDay';
-import { Day } from '../../models/day';
+import { createDay, getDay, getDayExists, editDay } from '../../hooks/useDay';
+import { Day, UpdateDayParams } from '../../models/day';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -100,6 +100,13 @@ const Home = (): React.ReactElement => {
     }
   }, [date]);
 
+  const updateDay = async (updateParams: UpdateDayParams): Promise<void> => {
+    if (day !== undefined) {
+      const res = await editDay({ _id: day._id, ...updateParams });
+      setDay(res.result);
+    }
+  };
+
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     retrieveDay();
@@ -115,7 +122,7 @@ const Home = (): React.ReactElement => {
           </PhotosContainer>
           <BottomContentContainer>
             <EntryContainer>
-              <Entry />
+              <Entry updateDay={updateDay} />
             </EntryContainer>
             <BottomRightContentContainer>
               <SongFoodContainer>

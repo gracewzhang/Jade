@@ -69,3 +69,14 @@ export interface EditDayResults {
   success: boolean;
   result: Day;
 }
+
+// TODO: clean up where all of these diff types should go T_T
+export interface UpdateDayParams {
+  title?: string;
+  entry?: string;
+  song?: string;
+  food?: string;
+  thoughts?: string[];
+  photos?: string[];
+  is_favorite?: boolean;
+}
