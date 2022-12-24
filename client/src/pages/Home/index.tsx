@@ -98,6 +98,9 @@ const Home = (): React.ReactElement => {
       const day = await getDay({ dayId });
       setDay(day.result);
     }
+
+    console.log('DATE CHANGED');
+    console.log('NEW ENTRY', day?.entry);
   }, [date]);
 
   const updateDay = async (updateParams: UpdateDayParams): Promise<void> => {
@@ -115,34 +118,44 @@ const Home = (): React.ReactElement => {
   return (
     <HomeContainer>
       <Welcome />
-      <ContentContainer>
-        <LeftContentContainer>
-          <PhotosContainer>
-            <Photos />
-          </PhotosContainer>
-          <BottomContentContainer>
-            <EntryContainer>
-              <Entry updateDay={updateDay} />
-            </EntryContainer>
-            <BottomRightContentContainer>
-              <SongFoodContainer>
-                <SongFood />
-              </SongFoodContainer>
-              <SongFoodContainer>
-                <SongFood />
-              </SongFoodContainer>
-            </BottomRightContentContainer>
-          </BottomContentContainer>
-        </LeftContentContainer>
-        <RightContentContainer>
-          <CalendarContainer>
-            <Calendar {...calendarProps} />
-          </CalendarContainer>
-          <ThoughtsContainer>
-            <Thoughts />
-          </ThoughtsContainer>
-        </RightContentContainer>
-      </ContentContainer>
+      {/* TODO: loading thing like kada's if day is loading */}
+      {day !== undefined ? (
+        <ContentContainer>
+          <LeftContentContainer>
+            <PhotosContainer>
+              <Photos />
+            </PhotosContainer>
+            <BottomContentContainer>
+              <EntryContainer>
+                <Entry
+                  updateDay={updateDay}
+                  title={day.title}
+                  entry={day.entry}
+                />
+              </EntryContainer>
+              <BottomRightContentContainer>
+                <SongFoodContainer>
+                  <SongFood />
+                </SongFoodContainer>
+                <SongFoodContainer>
+                  <SongFood />
+                </SongFoodContainer>
+              </BottomRightContentContainer>
+            </BottomContentContainer>
+          </LeftContentContainer>
+          <RightContentContainer>
+            <CalendarContainer>
+              {/* TODO modify so that it's like entry's props */}
+              <Calendar {...calendarProps} />
+            </CalendarContainer>
+            <ThoughtsContainer>
+              <Thoughts />
+            </ThoughtsContainer>
+          </RightContentContainer>
+        </ContentContainer>
+      ) : (
+        <p>hi</p>
+      )}
     </HomeContainer>
   );
 };
