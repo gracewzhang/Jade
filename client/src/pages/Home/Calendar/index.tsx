@@ -5,7 +5,7 @@ import Block from '../../../components/Block';
 import { Calendar as _Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import colors from '../../../styles/colors';
-import { CalendarProps } from '../../../models/calendar';
+import { CalendarProps } from '../../../types/calendar';
 
 const CalendarContainer = styled(Block)``;
 

@@ -9,7 +9,7 @@ import {
   EditDayResults,
   EditDayParams,
   GetDayParams
-} from '../models/day';
+} from '../types/day';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined

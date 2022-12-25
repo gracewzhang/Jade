@@ -1,6 +1,6 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { User } from '../models/user';
+import { User } from '../types/user';
 
 interface AuthContextProps {
   user: User | undefined;

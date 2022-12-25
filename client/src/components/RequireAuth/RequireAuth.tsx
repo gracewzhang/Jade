@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext';
-import { Props } from '../../models/props';
+import { Props } from '../../types/props';
 
 const RequireAuth = (props: Props): JSX.Element => {
   const { children } = props;

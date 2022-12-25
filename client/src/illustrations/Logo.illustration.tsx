@@ -1,5 +1,5 @@
 import React from 'react';
-import { Style } from '../models/style';
+import { Style } from '../types/style';
 
 export const LogoIllustration = (props: Style): JSX.Element => {
   const { className } = props;

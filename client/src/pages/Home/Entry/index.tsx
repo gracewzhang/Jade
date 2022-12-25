@@ -4,7 +4,7 @@ import { FiHeart, FiCheck } from 'react-icons/fi';
 
 import Block from '../../../components/Block';
 import colors from '../../../styles/colors';
-import { UpdateDayParams } from '../../../models/day';
+import { UpdateDayParams } from '../../../types/day';
 
 const EntryContainer = styled(Block)``;
 

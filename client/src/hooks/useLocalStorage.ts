@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User } from '../models/user';
+import { User } from '../types/user';
 
 const getStorageValue = (
   key: string,
