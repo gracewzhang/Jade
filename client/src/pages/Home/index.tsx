@@ -80,20 +80,22 @@ const formatDate = (date: Date): string => {
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", null);
   const { user } = useAuthContext();
-  const [day, setDay] = useState<Day>(); // TODO: change the other instances of setting default state to <Type> syntax
+  const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
 
   const retrieveDay = useCallback(async () => {
-    const existsParams = { googleId: user.google_id, date: formatDate(date) };
-    const res = await getDayExists(existsParams);
-    if (typeof res.result === 'boolean') {
-      const dayParams = { google_id: user.google_id, date: formatDate(date) };
-      const newDay = await createDay(dayParams);
-      setDay(newDay.result);
-    } else {
-      const dayId = res.result._id;
-      const day = await getDay({ dayId });
-      setDay(day.result);
+    if (user !== undefined) {
+      const existsParams = { googleId: user.google_id, date: formatDate(date) };
+      const res = await getDayExists(existsParams);
+      if (typeof res.result === 'boolean') {
+        const dayParams = { google_id: user.google_id, date: formatDate(date) };
+        const newDay = await createDay(dayParams);
+        setDay(newDay.result);
+      } else {
+        const dayId = res.result._id;
+        const day = await getDay({ dayId });
+        setDay(day.result);
+      }
     }
   }, [date]);
 

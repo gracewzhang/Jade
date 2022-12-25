@@ -52,7 +52,7 @@ const App = (): React.ReactElement => {
   const { user } = useAuthContext();
   // const location = useLocation();
   const pathName = '/'; // TODO
-  const isLoggedIn = user?.google_id !== 'null';
+  const isLoggedIn = user !== undefined;
 
   return (
     <>

@@ -9,23 +9,19 @@ const BASE_URL =
     : 'http://localhost:9000/api';
 
 export const useAuth = (): {
-  user: User;
+  user: undefined | User;
   checkIfNewUser: (data: User) => Promise<boolean>;
   signIn: (data: User) => Promise<void>;
   signUp: (data: User) => Promise<void>;
   signOut: () => void;
 } => {
-  const [user, setUser] = useState({
-    google_id: 'null',
-    email: 'null',
-    name: 'null',
-    image: 'null',
-    created_at: new Date()
-  });
+  const [user, setUser] = useState<User>();
 
   const checkIfNewUser = async (data: User): Promise<boolean> => {
     try {
-      const authResult = await axios.get(`${BASE_URL}/user/exists/${data.google_id}`);
+      const authResult = await axios.get(
+        `${BASE_URL}/user/exists/${data.google_id}`
+      );
       return authResult?.data.result === false;
     } catch (err) {
       console.log(err);
@@ -94,13 +90,7 @@ export const useAuth = (): {
   };
 
   const signOut = (): void => {
-    setUser({
-      google_id: 'null',
-      email: 'null',
-      name: 'null',
-      image: 'null',
-      created_at: new Date()
-    });
+    setUser(undefined);
   };
 
   return { user, checkIfNewUser, signIn, signUp, signOut };
