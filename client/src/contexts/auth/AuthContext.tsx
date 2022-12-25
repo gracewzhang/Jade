@@ -1,14 +1,7 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { User } from '../models/user';
-
-interface AuthContextProps {
-  user: User | undefined;
-  checkIfNewUser: (data: User) => Promise<boolean>;
-  signIn: (data: User) => Promise<void>;
-  signUp: (data: User) => Promise<void>;
-  signOut: () => void;
-}
+import { useAuth } from '../../hooks/auth/useAuth';
+import { AuthContextProps } from './types';
+import { User } from '../../types/user';
 
 const AuthContext = createContext<AuthContextProps>({
   user: undefined,

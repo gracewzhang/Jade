@@ -13,17 +13,3 @@ export interface DecodedUser {
   name: string;
   picture: string;
 }
-
-// API Results
-
-export interface GetUsersResult {
-  message: string;
-  success: boolean;
-  result: User[];
-}
-
-export interface PostUserResult {
-  message: string;
-  success: boolean;
-  result: User;
-}

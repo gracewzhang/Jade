@@ -3,8 +3,8 @@ import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import styled from 'styled-components';
 import jwt_decode from 'jwt-decode';
 
-import { useAuthContext } from '../../contexts/AuthContext';
-import { DecodedUser, User } from '../../models/user';
+import { useAuthContext } from '../../contexts/auth/AuthContext';
+import { DecodedUser, User } from '../../types/user';
 import { LoginIllustration } from '../../illustrations/Login.illustration';
 import Logo from '../../components/Logo/Logo';
 import colors from '../../styles/colors';
@@ -36,8 +36,7 @@ const StyledLoginIllustration = styled(LoginIllustration)`
   align-self: center;
 `;
 
-const LoginTitle = styled.h1`
-`;
+const LoginTitle = styled.h1``;
 
 const LoginSubtitle = styled.h3`
   color: ${colors.grey};
@@ -51,7 +50,8 @@ const StyledLogo = styled(Logo)`
 
 const Login = (): React.ReactElement => {
   const { checkIfNewUser, signIn, signUp } = useAuthContext();
-  const loginSubtitle = '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Kaori';
+  const loginSubtitle =
+    '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Kaori';
 
   const handleSuccess = (credentialResponse: CredentialResponse): void => {
     void (async (credentialResponse) => {
@@ -63,8 +63,12 @@ const Login = (): React.ReactElement => {
     console.log('Login failed');
   };
 
-  const handleLogin = async (credentialResponse: CredentialResponse): Promise<void> => {
-    const userInfo: DecodedUser = jwt_decode(credentialResponse.credential ?? '');
+  const handleLogin = async (
+    credentialResponse: CredentialResponse
+  ): Promise<void> => {
+    const userInfo: DecodedUser = jwt_decode(
+      credentialResponse.credential ?? ''
+    );
     const user: User = {
       google_id: userInfo?.sub,
       email: userInfo?.email,
@@ -90,10 +94,7 @@ const Login = (): React.ReactElement => {
       </LeftContainer>
       <RightContainer>
         <StyledLogo />
-        <GoogleLogin
-          onSuccess={handleSuccess}
-          onError={handleError}
-        />
+        <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
       </RightContainer>
     </LoginPageContainer>
   );

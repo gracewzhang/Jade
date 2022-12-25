@@ -1,7 +1,7 @@
 import React from 'react';
 import { LogoIllustration } from '../../illustrations/Logo.illustration';
 import styled from 'styled-components';
-import { Style } from '../../models/style';
+import { Style } from '../../types/style';
 
 const LogoContainer = styled.span`
   display: flex;

@@ -4,7 +4,8 @@ import { FiHeart, FiCheck } from 'react-icons/fi';
 
 import Block from '../../../components/Block';
 import colors from '../../../styles/colors';
-import { UpdateDayParams } from '../../../models/day';
+import { EntryProps } from './types';
+import Input from '../../../components/Input/input';
 
 const EntryContainer = styled(Block)``;
 
@@ -61,38 +62,19 @@ const LengthIndicator = styled.p`
   color: ${colors.grey};
 `;
 
-// TODO: should I move this into the /components folder so the thoughts component can use it too?
-const InputContainer = styled.textarea`
-  resize: none;
-  font-family: 'Ubuntu', sans-serif;
-  line-height: 25px;
-  outline: 0;
-  border: 0;
-
-  ::placeholder {
-    color: ${colors['light-grey']};
-  }
-`;
-
-const TitleContainer = styled(InputContainer)`
+const TitleContainer = styled(Input)`
   height: 10%;
   font-size: 17px;
   font-weight: 600;
 `;
 
-const BodyContainer = styled(InputContainer)`
+const BodyContainer = styled(Input)`
   height: 70%;
   font-size: 15px;
   line-height: 30px;
 `;
 
 const MAX_LEN = 200;
-
-interface EntryProps {
-  updateDay: (updateParams: UpdateDayParams) => Promise<void>;
-  title: string;
-  entry: string;
-}
 
 const Entry = (props: EntryProps): React.ReactElement => {
   const [title, setTitle] = useState(props.title);

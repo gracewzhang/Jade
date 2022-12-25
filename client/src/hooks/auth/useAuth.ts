@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import { User } from '../models/user';
+import { User } from '../../types/user';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useAuthContext } from '../../../contexts/AuthContext';
+import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import colors from '../../../styles/colors';
 
 const WelcomeContainer = styled.div``;
