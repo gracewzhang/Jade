@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { Props } from '../../types/props';
 
 const RequireAuth = (props: Props): JSX.Element => {

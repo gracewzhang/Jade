@@ -1,7 +1,7 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
-import { useAuth } from '../hooks/useAuth';
-import { AuthContextProps } from '../types/authContext';
-import { User } from '../types/user';
+import { useAuth } from '../../hooks/auth/useAuth';
+import { AuthContextProps } from './types';
+import { User } from '../../types/user';
 
 const AuthContext = createContext<AuthContextProps>({
   user: undefined,

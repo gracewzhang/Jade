@@ -3,7 +3,7 @@ import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import styled from 'styled-components';
 import jwt_decode from 'jwt-decode';
 
-import { useAuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { DecodedUser, User } from '../../types/user';
 import { LoginIllustration } from '../../illustrations/Login.illustration';
 import Logo from '../../components/Logo/Logo';

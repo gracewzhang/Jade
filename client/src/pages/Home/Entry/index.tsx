@@ -4,7 +4,7 @@ import { FiHeart, FiCheck } from 'react-icons/fi';
 
 import Block from '../../../components/Block';
 import colors from '../../../styles/colors';
-import { EntryProps } from '../../../types/entry';
+import { EntryProps } from './types';
 
 const EntryContainer = styled(Block)``;
 

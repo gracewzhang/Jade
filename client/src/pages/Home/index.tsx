@@ -7,10 +7,15 @@ import Entry from './Entry';
 import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
-import { useAuthContext } from '../../contexts/AuthContext';
-import { createDay, getDay, getDayExists, editDay } from '../../hooks/useDay';
+import { useAuthContext } from '../../contexts/auth/AuthContext';
+import {
+  createDay,
+  getDay,
+  getDayExists,
+  editDay
+} from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
-import { UpdateDayProps } from '../../types/home';
+import { UpdateDayProps } from './types';
 
 const HomeContainer = styled.div`
   display: grid;
