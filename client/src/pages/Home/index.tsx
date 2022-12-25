@@ -78,7 +78,7 @@ const formatDate = (date: Date): string => {
 };
 
 const Home = (): React.ReactElement => {
-  // TODO: const [user, setUser] = useLocalStorage("user", null);
+  // TODO: const [user, setUser] = useLocalStorage("user", undefined);
   const { user } = useAuthContext();
   const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
@@ -114,7 +114,7 @@ const Home = (): React.ReactElement => {
   return (
     <HomeContainer>
       <Welcome />
-      {/* TODO: loading thing like kada's if day is loading */}
+      {/* TODO: loading skeleton while day is undefined */}
       {day !== undefined && day.date === formatDate(date) ? (
         <ContentContainer>
           <LeftContentContainer>
@@ -150,7 +150,7 @@ const Home = (): React.ReactElement => {
           </RightContentContainer>
         </ContentContainer>
       ) : (
-        <p>hi</p>
+        <p>hi</p> // TODO
       )}
     </HomeContainer>
   );

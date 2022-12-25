@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
+import { User } from '../models/user';
 
-const getStorageValue = (key: string, defaultValue: any): any => {
+const getStorageValue = (
+  key: string,
+  defaultValue: undefined | User
+): undefined | User => {
   const saved = localStorage.getItem(key);
   if (saved != null) {
     const initial = JSON.parse(saved);
@@ -9,7 +13,13 @@ const getStorageValue = (key: string, defaultValue: any): any => {
   return defaultValue;
 };
 
-export const useLocalStorage = (key: string, defaultValue: any): any => {
+export const useLocalStorage = (
+  key: string,
+  defaultValue: undefined | User
+): [
+  undefined | User,
+  React.Dispatch<React.SetStateAction<User | undefined>>
+] => {
   const [value, setValue] = useState(() => {
     return getStorageValue(key, defaultValue);
   });

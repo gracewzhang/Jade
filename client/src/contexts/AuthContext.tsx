@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, PropsWithChildren, useContext } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { User } from '../models/user';
 
@@ -28,7 +28,7 @@ const useAuthContext = (): {
   signOut: () => void;
 } => useContext(AuthContext);
 
-const AuthProvider = (props: any): JSX.Element => {
+const AuthProvider = (props: PropsWithChildren): JSX.Element => {
   const auth = useAuth();
   const { children } = props;
 
