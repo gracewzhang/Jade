@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 import Welcome from './Welcome';
 import Photos from './Photos';
@@ -11,6 +13,7 @@ import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
+import colors from '../../styles/colors';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -113,31 +116,36 @@ const Home = (): React.ReactElement => {
     retrieveDay();
   }, [retrieveDay]);
 
+  const loading = day === undefined || day.date !== formatDate(date);
+
   return (
     <HomeContainer>
       <Welcome />
-      {/* TODO: loading skeleton while day is undefined */}
-      {day !== undefined && day.date === formatDate(date) ? (
+      <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
         <ContentContainer>
           <LeftContentContainer>
             <PhotosContainer>
-              <Photos />
+              {loading ? <Skeleton count={9} /> : <Photos />}
             </PhotosContainer>
             <BottomContentContainer>
               <EntryContainer>
-                <Entry
-                  updateDay={updateDay}
-                  key={formatDate(date)}
-                  title={day.title}
-                  entry={day.entry}
-                />
+                {loading ? (
+                  <Skeleton count={16} />
+                ) : (
+                  <Entry
+                    updateDay={updateDay}
+                    key={formatDate(date)}
+                    title={day.title}
+                    entry={day.entry}
+                  />
+                )}
               </EntryContainer>
               <BottomRightContentContainer>
                 <SongFoodContainer>
-                  <SongFood />
+                  {loading ? <Skeleton count={7} /> : <SongFood />}
                 </SongFoodContainer>
                 <SongFoodContainer>
-                  <SongFood />
+                  {loading ? <Skeleton count={7} /> : <SongFood />}
                 </SongFoodContainer>
               </BottomRightContentContainer>
             </BottomContentContainer>
@@ -147,13 +155,11 @@ const Home = (): React.ReactElement => {
               <Calendar date={date} setDate={setDate} />
             </CalendarContainer>
             <ThoughtsContainer>
-              <Thoughts />
+              {loading ? <Skeleton count={10} /> : <Thoughts />}
             </ThoughtsContainer>
           </RightContentContainer>
         </ContentContainer>
-      ) : (
-        <p>hi</p> // TODO
-      )}
+      </SkeletonTheme>
     </HomeContainer>
   );
 };

@@ -11,7 +11,7 @@ const CalendarContainer = styled(Block)``;
 
 const StyledCalendar = styled(_Calendar)`
   border: 0;
-  border-radius: 30px;
+  border-radius: 20px;
   width: 100%;
   height: 100%;
   padding: 30px;
@@ -23,7 +23,7 @@ const StyledCalendar = styled(_Calendar)`
 
   button {
     font-family: 'Ubuntu', sans-serif;
-    border-radius: 30px;
+    border-radius: 20px;
   }
 
   .react-calendar__navigation {
