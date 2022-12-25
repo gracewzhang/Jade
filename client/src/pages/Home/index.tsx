@@ -9,7 +9,8 @@ import Calendar from './Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { createDay, getDay, getDayExists, editDay } from '../../hooks/useDay';
-import { Day, UpdateDayProps } from '../../types/day';
+import { Day } from '../../types/day';
+import { UpdateDayProps } from '../../types/home';
 
 const HomeContainer = styled.div`
   display: grid;

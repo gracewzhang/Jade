@@ -4,7 +4,7 @@ import { FiHeart, FiCheck } from 'react-icons/fi';
 
 import Block from '../../../components/Block';
 import colors from '../../../styles/colors';
-import { UpdateDayProps } from '../../../types/day';
+import { EntryProps } from '../../../types/entry';
 
 const EntryContainer = styled(Block)``;
 
@@ -87,12 +87,6 @@ const BodyContainer = styled(InputContainer)`
 `;
 
 const MAX_LEN = 200;
-
-interface EntryProps {
-  updateDay: (updateParams: UpdateDayProps) => Promise<void>;
-  title: string;
-  entry: string;
-}
 
 const Entry = (props: EntryProps): React.ReactElement => {
   const [title, setTitle] = useState(props.title);
