@@ -9,7 +9,7 @@ import Calendar from './Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { createDay, getDay, getDayExists, editDay } from '../../hooks/useDay';
-import { Day, UpdateDayParams } from '../../types/day';
+import { Day, UpdateDayProps } from '../../types/day';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -99,7 +99,7 @@ const Home = (): React.ReactElement => {
     }
   }, [date]);
 
-  const updateDay = async (updateParams: UpdateDayParams): Promise<void> => {
+  const updateDay = async (updateParams: UpdateDayProps): Promise<void> => {
     if (day !== undefined) {
       const res = await editDay({ _id: day._id, ...updateParams });
       setDay(res.result);

@@ -2,14 +2,14 @@
 import axios from 'axios';
 import {
   GetDayResults,
-  GetDayExistsParams,
+  GetDayExistsProps,
   GetDayExistsResults,
   CreateDayResults,
-  CreateDayParams,
+  CreateDayProps,
   EditDayResults,
-  EditDayParams,
-  GetDayParams
-} from '../types/day';
+  EditDayProps,
+  GetDayProps
+} from '../types/useDay';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined
@@ -18,9 +18,9 @@ const BASE_URL =
 
 // TODO: make all of this an actual hook
 export const getDayExists = async (
-  dayParams: GetDayExistsParams
+  props: GetDayExistsProps
 ): Promise<GetDayExistsResults> => {
-  const { googleId, date } = dayParams;
+  const { googleId, date } = props;
   const requestString = `${BASE_URL}/user/${String(
     googleId
   )}/day/exists/date/${String(date)}`;
@@ -39,10 +39,8 @@ export const getDayExists = async (
     });
 };
 
-export const getDay = async (
-  dayParams: GetDayParams
-): Promise<GetDayResults> => {
-  const requestString = `${BASE_URL}/day/${String(dayParams.dayId)}`;
+export const getDay = async (props: GetDayProps): Promise<GetDayResults> => {
+  const requestString = `${BASE_URL}/day/${String(props.dayId)}`;
 
   return await axios
     .get<GetDayResults>(requestString, {
@@ -59,12 +57,12 @@ export const getDay = async (
 };
 
 export const createDay = async (
-  dayParams: CreateDayParams
+  props: CreateDayProps
 ): Promise<CreateDayResults> => {
   const requestString = `${BASE_URL}/day`;
 
   return await axios
-    .post(requestString, dayParams)
+    .post(requestString, props)
     .then((e) => {
       return e.data;
     })
@@ -73,13 +71,11 @@ export const createDay = async (
     });
 };
 
-export const editDay = async (
-  dayParams: EditDayParams
-): Promise<EditDayResults> => {
-  const requestString = `${BASE_URL}/day/${String(dayParams._id)}`;
+export const editDay = async (props: EditDayProps): Promise<EditDayResults> => {
+  const requestString = `${BASE_URL}/day/${String(props._id)}`;
 
   return await axios
-    .put(requestString, dayParams)
+    .put(requestString, props)
     .then((e) => {
       return e.data;
     })
