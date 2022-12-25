@@ -118,7 +118,7 @@ const StyledCalendar = styled(_Calendar)`
 `;
 
 const Calendar = (props: CalendarProps): React.ReactElement => {
-  const { setDate } = props;
+  const { date, setDate } = props;
 
   const handleDayChange = (value: Date, event: BaseSyntheticEvent): void => {
     setDate(value);
@@ -128,7 +128,7 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
     <CalendarContainer>
       <StyledCalendar
         calendarType="US"
-        defaultValue={props.date}
+        defaultValue={date}
         maxDate={new Date()}
         showFixedNumberOfWeeks
         onClickDay={handleDayChange}
