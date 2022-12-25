@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 
 import Welcome from './Welcome';
@@ -7,7 +7,9 @@ import Entry from './Entry';
 import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
-// import { useAuthContext } from '../../contexts/AuthContext';
+import { useAuthContext } from '../../contexts/AuthContext';
+import { createDay, getDay, getDayExists, editDay } from '../../hooks/useDay';
+import { Day, UpdateDayParams } from '../../models/day';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -68,52 +70,88 @@ const ThoughtsContainer = styled.div`
   padding-left: 40px;
 `;
 
-// const formatDate = (date: Date): string => {
-//   let newDate = date;
-//   const offset = newDate.getTimezoneOffset();
-//   newDate = new Date(newDate.getTime() - offset * 60 * 1000);
-//   return newDate.toISOString().split('T')[0];
-// };
+const formatDate = (date: Date): string => {
+  let newDate = date;
+  const offset = newDate.getTimezoneOffset();
+  newDate = new Date(newDate.getTime() - offset * 60 * 1000);
+  return newDate.toISOString().split('T')[0];
+};
 
-// TODO: use a ref for the day/date to keep everything from re-rendering?
 const Home = (): React.ReactElement => {
-  // TODO: const [user, setUser] = useLocalStorage("user", null);
-  // const { user } = useAuthContext();
+  // TODO: const [user, setUser] = useLocalStorage("user", undefined);
+  const { user } = useAuthContext();
+  const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
 
-  const calendarProps = { setDate };
+  const retrieveDay = useCallback(async () => {
+    if (user !== undefined) {
+      const existsParams = { googleId: user.google_id, date: formatDate(date) };
+      const res = await getDayExists(existsParams);
+      if (typeof res.result === 'boolean') {
+        const dayParams = { google_id: user.google_id, date: formatDate(date) };
+        const newDay = await createDay(dayParams);
+        setDay(newDay.result);
+      } else {
+        const dayId = res.result._id;
+        const day = await getDay({ dayId });
+        setDay(day.result);
+      }
+    }
+  }, [date]);
+
+  const updateDay = async (updateParams: UpdateDayParams): Promise<void> => {
+    if (day !== undefined) {
+      const res = await editDay({ _id: day._id, ...updateParams });
+      setDay(res.result);
+    }
+  };
+
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    retrieveDay();
+  }, [retrieveDay]);
 
   return (
     <HomeContainer>
       <Welcome />
-      <ContentContainer>
-        <LeftContentContainer>
-          <PhotosContainer>
-            <Photos />
-          </PhotosContainer>
-          <BottomContentContainer>
-            <EntryContainer>
-              <Entry />
-            </EntryContainer>
-            <BottomRightContentContainer>
-              <SongFoodContainer>
-                <SongFood />
-              </SongFoodContainer>
-              <SongFoodContainer>
-                <SongFood />
-              </SongFoodContainer>
-            </BottomRightContentContainer>
-          </BottomContentContainer>
-        </LeftContentContainer>
-        <RightContentContainer>
-          <CalendarContainer>
-            <Calendar {...calendarProps} />
-          </CalendarContainer>
-          <ThoughtsContainer>
-            <Thoughts />
-          </ThoughtsContainer>
-        </RightContentContainer>
-      </ContentContainer>
+      {/* TODO: loading skeleton while day is undefined */}
+      {day !== undefined && day.date === formatDate(date) ? (
+        <ContentContainer>
+          <LeftContentContainer>
+            <PhotosContainer>
+              <Photos />
+            </PhotosContainer>
+            <BottomContentContainer>
+              <EntryContainer>
+                <Entry
+                  updateDay={updateDay}
+                  key={formatDate(date)}
+                  title={day.title}
+                  entry={day.entry}
+                />
+              </EntryContainer>
+              <BottomRightContentContainer>
+                <SongFoodContainer>
+                  <SongFood />
+                </SongFoodContainer>
+                <SongFoodContainer>
+                  <SongFood />
+                </SongFoodContainer>
+              </BottomRightContentContainer>
+            </BottomContentContainer>
+          </LeftContentContainer>
+          <RightContentContainer>
+            <CalendarContainer>
+              <Calendar date={date} setDate={setDate} />
+            </CalendarContainer>
+            <ThoughtsContainer>
+              <Thoughts />
+            </ThoughtsContainer>
+          </RightContentContainer>
+        </ContentContainer>
+      ) : (
+        <p>hi</p> // TODO
+      )}
     </HomeContainer>
   );
 };

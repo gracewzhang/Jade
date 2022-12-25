@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { BaseSyntheticEvent } from 'react';
 import styled from 'styled-components';
 
 import Block from '../../../components/Block';
@@ -118,9 +118,9 @@ const StyledCalendar = styled(_Calendar)`
 `;
 
 const Calendar = (props: CalendarProps): React.ReactElement => {
-  const { setDate } = props;
+  const { date, setDate } = props;
 
-  const handleDayChange = (value: Date, event: any): void => {
+  const handleDayChange = (value: Date, event: BaseSyntheticEvent): void => {
     setDate(value);
   };
 
@@ -128,7 +128,7 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
     <CalendarContainer>
       <StyledCalendar
         calendarType="US"
-        defaultValue={new Date()}
+        defaultValue={date}
         maxDate={new Date()}
         showFixedNumberOfWeeks
         onClickDay={handleDayChange}
