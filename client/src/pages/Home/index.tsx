@@ -8,12 +8,7 @@ import SongFood from './SongFood';
 import Calendar from './Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/auth/AuthContext';
-import {
-  createDay,
-  getDay,
-  getDayExists,
-  editDay
-} from '../../hooks/day/useDay';
+import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
 
@@ -86,6 +81,7 @@ const formatDate = (date: Date): string => {
 const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", undefined);
   const { user } = useAuthContext();
+  const { getDayExists, getDay, createDay, editDay } = useDay();
   const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
 
