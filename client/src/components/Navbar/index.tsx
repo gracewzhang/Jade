@@ -6,7 +6,7 @@ import { FiHeart } from 'react-icons/fi';
 import { RxHome } from 'react-icons/rx';
 import { BiUser } from 'react-icons/bi';
 import { MdLogout } from 'react-icons/md';
-import colors from '../../styles/colors';
+import colors from '../../utils/colors';
 
 const NavbarContainer = styled.div`
   position: sticky;
@@ -71,7 +71,7 @@ const StyledLogout = styled(MdLogout)`
   color: ${colors.grey};
 `;
 
-// TOOD: add indicator for the page you've selected
+// TODO: add indicator for the page you've selected
 const Navbar = (): React.ReactElement => {
   return (
     <NavbarContainer>

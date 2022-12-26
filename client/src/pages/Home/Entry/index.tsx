@@ -1,9 +1,10 @@
 import React, { BaseSyntheticEvent, useState } from 'react';
 import styled from 'styled-components';
-import { FiHeart, FiCheck } from 'react-icons/fi';
+import { FiHeart } from 'react-icons/fi';
+import { IoIosCheckmark } from 'react-icons/io';
 
 import Block from '../../../components/Block';
-import colors from '../../../styles/colors';
+import colors from '../../../utils/colors';
 import { EntryProps } from './types';
 import Input from '../../../components/Input/input';
 
@@ -44,9 +45,9 @@ const HeaderRightContainer = styled.span`
   align-items: center;
 `;
 
-const StyledCheck = styled(FiCheck)`
-  width: 25px;
-  height: 25px;
+const StyledCheck = styled(IoIosCheckmark)`
+  width: 30px;
+  height: 30px;
   color: ${colors['light-grey']};
 
   :hover {
