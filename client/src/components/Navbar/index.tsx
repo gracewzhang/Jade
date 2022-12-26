@@ -71,7 +71,7 @@ const StyledLogout = styled(MdLogout)`
   color: ${colors.grey};
 `;
 
-// TOOD: add indicator for the page you've selected
+// TODO: add indicator for the page you've selected
 const Navbar = (): React.ReactElement => {
   return (
     <NavbarContainer>

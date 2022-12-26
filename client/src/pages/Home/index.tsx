@@ -143,7 +143,6 @@ const Home = (): React.ReactElement => {
               </EntryContainer>
               <BottomRightContentContainer>
                 <SongFoodContainer>
-                  {/* TODO: change type to an enum */}
                   {loading ? (
                     <Skeleton count={7} />
                   ) : (
