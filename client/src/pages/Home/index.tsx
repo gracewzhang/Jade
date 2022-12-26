@@ -142,10 +142,11 @@ const Home = (): React.ReactElement => {
               </EntryContainer>
               <BottomRightContentContainer>
                 <SongFoodContainer>
-                  {loading ? <Skeleton count={7} /> : <SongFood />}
+                  {/* TODO: change type to an enum */}
+                  {loading ? <Skeleton count={7} /> : <SongFood type="Song" />}
                 </SongFoodContainer>
                 <SongFoodContainer>
-                  {loading ? <Skeleton count={7} /> : <SongFood />}
+                  {loading ? <Skeleton count={7} /> : <SongFood type="Food" />}
                 </SongFoodContainer>
               </BottomRightContentContainer>
             </BottomContentContainer>
