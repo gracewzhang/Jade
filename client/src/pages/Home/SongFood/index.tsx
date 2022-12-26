@@ -1,5 +1,6 @@
 import React, { BaseSyntheticEvent, useState } from 'react';
 import styled from 'styled-components';
+import { IoIosCheckmark } from 'react-icons/io';
 
 import Block from '../../../components/Block';
 import Input from '../../../components/Input/input';
@@ -29,8 +30,25 @@ const Label = styled.h5`
   align-items: center;
 `;
 
+const HeaderRightContainer = styled.span`
+  display: flex;
+  align-items: center;
+`;
+
+const StyledCheck = styled(IoIosCheckmark)`
+  width: 30px;
+  height: 30px;
+  color: ${colors['light-grey']};
+
+  :hover {
+    cursor: pointer;
+    color: ${colors.grey};
+  }
+`;
+
 const LengthIndicator = styled.p`
   margin: 0;
+  margin-right: 10px;
   font-size: 14px;
   color: ${colors.grey};
 `;
@@ -51,12 +69,25 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
     }
   };
 
+  const handleClick = (): void => {
+    const save = async (): Promise<void> => {
+      await props.updateDay(
+        props.type === 'Song' ? { song: value } : { food: value }
+      );
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    save();
+  };
+
   return (
     <SongFoodContainer>
       <PaddingContainer>
         <HeaderContainer>
           <Label>{props.type}</Label>
-          <LengthIndicator>{value?.length ?? 0}</LengthIndicator>
+          <HeaderRightContainer>
+            <LengthIndicator>{MAX_LEN - (value?.length ?? 0)}</LengthIndicator>
+            <StyledCheck onClick={handleClick} />
+          </HeaderRightContainer>
         </HeaderContainer>
         <StyledInput
           placeholder={props.type}
