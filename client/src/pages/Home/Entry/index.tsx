@@ -4,7 +4,7 @@ import { FiHeart } from 'react-icons/fi';
 import { IoIosCheckmark } from 'react-icons/io';
 
 import Block from '../../../components/Block';
-import colors from '../../../styles/colors';
+import colors from '../../../utils/colors';
 import { EntryProps } from './types';
 import Input from '../../../components/Input/input';
 

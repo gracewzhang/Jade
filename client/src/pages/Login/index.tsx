@@ -7,7 +7,7 @@ import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { DecodedUser, User } from '../../types/user';
 import { LoginIllustration } from '../../illustrations/Login.illustration';
 import Logo from '../../components/Logo/Logo';
-import colors from '../../styles/colors';
+import colors from '../../utils/colors';
 
 const LoginPageContainer = styled.span`
   display: grid;

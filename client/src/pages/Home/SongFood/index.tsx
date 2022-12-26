@@ -4,8 +4,9 @@ import { IoIosCheckmark } from 'react-icons/io';
 
 import Block from '../../../components/Block';
 import Input from '../../../components/Input/input';
-import colors from '../../../styles/colors';
+import colors from '../../../utils/colors';
 import { SongFoodProps } from './types';
+import { SF } from '../../../utils/enums';
 
 const SongFoodContainer = styled(Block)``;
 
@@ -72,7 +73,7 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
   const handleClick = (): void => {
     const save = async (): Promise<void> => {
       await props.updateDay(
-        props.type === 'Song' ? { song: value } : { food: value }
+        props.type === SF.song ? { song: value } : { food: value }
       );
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises

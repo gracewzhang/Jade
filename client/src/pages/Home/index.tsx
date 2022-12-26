@@ -13,7 +13,8 @@ import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
-import colors from '../../styles/colors';
+import { SF } from '../../utils/enums';
+import colors from '../../utils/colors';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -147,7 +148,7 @@ const Home = (): React.ReactElement => {
                     <Skeleton count={7} />
                   ) : (
                     <SongFood
-                      type="Song"
+                      type={SF.song}
                       key={formatDate(date)}
                       song={day.song}
                       updateDay={updateDay}
@@ -159,7 +160,7 @@ const Home = (): React.ReactElement => {
                     <Skeleton count={7} />
                   ) : (
                     <SongFood
-                      type="Food"
+                      type={SF.food}
                       key={formatDate(date)}
                       food={day.food}
                       updateDay={updateDay}
