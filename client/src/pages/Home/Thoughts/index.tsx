@@ -56,16 +56,10 @@ const ThoughtContainer = styled.span`
   justify-content: space-between;
 `;
 
-// TODO: change color if a thought has been entered
 const StyledLightBulb = styled(HiOutlineLightBulb)`
   width: 25px;
   height: 25px;
   margin-right: 15px;
-  color: ${colors['light-grey']};
-
-  :hover {
-    color: ${colors.grey};
-  }
 `;
 
 const StyledInput = styled(Input)`
@@ -95,7 +89,9 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
 
   return (
     <ThoughtContainer>
-      <StyledLightBulb />
+      <StyledLightBulb
+        color={thought.length === 0 ? colors['light-grey'] : colors.grey}
+      />
       <StyledInput
         placeholder="Thought"
         defaultValue={props.thoughts.current[props.idx]}
@@ -122,7 +118,7 @@ const Thoughts = (props: ThoughtsProps): React.ReactElement => {
     <ThoughtsContainer>
       <PaddingContainer>
         <HeaderContainer>
-          <Label>What are You Thinking About?</Label>
+          <Label>Thoughts</Label>
           <StyledCheck onClick={handleClick} />
         </HeaderContainer>
         <BottomContainer>
