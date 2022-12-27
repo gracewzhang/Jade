@@ -1,4 +1,4 @@
-import React, { BaseSyntheticEvent, useState } from 'react';
+import React, { BaseSyntheticEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { IoIosCheckmark } from 'react-icons/io';
 import { HiOutlineLightBulb } from 'react-icons/hi2';
@@ -56,6 +56,7 @@ const ThoughtContainer = styled.span`
   justify-content: space-between;
 `;
 
+// TODO: change color if a thought has been entered
 const StyledLightBulb = styled(HiOutlineLightBulb)`
   width: 25px;
   height: 25px;
@@ -63,7 +64,6 @@ const StyledLightBulb = styled(HiOutlineLightBulb)`
   color: ${colors['light-grey']};
 
   :hover {
-    cursor: pointer;
     color: ${colors.grey};
   }
 `;
@@ -82,13 +82,14 @@ const LengthIndicator = styled.p`
 const MAX_LEN = 20;
 
 const Thought = (props: ThoughtProps): React.ReactElement => {
-  const [thought, setThought] = useState(props.thoughts[props.idx]);
+  const { idx, thoughts } = props;
+  const [thought, setThought] = useState(thoughts.current[idx]);
 
   const onThoughtChange = (e: BaseSyntheticEvent): void => {
     const newThought = e.target.value;
     if ((newThought as string).length <= MAX_LEN) {
+      thoughts.current[idx] = newThought;
       setThought(newThought);
-      // TODO: setThoughts(... this one given idx)
     }
   };
 
@@ -97,7 +98,7 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
       <StyledLightBulb />
       <StyledInput
         placeholder="Thought"
-        defaultValue={props.thoughts[props.idx]}
+        defaultValue={props.thoughts.current[props.idx]}
         onChange={onThoughtChange}
         maxLength={MAX_LEN}
       />
@@ -107,11 +108,11 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
 };
 
 const Thoughts = (props: ThoughtsProps): React.ReactElement => {
-  const [thoughts, setThoughts] = useState(props.thoughts);
+  const thoughts = useRef(props.thoughts);
 
   const handleClick = (): void => {
     const save = async (): Promise<void> => {
-      await props.updateDay({ thoughts });
+      await props.updateDay({ thoughts: thoughts.current });
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     save();
@@ -125,9 +126,9 @@ const Thoughts = (props: ThoughtsProps): React.ReactElement => {
           <StyledCheck onClick={handleClick} />
         </HeaderContainer>
         <BottomContainer>
-          <Thought idx={0} thoughts={thoughts} setThoughts={setThoughts} />
-          <Thought idx={1} thoughts={thoughts} setThoughts={setThoughts} />
-          <Thought idx={2} thoughts={thoughts} setThoughts={setThoughts} />
+          {[0, 1, 2].map((idx) => (
+            <Thought key={idx} idx={idx} thoughts={thoughts} />
+          ))}
         </BottomContainer>
       </PaddingContainer>
     </ThoughtsContainer>
