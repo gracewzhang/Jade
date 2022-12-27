@@ -94,7 +94,7 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
       />
       <StyledInput
         placeholder="Thought"
-        defaultValue={props.thoughts.current[props.idx]}
+        defaultValue={thoughts.current[idx]}
         onChange={onThoughtChange}
         maxLength={MAX_LEN}
       />
