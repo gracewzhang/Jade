@@ -174,7 +174,15 @@ const Home = (): React.ReactElement => {
               <Calendar date={date} setDate={setDate} />
             </CalendarContainer>
             <ThoughtsContainer>
-              {loading ? <Skeleton count={10} /> : <Thoughts />}
+              {loading ? (
+                <Skeleton count={10} />
+              ) : (
+                <Thoughts
+                  key={formatDate(date)}
+                  thoughts={day.thoughts}
+                  updateDay={updateDay}
+                />
+              )}
             </ThoughtsContainer>
           </RightContentContainer>
         </ContentContainer>
