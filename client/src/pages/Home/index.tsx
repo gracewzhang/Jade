@@ -19,10 +19,7 @@ import colors from '../../utils/colors';
 const HomeContainer = styled.div`
   display: grid;
   grid-template-columns: 50vw 28vw;
-  padding-left: 7vw;
-  padding-right: 7vw;
-  padding-top: 7vh;
-  padding-bottom: 9vh;
+  padding: 7vh 7vw 9vh 7vw;
   height: 84vh;
 `;
 
@@ -47,10 +44,9 @@ const EntryContainer = styled.div`
 `;
 
 const BottomRightContentContainer = styled.div`
-  max-height: 45vh;
   display: grid;
   grid-template-rows: 50% 50%;
-  padding: 0;
+  max-height: 45vh;
 `;
 
 const SongFoodContainer = styled.div`
@@ -59,17 +55,14 @@ const SongFoodContainer = styled.div`
 `;
 
 const RightContentContainer = styled.div`
-  padding-left: 5vw;
-  width: 23vw;
   display: grid;
   grid-template-rows: 50vh 34vh;
+  padding-left: 5vw;
 `;
 
 const CalendarContainer = styled.div`
   width: 23vw;
-  // TODO: condense into 1 line
   padding-top: 9vh;
-  padding-right: 0;
 `;
 
 const ThoughtsContainer = styled.div`
