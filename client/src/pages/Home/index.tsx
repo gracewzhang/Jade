@@ -2,6 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi2';
+import { BsDice3 } from 'react-icons/bs';
+import { FiHeart } from 'react-icons/fi';
 
 import Welcome from './Welcome';
 import Photos from './Photos';
@@ -56,13 +59,43 @@ const SongFoodContainer = styled.div`
 
 const RightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 50vh 34vh;
+  grid-template-rows: 9vh 41vh 34vh;
   padding-left: 5vw;
+`;
+
+const IconsContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+
+  svg {
+    margin-left: 15px;
+  }
+`;
+
+const StyledClockIcon = styled(HiOutlineClock)`
+  width: 22px;
+  height: 22px;
+`;
+
+const StyledHeartIcon = styled(FiHeart)`
+  width: 21px;
+  height: 21px;
+`;
+
+const StyledDiceIcon = styled(BsDice3)`
+  width: 19px;
+  height: 23px;
+`;
+
+const StyledCalendarIcon = styled(HiOutlineCalendar)`
+  width: 22px;
+  height: 22px;
 `;
 
 const CalendarContainer = styled.div`
   width: 23vw;
-  padding-top: 9vh;
 `;
 
 const ThoughtsContainer = styled.div`
@@ -163,6 +196,12 @@ const Home = (): React.ReactElement => {
           </BottomContentContainer>
         </LeftContentContainer>
         <RightContentContainer>
+          <IconsContainer>
+            <StyledClockIcon />
+            <StyledHeartIcon />
+            <StyledDiceIcon />
+            <StyledCalendarIcon />
+          </IconsContainer>
           <CalendarContainer>
             <Calendar date={date} setDate={setDate} />
           </CalendarContainer>
