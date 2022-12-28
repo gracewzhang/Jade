@@ -59,19 +59,21 @@ const SongFoodContainer = styled.div`
 `;
 
 const RightContentContainer = styled.div`
+  padding-left: 5vw;
+  width: 23vw;
   display: grid;
-  grid-template-rows: 65% 30%;
+  grid-template-rows: 50vh 34vh;
 `;
 
 const CalendarContainer = styled.div`
+  width: 23vw;
   // TODO: condense into 1 line
-  padding: 20%;
+  padding-top: 9vh;
   padding-right: 0;
-  padding-bottom: 15%;
 `;
 
 const ThoughtsContainer = styled.div`
-  padding-left: 20%;
+  padding-top: 8vh;
 `;
 
 const formatDate = (date: Date): string => {
