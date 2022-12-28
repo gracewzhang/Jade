@@ -32,6 +32,7 @@ const LeftContentContainer = styled.div`
 `;
 
 const PhotosContainer = styled.div`
+  width: 50vw;
   padding: 0;
 `;
 
@@ -53,6 +54,7 @@ const BottomRightContentContainer = styled.div`
 `;
 
 const SongFoodContainer = styled.div`
+  width: 15vw;
   padding-top: 7vh;
 `;
 
