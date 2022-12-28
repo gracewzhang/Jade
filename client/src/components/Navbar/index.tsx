@@ -11,6 +11,7 @@ import colors from '../../utils/colors';
 const NavbarContainer = styled.div`
   position: sticky;
   top: 0;
+  width: 8vw;
   z-index: 999;
   background-color: white;
   height: 100%;

@@ -18,56 +18,58 @@ import colors from '../../utils/colors';
 
 const HomeContainer = styled.div`
   display: grid;
-  grid-template-columns: 65% 35%;
-  padding-top: 5%;
-  padding-left: 7%;
-  padding-right: 9%;
-  padding-bottom: 5%;
+  grid-template-columns: 50vw 28vw;
+  padding-left: 7vw;
+  padding-right: 7vw;
+  padding-top: 7vh;
+  padding-bottom: 9vh;
+  height: 84vh;
 `;
 
 const LeftContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 5% 45% 55%;
+  grid-template-rows: 13vh 26vh 45vh;
 `;
 
 const PhotosContainer = styled.div`
-  padding: 40px;
-  padding-top: 60px;
-  padding-left: 0;
+  padding: 0;
 `;
 
 const BottomContentContainer = styled.span`
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 35vw 15vw;
 `;
 
 const EntryContainer = styled.div`
-  padding-top: 40px;
+  padding-top: 8vh;
+  padding-right: 5vw;
 `;
 
 const BottomRightContentContainer = styled.div`
+  max-height: 45vh;
   display: grid;
   grid-template-rows: 50% 50%;
-  padding-left: 80px;
-  padding-right: 40px;
+  padding: 0;
 `;
 
 const SongFoodContainer = styled.div`
-  padding-top: 40px;
+  padding-top: 7vh;
 `;
 
 const RightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 70% 30%;
+  grid-template-rows: 65% 30%;
 `;
 
 const CalendarContainer = styled.div`
-  padding-bottom: 40px;
-  padding-left: 40px;
+  // TODO: condense into 1 line
+  padding: 20%;
+  padding-right: 0;
+  padding-bottom: 15%;
 `;
 
 const ThoughtsContainer = styled.div`
-  padding-left: 40px;
+  padding-left: 20%;
 `;
 
 const formatDate = (date: Date): string => {
