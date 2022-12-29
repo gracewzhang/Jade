@@ -2,10 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { LogoIllustration } from '../../illustrations/Logo.illustration';
-import { FiHeart } from 'react-icons/fi';
-import { RxHome } from 'react-icons/rx';
-import { BiUser } from 'react-icons/bi';
-import { MdLogout } from 'react-icons/md';
+import { HiOutlineHeart, HiOutlineHome, HiOutlineUser } from 'react-icons/hi2';
+import { IoLogOutOutline } from 'react-icons/io5';
 import colors from '../../utils/colors';
 
 const NavbarContainer = styled.div`
@@ -48,25 +46,25 @@ const StyledLink = styled(Link)`
 
 const iconLen = '25px';
 
-const StyledHome = styled(RxHome)`
+const StyledHome = styled(HiOutlineHome)`
   width: ${iconLen};
   height: ${iconLen};
   color: black;
 `;
 
-const StyledHeart = styled(FiHeart)`
+const StyledHeart = styled(HiOutlineHeart)`
   width: ${iconLen};
   height: ${iconLen};
   color: black;
 `;
 
-const StyledUser = styled(BiUser)`
+const StyledUser = styled(HiOutlineUser)`
   width: ${iconLen};
   height: ${iconLen};
   color: black;
 `;
 
-const StyledLogout = styled(MdLogout)`
+const StyledLogout = styled(IoLogOutOutline)`
   width: ${iconLen};
   height: ${iconLen};
   color: ${colors.grey};

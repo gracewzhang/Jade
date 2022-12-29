@@ -1,6 +1,6 @@
 import React, { BaseSyntheticEvent, useState } from 'react';
 import styled from 'styled-components';
-import { IoIosCheckmark } from 'react-icons/io';
+import { HiOutlineCheck } from 'react-icons/hi';
 
 import Block from '../../../components/Block';
 import Input from '../../../components/Input/input';
@@ -36,9 +36,9 @@ const HeaderRightContainer = styled.span`
   align-items: center;
 `;
 
-const StyledCheck = styled(IoIosCheckmark)`
-  width: 30px;
-  height: 30px;
+const StyledCheck = styled(HiOutlineCheck)`
+  width: 18px;
+  height: 18px;
   color: ${colors['light-grey']};
 
   :hover {
@@ -49,7 +49,7 @@ const StyledCheck = styled(IoIosCheckmark)`
 
 const LengthIndicator = styled.p`
   margin: 0;
-  margin-right: 10px;
+  margin-right: 20px;
   font-size: 14px;
   color: ${colors.grey};
 `;

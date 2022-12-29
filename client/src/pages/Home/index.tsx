@@ -2,9 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { HiOutlineCalendar, HiOutlineClock } from 'react-icons/hi2';
-import { BsDice3 } from 'react-icons/bs';
-import { FiHeart } from 'react-icons/fi';
+import {
+  HiOutlineCalendar,
+  HiOutlineClock,
+  HiOutlineHeart
+} from 'react-icons/hi2';
+import { CgDice3 } from 'react-icons/cg';
 
 import Welcome from './Welcome';
 import Photos from './Photos';
@@ -79,12 +82,12 @@ const StyledClockIcon = styled(HiOutlineClock)`
   height: 22px;
 `;
 
-const StyledHeartIcon = styled(FiHeart)`
-  width: 21px;
-  height: 21px;
+const StyledHeartIcon = styled(HiOutlineHeart)`
+  width: 22px;
+  height: 22px;
 `;
 
-const StyledDiceIcon = styled(BsDice3)`
+const StyledDiceIcon = styled(CgDice3)`
   width: 19px;
   height: 23px;
 `;

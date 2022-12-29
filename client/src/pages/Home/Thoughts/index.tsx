@@ -1,6 +1,6 @@
 import React, { BaseSyntheticEvent, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { IoIosCheckmark } from 'react-icons/io';
+import { HiOutlineCheck } from 'react-icons/hi';
 import { HiOutlineLightBulb } from 'react-icons/hi2';
 
 import Block from '../../../components/Block';
@@ -31,9 +31,9 @@ const Label = styled.h5`
   align-items: center;
 `;
 
-const StyledCheck = styled(IoIosCheckmark)`
-  width: 25px;
-  height: 25px;
+const StyledCheck = styled(HiOutlineCheck)`
+  width: 18px;
+  height: 18px;
   color: ${colors['light-grey']};
 
   :hover {
