@@ -2,18 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import {
-  HiOutlineCalendar,
-  HiOutlineClock,
-  HiOutlineHeart
-} from 'react-icons/hi2';
-import { CgDice3 } from 'react-icons/cg';
 
 import Welcome from './Welcome';
 import Photos from './Photos';
 import Entry from './Entry';
 import SongFood from './SongFood';
-import Calendar from './Calendar';
+import Calendar from './Modes/Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { useDay } from '../../hooks/day/useDay';
@@ -21,6 +15,7 @@ import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
 import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
+import IconBar from './IconBar';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -64,53 +59,6 @@ const RightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 9vh 41vh 34vh;
   padding-left: 5vw;
-`;
-
-const IconsContainer = styled.span`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
-
-  svg {
-    margin-left: 15px;
-  }
-`;
-
-const StyledClockIcon = styled(HiOutlineClock)`
-  width: 22px;
-  height: 22px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const StyledHeartIcon = styled(HiOutlineHeart)`
-  width: 22px;
-  height: 22px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const StyledDiceIcon = styled(CgDice3)`
-  width: 19px;
-  height: 23px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
-const StyledCalendarIcon = styled(HiOutlineCalendar)`
-  width: 22px;
-  height: 22px;
-
-  :hover {
-    cursor: pointer;
-  }
 `;
 
 const CalendarContainer = styled.div`
@@ -216,32 +164,7 @@ const Home = (): React.ReactElement => {
           </BottomContentContainer>
         </LeftContentContainer>
         <RightContentContainer>
-          <IconsContainer>
-            {/* // TODO: can we store all of this in a map/list? */}
-            <StyledClockIcon
-              color={
-                mode === CalendarMode.history ? 'black' : colors['light-grey']
-              }
-              onClick={() => setMode(CalendarMode.history)}
-            />
-            <StyledHeartIcon
-              color={
-                mode === CalendarMode.favorites ? 'black' : colors['light-grey']
-              }
-              onClick={() => setMode(CalendarMode.favorites)}
-            />
-            <StyledDiceIcon
-              color={
-                mode === CalendarMode.calendar ? 'black' : colors['light-grey']
-              }
-            />
-            <StyledCalendarIcon
-              color={
-                mode === CalendarMode.calendar ? 'black' : colors['light-grey']
-              }
-              onClick={() => setMode(CalendarMode.calendar)}
-            />
-          </IconsContainer>
+          <IconBar mode={mode} setMode={setMode} />
           <CalendarContainer>
             <Calendar date={date} setDate={setDate} />
           </CalendarContainer>
