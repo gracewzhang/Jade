@@ -1,10 +1,10 @@
 import React, { BaseSyntheticEvent } from 'react';
 import styled from 'styled-components';
 
-import Block from '../../../components/Block';
+import Block from '../../../../components/Block';
 import { Calendar as _Calendar } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import colors from '../../../utils/colors';
+import colors from '../../../../utils/colors';
 import { CalendarProps } from './types';
 
 const CalendarContainer = styled(Block)``;
@@ -15,6 +15,7 @@ const StyledCalendar = styled(_Calendar)`
   width: 100%;
   height: 100%;
   padding: 30px;
+  padding-bottom: 40px;
   font-family: 'Ubuntu', sans-serif;
 
   * {

@@ -1,7 +1,7 @@
 import React, { BaseSyntheticEvent, useState } from 'react';
 import styled from 'styled-components';
-import { FiHeart } from 'react-icons/fi';
-import { IoIosCheckmark } from 'react-icons/io';
+import { HiOutlineHeart } from 'react-icons/hi2';
+import { HiOutlineCheck } from 'react-icons/hi';
 
 import Block from '../../../components/Block';
 import colors from '../../../utils/colors';
@@ -25,7 +25,7 @@ const HeaderContainer = styled.span`
   align-items: center;
 `;
 
-const StyledHeart = styled(FiHeart)`
+const StyledHeart = styled(HiOutlineHeart)`
   width: 25px;
   height: 25px;
   color: ${colors['light-grey']};
@@ -45,9 +45,9 @@ const HeaderRightContainer = styled.span`
   align-items: center;
 `;
 
-const StyledCheck = styled(IoIosCheckmark)`
-  width: 30px;
-  height: 30px;
+const StyledCheck = styled(HiOutlineCheck)`
+  width: 18px;
+  height: 18px;
   color: ${colors['light-grey']};
 
   :hover {

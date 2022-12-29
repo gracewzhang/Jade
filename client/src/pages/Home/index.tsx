@@ -7,72 +7,66 @@ import Welcome from './Welcome';
 import Photos from './Photos';
 import Entry from './Entry';
 import SongFood from './SongFood';
-import Calendar from './Calendar';
+import Calendar from './Modes/Calendar';
 import Thoughts from './Thoughts';
 import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
-import { SF } from '../../utils/enums';
+import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
+import IconBar from './IconBar';
 
 const HomeContainer = styled.div`
   display: grid;
-  grid-template-rows: 10% 90%;
-  padding-top: 5%;
-  padding-left: 7%;
-  padding-right: 9%;
-  padding-bottom: 5%;
-`;
-
-const ContentContainer = styled.span`
-  display: grid;
-  grid-template-columns: 65% 35%;
+  grid-template-columns: 50vw 28vw;
+  padding: 7vh 7vw 9vh 7vw;
+  height: 84vh;
 `;
 
 const LeftContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 45% 55%;
+  grid-template-rows: 13vh 26vh 45vh;
 `;
 
 const PhotosContainer = styled.div`
-  padding: 40px;
-  padding-top: 60px;
-  padding-left: 0;
+  width: 50vw;
+  padding: 0;
 `;
 
 const BottomContentContainer = styled.span`
   display: grid;
-  grid-template-columns: 60% 40%;
+  grid-template-columns: 35vw 15vw;
 `;
 
 const EntryContainer = styled.div`
-  padding-top: 40px;
+  padding-top: 8vh;
+  padding-right: 5vw;
 `;
 
 const BottomRightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 50% 50%;
-  padding-left: 80px;
-  padding-right: 40px;
+  max-height: 45vh;
 `;
 
 const SongFoodContainer = styled.div`
-  padding-top: 40px;
+  width: 15vw;
+  padding-top: 7vh;
 `;
 
 const RightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 70% 30%;
+  grid-template-rows: 9vh 41vh 34vh;
+  padding-left: 5vw;
 `;
 
 const CalendarContainer = styled.div`
-  padding-bottom: 40px;
-  padding-left: 40px;
+  width: 23vw;
 `;
 
 const ThoughtsContainer = styled.div`
-  padding-left: 40px;
+  padding-top: 8vh;
 `;
 
 const formatDate = (date: Date): string => {
@@ -86,6 +80,7 @@ const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", undefined);
   const { user } = useAuthContext();
   const { getDayExists, getDay, createDay, editDay } = useDay();
+  const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
 
@@ -120,74 +115,73 @@ const Home = (): React.ReactElement => {
   const loading = day === undefined || day.date !== formatDate(date);
 
   return (
-    <HomeContainer>
-      <Welcome />
-      <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
-        <ContentContainer>
-          <LeftContentContainer>
-            <PhotosContainer>
-              {loading ? <Skeleton count={9} /> : <Photos />}
-            </PhotosContainer>
-            <BottomContentContainer>
-              <EntryContainer>
-                {loading ? (
-                  <Skeleton count={16} />
-                ) : (
-                  <Entry
-                    updateDay={updateDay}
-                    key={formatDate(date)}
-                    title={day.title}
-                    entry={day.entry}
-                  />
-                )}
-              </EntryContainer>
-              <BottomRightContentContainer>
-                <SongFoodContainer>
-                  {loading ? (
-                    <Skeleton count={7} />
-                  ) : (
-                    <SongFood
-                      type={SF.song}
-                      key={formatDate(date)}
-                      song={day.song}
-                      updateDay={updateDay}
-                    />
-                  )}
-                </SongFoodContainer>
-                <SongFoodContainer>
-                  {loading ? (
-                    <Skeleton count={7} />
-                  ) : (
-                    <SongFood
-                      type={SF.food}
-                      key={formatDate(date)}
-                      food={day.food}
-                      updateDay={updateDay}
-                    />
-                  )}
-                </SongFoodContainer>
-              </BottomRightContentContainer>
-            </BottomContentContainer>
-          </LeftContentContainer>
-          <RightContentContainer>
-            <CalendarContainer>
-              <Calendar date={date} setDate={setDate} />
-            </CalendarContainer>
-            <ThoughtsContainer>
+    <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
+      <HomeContainer>
+        <LeftContentContainer>
+          <Welcome />
+          <PhotosContainer>
+            {loading ? <Skeleton count={9} /> : <Photos />}
+          </PhotosContainer>
+          <BottomContentContainer>
+            <EntryContainer>
               {loading ? (
-                <Skeleton count={10} />
+                <Skeleton count={16} />
               ) : (
-                <Thoughts
-                  key={formatDate(date)}
-                  thoughts={day.thoughts}
+                <Entry
                   updateDay={updateDay}
+                  key={formatDate(date)}
+                  title={day.title}
+                  entry={day.entry}
                 />
               )}
-            </ThoughtsContainer>
-          </RightContentContainer>
-        </ContentContainer>
-      </SkeletonTheme>
-    </HomeContainer>
+            </EntryContainer>
+            <BottomRightContentContainer>
+              <SongFoodContainer>
+                {loading ? (
+                  <Skeleton count={7} />
+                ) : (
+                  <SongFood
+                    type={SF.song}
+                    key={formatDate(date)}
+                    song={day.song}
+                    updateDay={updateDay}
+                  />
+                )}
+              </SongFoodContainer>
+              <SongFoodContainer>
+                {loading ? (
+                  <Skeleton count={7} />
+                ) : (
+                  <SongFood
+                    type={SF.food}
+                    key={formatDate(date)}
+                    food={day.food}
+                    updateDay={updateDay}
+                  />
+                )}
+              </SongFoodContainer>
+            </BottomRightContentContainer>
+          </BottomContentContainer>
+        </LeftContentContainer>
+        <RightContentContainer>
+          <IconBar mode={mode} setMode={setMode} />
+          <CalendarContainer>
+            <Calendar date={date} setDate={setDate} />
+          </CalendarContainer>
+          <ThoughtsContainer>
+            {loading ? (
+              <Skeleton count={10} />
+            ) : (
+              <Thoughts
+                key={formatDate(date)}
+                thoughts={day.thoughts}
+                updateDay={updateDay}
+              />
+            )}
+          </ThoughtsContainer>
+        </RightContentContainer>
+      </HomeContainer>
+    </SkeletonTheme>
   );
 };
 
