@@ -19,7 +19,7 @@ import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
-import { SF } from '../../utils/enums';
+import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
 
 const HomeContainer = styled.div`
@@ -80,21 +80,37 @@ const IconsContainer = styled.span`
 const StyledClockIcon = styled(HiOutlineClock)`
   width: 22px;
   height: 22px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledHeartIcon = styled(HiOutlineHeart)`
   width: 22px;
   height: 22px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledDiceIcon = styled(CgDice3)`
   width: 19px;
   height: 23px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledCalendarIcon = styled(HiOutlineCalendar)`
   width: 22px;
   height: 22px;
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const CalendarContainer = styled.div`
@@ -116,6 +132,7 @@ const Home = (): React.ReactElement => {
   // TODO: const [user, setUser] = useLocalStorage("user", undefined);
   const { user } = useAuthContext();
   const { getDayExists, getDay, createDay, editDay } = useDay();
+  const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
 
@@ -200,10 +217,30 @@ const Home = (): React.ReactElement => {
         </LeftContentContainer>
         <RightContentContainer>
           <IconsContainer>
-            <StyledClockIcon />
-            <StyledHeartIcon />
-            <StyledDiceIcon />
-            <StyledCalendarIcon />
+            {/* // TODO: can we store all of this in a map/list? */}
+            <StyledClockIcon
+              color={
+                mode === CalendarMode.history ? 'black' : colors['light-grey']
+              }
+              onClick={() => setMode(CalendarMode.history)}
+            />
+            <StyledHeartIcon
+              color={
+                mode === CalendarMode.favorites ? 'black' : colors['light-grey']
+              }
+              onClick={() => setMode(CalendarMode.favorites)}
+            />
+            <StyledDiceIcon
+              color={
+                mode === CalendarMode.calendar ? 'black' : colors['light-grey']
+              }
+            />
+            <StyledCalendarIcon
+              color={
+                mode === CalendarMode.calendar ? 'black' : colors['light-grey']
+              }
+              onClick={() => setMode(CalendarMode.calendar)}
+            />
           </IconsContainer>
           <CalendarContainer>
             <Calendar date={date} setDate={setDate} />
