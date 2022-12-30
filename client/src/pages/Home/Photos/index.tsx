@@ -28,6 +28,14 @@ const PhotoContainer = styled.div`
 
 const StyledDropzone = styled(Dropzone)``;
 
+const StyledDropzoneDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const StyledPlusIcon = styled(HiOutlinePlus)`
   color: ${colors.rose};
   width: 40px;
@@ -40,14 +48,10 @@ const Photo = (): React.ReactElement => {
     <PhotoContainer>
       <StyledDropzone onDrop={(acceptedFiles) => console.log(acceptedFiles)}>
         {({ getRootProps, getInputProps }) => (
-          <section>
-            <div {...getRootProps()}>
-              <input {...getInputProps()} />
-              <p>
-                <StyledPlusIcon />
-              </p>
-            </div>
-          </section>
+          <StyledDropzoneDiv {...getRootProps()}>
+            <input {...getInputProps()} />
+            <StyledPlusIcon />
+          </StyledDropzoneDiv>
         )}
       </StyledDropzone>
     </PhotoContainer>
