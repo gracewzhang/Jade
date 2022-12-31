@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDropzone } from 'react-dropzone';
 import { HiOutlinePlus, HiOutlineXCircle } from 'react-icons/hi2';
@@ -6,7 +6,8 @@ import {
   ref,
   uploadBytesResumable,
   getDownloadURL,
-  deleteObject
+  deleteObject,
+  UploadTask
 } from 'firebase/storage';
 import { Line } from 'rc-progress';
 
@@ -95,8 +96,16 @@ const Photo = (props: PhotoProps): React.ReactElement => {
   const { idx, googleId, date, photos, updateDay } = props;
   const [src, setSrc] = useState(photos[idx]);
   const [progress, setProgress] = useState(0);
-  const [uploading, setUploading] = useState(photos[idx] === 'UPLOADING');
-  // TODO: is this a redux use case like w/psyonic? T_T
+  const uploadRef = useRef<UploadTask>();
+  const [uploading, setUploading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      if (uploadRef.current !== undefined) {
+        uploadRef.current.cancel();
+      }
+    };
+  }, []);
 
   const handleUpload = (files: File[]): void => {
     if (googleId === undefined) return;
@@ -107,9 +116,8 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       `/${googleId}/${date}-${String(idx)}.${file.name}`
     );
     const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadRef.current = uploadTask;
     setUploading(true);
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    handleUploadStart();
 
     uploadTask.on(
       'state_changed',
@@ -128,14 +136,6 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     );
   };
 
-  const handleUploadStart = async (): Promise<void> => {
-    const newPhotos = photos.map((photo, key) => {
-      if (key === idx) return 'UPLOADING';
-      return photo;
-    });
-    await updateDay({ photos: newPhotos });
-  };
-
   const handleUploadFinish = async (url: string): Promise<void> => {
     setSrc(url);
     const newPhotos = photos.map((photo, key) => {
@@ -144,6 +144,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     });
     await updateDay({ photos: newPhotos });
     setUploading(false);
+    uploadRef.current = undefined;
   };
 
   const handleDelete = async (): Promise<void> => {
