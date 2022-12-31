@@ -34,7 +34,7 @@ const PhotoContainer = styled.div`
   align-items: center;
 `;
 
-const StyledDropzoneDiv = styled.div`
+const StyledDropzone = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
@@ -94,8 +94,9 @@ const ImgContainer = styled.div`
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { idx, googleId, date, photos, updateDay } = props;
   const [src, setSrc] = useState(photos[idx]);
-  const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [uploading, setUploading] = useState(photos[idx] === 'UPLOADING');
+  // TODO: is this a redux use case like w/psyonic? T_T
 
   const handleUpload = (files: File[]): void => {
     if (googleId === undefined) return;
@@ -107,6 +108,8 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     );
     const uploadTask = uploadBytesResumable(storageRef, file);
     setUploading(true);
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    handleUploadStart();
 
     uploadTask.on(
       'state_changed',
@@ -115,6 +118,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setProgress(progress);
+        if (!uploading) setUploading(true);
       },
       (error) => console.log(error),
       () => {
@@ -122,6 +126,14 @@ const Photo = (props: PhotoProps): React.ReactElement => {
         getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
       }
     );
+  };
+
+  const handleUploadStart = async (): Promise<void> => {
+    const newPhotos = photos.map((photo, key) => {
+      if (key === idx) return 'UPLOADING';
+      return photo;
+    });
+    await updateDay({ photos: newPhotos });
   };
 
   const handleUploadFinish = async (url: string): Promise<void> => {
@@ -158,21 +170,19 @@ const Photo = (props: PhotoProps): React.ReactElement => {
 
   return (
     <PhotoContainer>
-      {src === '' ? (
-        <StyledDropzoneDiv {...getRootProps()}>
+      {uploading ? (
+        <Progress
+          percent={progress}
+          strokeWidth={4}
+          trailWidth={4}
+          strokeColor={colors.rose}
+          trailColor={colors['light-grey']}
+        />
+      ) : src === '' ? (
+        <StyledDropzone {...getRootProps()}>
           <input {...getInputProps()} />
-          {uploading ? (
-            <Progress
-              percent={progress}
-              strokeWidth={4}
-              trailWidth={4}
-              strokeColor={colors.rose}
-              trailColor={colors['light-grey']}
-            />
-          ) : (
-            <StyledPlusIcon />
-          )}
-        </StyledDropzoneDiv>
+          <StyledPlusIcon />
+        </StyledDropzone>
       ) : (
         <ImgContainer>
           <StyledImg src={src} />
