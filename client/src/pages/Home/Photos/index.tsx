@@ -95,9 +95,10 @@ const ImgContainer = styled.div`
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { idx, googleId, date, photos, updateDay } = props;
   const [src, setSrc] = useState(photos[idx]);
+
   const [progress, setProgress] = useState(0);
-  const uploadRef = useRef<UploadTask>();
   const [uploading, setUploading] = useState(false);
+  const uploadRef = useRef<UploadTask>();
 
   useEffect(() => {
     return () => {
@@ -126,7 +127,6 @@ const Photo = (props: PhotoProps): React.ReactElement => {
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
         );
         setProgress(progress);
-        if (!uploading) setUploading(true);
       },
       (error) => console.log(error),
       () => {
@@ -143,8 +143,8 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       return photo;
     });
     await updateDay({ photos: newPhotos });
-    setUploading(false);
     uploadRef.current = undefined;
+    setUploading(false);
   };
 
   const handleDelete = async (): Promise<void> => {
