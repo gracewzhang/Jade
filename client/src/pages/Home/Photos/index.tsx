@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Dropzone from 'react-dropzone';
 import { HiOutlinePlus } from 'react-icons/hi2';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { Line } from 'rc-progress';
 
 import Block from '../../../components/Block';
 import colors from '../../../utils/colors';
@@ -38,6 +39,7 @@ const StyledDropzoneDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20%;
 `;
 
 const StyledPlusIcon = styled(HiOutlinePlus)`
@@ -55,6 +57,7 @@ const StyledImg = styled.img`
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { idx, googleId, date, photos, updateDay } = props;
   const [src, setSrc] = useState(photos[idx]);
+  const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
 
   const handleUpload = (files: File[]): void => {
@@ -66,6 +69,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       `/${googleId}/${date}-${String(idx)}.${file.name}`
     );
     const uploadTask = uploadBytesResumable(storageRef, file);
+    setUploading(true);
 
     uploadTask.on(
       'state_changed',
@@ -90,6 +94,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       return photo;
     });
     await updateDay({ photos: newPhotos });
+    setUploading(false);
   };
 
   return (
@@ -99,8 +104,17 @@ const Photo = (props: PhotoProps): React.ReactElement => {
           src === '' ? (
             <StyledDropzoneDiv {...getRootProps()}>
               <input {...getInputProps()} />
-              <StyledPlusIcon />
-              <p>{progress}</p>
+              {uploading ? (
+                <Line
+                  percent={progress}
+                  strokeWidth={4}
+                  trailWidth={4}
+                  strokeColor={colors.rose}
+                  trailColor={colors['light-grey']}
+                />
+              ) : (
+                <StyledPlusIcon />
+              )}
             </StyledDropzoneDiv>
           ) : (
             <StyledImg src={src} />
