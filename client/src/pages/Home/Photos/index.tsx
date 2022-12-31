@@ -15,7 +15,7 @@ const PhotosContainer = styled(Block)`
   display: flex;
   flex-direction: row;
 
-  > div + div {
+  > div + div > div {
     border-left: 1px dashed ${colors['light-grey']};
   }
 `;
@@ -39,7 +39,6 @@ const StyledDropzoneDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20%;
 `;
 
 const StyledPlusIcon = styled(HiOutlinePlus)`
@@ -53,6 +52,11 @@ const StyledImg = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
+`;
+
+const Progress = styled(Line)`
+  margin-left: 20%;
+  margin-right: 20%;
 `;
 
 const Photo = (props: PhotoProps): React.ReactElement => {
@@ -106,7 +110,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
             <StyledDropzoneDiv {...getRootProps()}>
               <input {...getInputProps()} />
               {uploading ? (
-                <Line
+                <Progress
                   percent={progress}
                   strokeWidth={4}
                   trailWidth={4}
