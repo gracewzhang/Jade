@@ -120,7 +120,15 @@ const Home = (): React.ReactElement => {
         <LeftContentContainer>
           <Welcome />
           <PhotosContainer>
-            {loading ? <Skeleton count={9} /> : <Photos />}
+            {loading ? (
+              <Skeleton count={9} />
+            ) : (
+              <Photos
+                updateDay={updateDay}
+                date={formatDate(date)}
+                photos={day.photos}
+              />
+            )}
           </PhotosContainer>
           <BottomContentContainer>
             <EntryContainer>
