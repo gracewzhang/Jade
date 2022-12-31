@@ -53,11 +53,10 @@ const StyledImg = styled.img`
 `;
 
 const Photo = (props: PhotoProps): React.ReactElement => {
-  const { idx, googleId, date, photo } = props;
-  const [src, setSrc] = useState(photo);
+  const { idx, googleId, date, photos, updateDay } = props;
+  const [src, setSrc] = useState(photos[idx]);
   const [progress, setProgress] = useState(0);
 
-  // TODO: disable switching btwn days while upload is happening/test this behavior
   const handleUpload = (files: File[]): void => {
     if (googleId === undefined) return;
 
@@ -79,11 +78,18 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       (error) => console.log(error),
       () => {
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setSrc(url);
-        });
+        getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
       }
     );
+  };
+
+  const handleUploadFinish = async (url: string): Promise<void> => {
+    setSrc(url);
+    const newPhotos = photos.map((photo, key) => {
+      if (key === idx) return url;
+      return photo;
+    });
+    await updateDay({ photos: newPhotos });
   };
 
   return (
@@ -107,7 +113,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
 
 const Photos = (props: PhotosProps): React.ReactElement => {
   const { user } = useAuthContext();
-  const { date, photos } = props;
+  const { date, photos, updateDay } = props;
 
   return (
     <PhotosContainer>
@@ -117,7 +123,8 @@ const Photos = (props: PhotosProps): React.ReactElement => {
           idx={e}
           googleId={user?.google_id}
           date={date}
-          photo={photos[e]}
+          photos={photos}
+          updateDay={updateDay}
         />
       ))}
     </PhotosContainer>

@@ -123,7 +123,11 @@ const Home = (): React.ReactElement => {
             {loading ? (
               <Skeleton count={9} />
             ) : (
-              <Photos date={formatDate(date)} photos={day.photos} />
+              <Photos
+                updateDay={updateDay}
+                date={formatDate(date)}
+                photos={day.photos}
+              />
             )}
           </PhotosContainer>
           <BottomContentContainer>
