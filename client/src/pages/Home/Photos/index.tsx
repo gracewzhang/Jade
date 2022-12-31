@@ -7,6 +7,8 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import Block from '../../../components/Block';
 import colors from '../../../utils/colors';
 import storage from '../../../utils/firebase';
+import { useAuthContext } from '../../../contexts/auth/AuthContext';
+import { PhotoProps, PhotosProps } from './types';
 
 const PhotosContainer = styled(Block)`
   display: flex;
@@ -45,29 +47,40 @@ const StyledPlusIcon = styled(HiOutlinePlus)`
   stroke-width: 3px;
 `;
 
-const Photo = (): React.ReactElement => {
-  const [percent, setPercent] = useState(0);
+const StyledImg = styled.img`
+  width: 100%;
+  height: 100%;
+`;
 
-  const handleUpload = (acceptedFiles: File[]): void => {
-    const file = acceptedFiles[0];
-    console.log(file);
-    const storageRef = ref(storage, `/files/${file.name}`);
+const Photo = (props: PhotoProps): React.ReactElement => {
+  const { idx, googleId, date, photo } = props;
+  const [src, setSrc] = useState(photo);
+  const [progress, setProgress] = useState(0);
+
+  // TODO: disable switching btwn days while upload is happening/test this behavior
+  const handleUpload = (files: File[]): void => {
+    if (googleId === undefined) return;
+
+    const file = files[0];
+    const storageRef = ref(
+      storage,
+      `/${googleId}/${date}-${String(idx)}.${file.name}`
+    );
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        const percent = Math.round(
+        const progress = Math.round(
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        ); // update progress
-        setPercent(percent);
+        );
+        setProgress(progress);
       },
-      (err) => console.log(err),
+      (error) => console.log(error),
       () => {
-        // download url
         // eslint-disable-next-line @typescript-eslint/no-floating-promises
         getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          console.log(url);
+          setSrc(url);
         });
       }
     );
@@ -76,25 +89,37 @@ const Photo = (): React.ReactElement => {
   return (
     <PhotoContainer>
       <StyledDropzone maxFiles={1} onDrop={handleUpload}>
-        {({ getRootProps, getInputProps }) => (
-          <StyledDropzoneDiv {...getRootProps()}>
-            <input {...getInputProps()} />
-            <StyledPlusIcon />
-            <p>{percent}</p>
-          </StyledDropzoneDiv>
-        )}
+        {({ getRootProps, getInputProps }) =>
+          src === '' ? (
+            <StyledDropzoneDiv {...getRootProps()}>
+              <input {...getInputProps()} />
+              <StyledPlusIcon />
+              <p>{progress}</p>
+            </StyledDropzoneDiv>
+          ) : (
+            <StyledImg src={src} />
+          )
+        }
       </StyledDropzone>
     </PhotoContainer>
   );
 };
 
-const Photos = (): React.ReactElement => {
+const Photos = (props: PhotosProps): React.ReactElement => {
+  const { user } = useAuthContext();
+  const { date, photos } = props;
+
   return (
     <PhotosContainer>
-      <Photo />
-      <Photo />
-      <Photo />
-      <Photo />
+      {[0, 1, 2, 3].map((e) => (
+        <Photo
+          key={e}
+          idx={e}
+          googleId={user?.google_id}
+          date={date}
+          photo={photos[e]}
+        />
+      ))}
     </PhotosContainer>
   );
 };
