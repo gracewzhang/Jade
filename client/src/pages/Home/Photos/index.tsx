@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import Dropzone from 'react-dropzone';
+import { useDropzone } from 'react-dropzone';
 import { HiOutlinePlus, HiOutlineXCircle } from 'react-icons/hi2';
 import {
   ref,
@@ -33,8 +33,6 @@ const PhotoContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-const StyledDropzone = styled(Dropzone)``;
 
 const StyledDropzoneDiv = styled.div`
   position: relative;
@@ -148,34 +146,40 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     });
   };
 
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: {
+      'image/png': ['.png'],
+      'image/jpeg': ['.jpeg', '.jpg', '.jfif', '.pjpeg', '.pjp'],
+      'image/svg': ['.svg']
+    },
+    onDrop: handleUpload,
+    maxFiles: 1
+  });
+
   return (
     <PhotoContainer>
-      <StyledDropzone maxFiles={1} onDrop={handleUpload}>
-        {({ getRootProps, getInputProps }) =>
-          src === '' ? (
-            <StyledDropzoneDiv {...getRootProps()}>
-              <input {...getInputProps()} />
-              {uploading ? (
-                <Progress
-                  percent={progress}
-                  strokeWidth={4}
-                  trailWidth={4}
-                  strokeColor={colors.rose}
-                  trailColor={colors['light-grey']}
-                />
-              ) : (
-                <StyledPlusIcon />
-              )}
-            </StyledDropzoneDiv>
+      {src === '' ? (
+        <StyledDropzoneDiv {...getRootProps()}>
+          <input {...getInputProps()} />
+          {uploading ? (
+            <Progress
+              percent={progress}
+              strokeWidth={4}
+              trailWidth={4}
+              strokeColor={colors.rose}
+              trailColor={colors['light-grey']}
+            />
           ) : (
-            <ImgContainer>
-              <StyledImg src={src} />
-              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-              <StyledXIcon onClick={handleDelete} />
-            </ImgContainer>
-          )
-        }
-      </StyledDropzone>
+            <StyledPlusIcon />
+          )}
+        </StyledDropzoneDiv>
+      ) : (
+        <ImgContainer>
+          <StyledImg src={src} />
+          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+          <StyledXIcon onClick={handleDelete} />
+        </ImgContainer>
+      )}
     </PhotoContainer>
   );
 };
