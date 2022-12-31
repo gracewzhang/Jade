@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Dropzone from 'react-dropzone';
-import { HiOutlinePlus } from 'react-icons/hi2';
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+import { HiOutlinePlus, HiOutlineXCircle } from 'react-icons/hi2';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject
+} from 'firebase/storage';
 import { Line } from 'rc-progress';
 
 import Block from '../../../components/Block';
@@ -12,6 +17,7 @@ import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import { PhotoProps, PhotosProps } from './types';
 
 const PhotosContainer = styled(Block)`
+  position: relative;
   display: flex;
   flex-direction: row;
 
@@ -21,7 +27,19 @@ const PhotosContainer = styled(Block)`
 `;
 
 const PhotoContainer = styled.div`
+  position: relative;
   width: 12.5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledDropzone = styled(Dropzone)``;
+
+const StyledDropzoneDiv = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,21 +49,31 @@ const PhotoContainer = styled.div`
   }
 `;
 
-const StyledDropzone = styled(Dropzone)``;
-
-const StyledDropzoneDiv = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const StyledPlusIcon = styled(HiOutlinePlus)`
   color: ${colors.rose};
   width: 40px;
   height: 40px;
   stroke-width: 3px;
+`;
+
+const Progress = styled(Line)`
+  margin-left: 20%;
+  margin-right: 20%;
+`;
+
+const StyledXIcon = styled(HiOutlineXCircle)`
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 25px;
+  height: 25px;
+  color: ${colors['light-grey']};
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledImg = styled.img`
@@ -54,9 +82,15 @@ const StyledImg = styled.img`
   object-fit: cover;
 `;
 
-const Progress = styled(Line)`
-  margin-left: 20%;
-  margin-right: 20%;
+const ImgContainer = styled.div`
+  display: contents;
+  position: relative;
+
+  :hover {
+    svg {
+      display: block;
+    }
+  }
 `;
 
 const Photo = (props: PhotoProps): React.ReactElement => {
@@ -102,6 +136,18 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     setUploading(false);
   };
 
+  const handleDelete = async (): Promise<void> => {
+    const storageRef = ref(storage, photos[idx]);
+    await deleteObject(storageRef).then(async () => {
+      const newPhotos = photos.map((photo, key) => {
+        if (key === idx) return '';
+        return photo;
+      });
+      await updateDay({ photos: newPhotos });
+      setSrc('');
+    });
+  };
+
   return (
     <PhotoContainer>
       <StyledDropzone maxFiles={1} onDrop={handleUpload}>
@@ -122,7 +168,11 @@ const Photo = (props: PhotoProps): React.ReactElement => {
               )}
             </StyledDropzoneDiv>
           ) : (
-            <StyledImg src={src} />
+            <ImgContainer>
+              <StyledImg src={src} />
+              {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
+              <StyledXIcon onClick={handleDelete} />
+            </ImgContainer>
           )
         }
       </StyledDropzone>
