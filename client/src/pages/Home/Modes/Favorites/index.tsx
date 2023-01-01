@@ -56,6 +56,24 @@ const DaysContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
+  overflow-y: scroll;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${colors['light-grey']};
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${colors.grey};
+  }
 `;
 
 const HeartContainer = styled.span`
@@ -78,7 +96,7 @@ const FilledHeart = styled(StyledHeart)`
 
 const Text = styled.p`
   line-height: 25px;
-  font-size: 15px;
+  font-size: 0.85rem;
   margin: 0;
   padding: 0;
 `;
@@ -100,6 +118,7 @@ const FavoriteContainer = styled.span`
   border-radius: 20px;
   padding: 5px;
 
+  // TODO: keep this style on selection
   :hover {
     cursor: pointer;
     background-color: ${colors.rose};
@@ -117,8 +136,13 @@ const FavoriteContainer = styled.span`
 // TODO: separate into another component?
 const Favorite = (props: FavoriteProps): React.ReactElement => {
   const { day, setDate } = props;
+  const temp = new Date(day.date);
+  const date = new Date(
+    temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
+  );
+
   return (
-    <FavoriteContainer onClick={() => setDate(new Date(day.date))}>
+    <FavoriteContainer onClick={() => setDate(date)}>
       <HeartContainer>
         <FilledHeart />
       </HeartContainer>
@@ -150,7 +174,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
     <FavoritesContainer>
       <PaddingContainer>
         <HeaderContainer>
-          <CountIndicator>10</CountIndicator>
+          <CountIndicator>{favoriteDays?.length}</CountIndicator>
           <Label>Favorite Memories</Label>
           {/* TODO: implement sorting */}
           <SortDescIcon />
