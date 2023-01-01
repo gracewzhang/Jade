@@ -73,7 +73,23 @@ router.get(
     res.status(200).json({
       success: true,
       result: { ...days },
-      message: "Successfully retrieved day",
+      message: "Successfully retrieved days",
+    });
+  })
+);
+
+router.get(
+  "/:googleId/day/favorites",
+  errorWrap(async (req, res) => {
+    const days = await Day.find({
+      google_id: req.params.googleId,
+      is_favorite: true
+    }).lean().exec((err, docs) => {
+      res.status(200).json({
+      success: true,
+      result: docs,
+      message: "Successfully retrieved favorite days",
+    });
     });
   })
 );
