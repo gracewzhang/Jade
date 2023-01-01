@@ -182,7 +182,7 @@ const Home = (): React.ReactElement => {
             {mode === CalendarMode.calendar ? (
               <Calendar date={date} setDate={setDate} />
             ) : (
-              <Favorites />
+              <Favorites setDate={setDate} />
             )}
           </CalendarContainer>
           <ThoughtsContainer>
