@@ -8,15 +8,13 @@ import {
   CreateDayProps,
   EditDayResults,
   EditDayProps,
-  GetDayProps
+  GetDayProps,
+  GetFavoritesProps,
+  GetFavoritesResults,
+  UseDayResults
 } from './types';
 
-export const useDay = (): {
-  getDayExists: (props: GetDayExistsProps) => Promise<GetDayExistsResults>;
-  getDay: (props: GetDayProps) => Promise<GetDayResults>;
-  createDay: (props: CreateDayProps) => Promise<CreateDayResults>;
-  editDay: (props: EditDayProps) => Promise<EditDayResults>;
-} => {
+export const useDay = (): UseDayResults => {
   const BASE_URL =
     process.env.REACT_APP_VERCEL_URL !== undefined
       ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
@@ -89,5 +87,26 @@ export const useDay = (): {
       });
   };
 
-  return { getDayExists, getDay, createDay, editDay };
+  const getFavorites = async (
+    props: GetFavoritesProps
+  ): Promise<GetFavoritesResults> => {
+    const requestString = `${BASE_URL}/user/${String(
+      props.googleId
+    )}/day/favorites`;
+
+    return await axios
+      .get<GetFavoritesResults>(requestString, {
+        headers: {
+          'Content-Type': 'application/JSON'
+        }
+      })
+      .then((e) => {
+        return e.data;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
+  return { getDayExists, getDay, createDay, editDay, getFavorites };
 };

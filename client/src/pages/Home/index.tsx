@@ -87,10 +87,13 @@ const Home = (): React.ReactElement => {
 
   const retrieveDay = useCallback(async () => {
     if (user !== undefined) {
-      const existsParams = { googleId: user.google_id, date: formatDate(date) };
+      const existsParams = {
+        googleId: user.google_id,
+        date: formatDate(date)
+      };
       const res = await getDayExists(existsParams);
       if (typeof res.result === 'boolean') {
-        const dayParams = { google_id: user.google_id, date: formatDate(date) };
+        const dayParams = { googleId: user.google_id, date: formatDate(date) };
         const newDay = await createDay(dayParams);
         setDay(newDay.result);
       } else {
