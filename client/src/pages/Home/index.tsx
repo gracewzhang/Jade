@@ -16,6 +16,7 @@ import { UpdateDayProps } from './types';
 import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
 import IconBar from './IconBar';
+import Favorites from './Modes/Favorites';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -140,6 +141,7 @@ const Home = (): React.ReactElement => {
                   key={formatDate(date)}
                   title={day.title}
                   entry={day.entry}
+                  isFavorite={day.is_favorite}
                 />
               )}
             </EntryContainer>
@@ -174,7 +176,11 @@ const Home = (): React.ReactElement => {
         <RightContentContainer>
           <IconBar mode={mode} setMode={setMode} />
           <CalendarContainer>
-            <Calendar date={date} setDate={setDate} />
+            {mode === CalendarMode.calendar ? (
+              <Calendar date={date} setDate={setDate} />
+            ) : (
+              <Favorites />
+            )}
           </CalendarContainer>
           <ThoughtsContainer>
             {loading ? (

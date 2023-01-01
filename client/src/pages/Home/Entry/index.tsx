@@ -80,7 +80,7 @@ const MAX_LEN = 200;
 const Entry = (props: EntryProps): React.ReactElement => {
   const [title, setTitle] = useState(props.title);
   const [entry, setEntry] = useState(props.entry);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(props.isFavorite);
 
   const onTitleChange = (e: BaseSyntheticEvent): void => {
     const newTitle = e.target.value;
@@ -98,7 +98,7 @@ const Entry = (props: EntryProps): React.ReactElement => {
 
   const handleClick = (): void => {
     const save = async (): Promise<void> => {
-      await props.updateDay({ title, entry });
+      await props.updateDay({ title, entry, is_favorite: isFavorite });
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     save();
