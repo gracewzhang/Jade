@@ -11,7 +11,7 @@ import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
 import { useDay } from '../../../../hooks/day/useDay';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
-import { FavoriteProps, FavoritesProps } from './types';
+import { FavoriteContainerProps, FavoriteProps, FavoritesProps } from './types';
 
 const FavoritesContainer = styled(Block)``;
 
@@ -109,7 +109,7 @@ const DayDate = styled(Text)`
   width: 30%;
 `;
 
-const FavoriteContainer = styled.span`
+const FavoriteContainer = styled.span<FavoriteContainerProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -117,7 +117,14 @@ const FavoriteContainer = styled.span`
   border-radius: 20px;
   padding: 5px;
 
-  // TODO: keep this style on selection
+  background-color: ${(props) => (props.selected ? colors.rose : 'white')};
+  p {
+    color: ${(props) => (props.selected ? 'white' : 'black')};
+  }
+  svg {
+    fill: ${(props) => (props.selected ? 'white' : 'default')};
+  }
+
   :hover {
     cursor: pointer;
     background-color: ${colors.rose};
@@ -134,14 +141,14 @@ const FavoriteContainer = styled.span`
 
 // TODO: separate into another component?
 const Favorite = (props: FavoriteProps): React.ReactElement => {
-  const { day, setDate } = props;
+  const { day, setDate, selected } = props;
   const temp = new Date(day.date);
   const date = new Date(
     temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
   );
 
   return (
-    <FavoriteContainer onClick={() => setDate(date)}>
+    <FavoriteContainer onClick={() => setDate(date)} selected={selected}>
       <HeartContainer>
         <StyledHeart />
       </HeartContainer>
@@ -153,7 +160,7 @@ const Favorite = (props: FavoriteProps): React.ReactElement => {
 
 // TODO: unheart a day --> component should rerender w/o that day
 const Favorites = (props: FavoritesProps): React.ReactElement => {
-  const { setDate } = props;
+  const { date, setDate } = props;
   const { user } = useAuthContext();
   const { getFavorites } = useDay();
   const [favoriteDays, setFavoriteDays] = useState<Day[]>();
@@ -181,7 +188,12 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
         <OuterContainer>
           <DaysContainer>
             {favoriteDays?.map((day, key) => (
-              <Favorite key={key} day={day} setDate={setDate} />
+              <Favorite
+                key={key}
+                day={day}
+                setDate={setDate}
+                selected={day.date === date}
+              />
             ))}
           </DaysContainer>
         </OuterContainer>
