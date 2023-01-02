@@ -93,7 +93,7 @@ const Home = (): React.ReactElement => {
       };
       const res = await getDayExists(existsParams);
       if (typeof res.result === 'boolean') {
-        const dayParams = { googleId: user.google_id, date: formatDate(date) };
+        const dayParams = { google_id: user.google_id, date: formatDate(date) };
         const newDay = await createDay(dayParams);
         setDay(newDay.result);
       } else {
