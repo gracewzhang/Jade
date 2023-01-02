@@ -32,7 +32,7 @@ export interface GetDayResults {
 }
 
 export interface CreateDayProps {
-  googleId: string;
+  google_id: string;
   date: string;
 }
 
