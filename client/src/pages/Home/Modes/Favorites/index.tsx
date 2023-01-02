@@ -20,9 +20,7 @@ const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 80%;
-  padding: 10%;
-  padding-left: 8%;
-  padding-right: 8%;
+  padding: 10% 4% 10% 8%;
 `;
 
 const HeaderContainer = styled.span`
@@ -31,6 +29,7 @@ const HeaderContainer = styled.span`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
+  padding-right: 4%;
 `;
 
 // TODO: separate component? used by songfood too
@@ -52,10 +51,7 @@ const SortDescIcon = styled(HiOutlineBarsArrowDown)`
   color: ${colors.grey};
 `;
 
-const DaysContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+const OuterContainer = styled.div`
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
@@ -76,6 +72,13 @@ const DaysContainer = styled.div`
   }
 `;
 
+const DaysContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-right: 4%;
+`;
+
 const HeartContainer = styled.span`
   width: 10%;
   display: flex;
@@ -86,12 +89,8 @@ const HeartContainer = styled.span`
 const StyledHeart = styled(HiOutlineHeart)`
   width: 25px;
   height: 25px;
-  color: ${colors['light-grey']};
-`;
-
-const FilledHeart = styled(StyledHeart)`
-  stroke-width: 0;
-  fill: ${colors.rose};
+  stroke-width: 1px;
+  stroke: ${colors.rose};
 `;
 
 const Text = styled.p`
@@ -144,7 +143,7 @@ const Favorite = (props: FavoriteProps): React.ReactElement => {
   return (
     <FavoriteContainer onClick={() => setDate(date)}>
       <HeartContainer>
-        <FilledHeart />
+        <StyledHeart />
       </HeartContainer>
       <DayTitle>{day.title}</DayTitle>
       <DayDate>{day.date}</DayDate>
@@ -179,11 +178,13 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
           {/* TODO: implement sorting */}
           <SortDescIcon />
         </HeaderContainer>
-        <DaysContainer>
-          {favoriteDays?.map((day, key) => (
-            <Favorite key={key} day={day} setDate={setDate} />
-          ))}
-        </DaysContainer>
+        <OuterContainer>
+          <DaysContainer>
+            {favoriteDays?.map((day, key) => (
+              <Favorite key={key} day={day} setDate={setDate} />
+            ))}
+          </DaysContainer>
+        </OuterContainer>
       </PaddingContainer>
     </FavoritesContainer>
   );
