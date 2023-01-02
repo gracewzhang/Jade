@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { LogoIllustration } from '../../illustrations/Logo.illustration';
 import { HiOutlineHeart, HiOutlineHome, HiOutlineUser } from 'react-icons/hi2';
 import { IoLogOutOutline } from 'react-icons/io5';
 import colors from '../../utils/colors';
+import LogoutModal from '../LogoutModal';
+import { NavbarProps } from './types';
 
 const NavbarContainer = styled.div`
   position: sticky;
@@ -33,6 +35,11 @@ const MiddleIconsContainer = styled.div`
   a + a {
     margin-top: 45%;
   }
+`;
+
+const LogoutContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 const StyledLogoIllustration = styled(LogoIllustration)`
@@ -68,12 +75,34 @@ const StyledLogout = styled(IoLogOutOutline)`
   width: ${iconLen};
   height: ${iconLen};
   color: ${colors.grey};
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const BlurOverlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
 `;
 
 // TODO: add indicator for the page you've selected
-const Navbar = (): React.ReactElement => {
+const Navbar = (props: NavbarProps): React.ReactElement => {
+  const { setIsLoggedIn } = props;
+  const [logoutVisible, setLogoutVisible] = useState(false);
+
   return (
     <NavbarContainer>
+      {logoutVisible && <BlurOverlay />}
+      <LogoutModal
+        isVisible={logoutVisible}
+        setIsVisible={setLogoutVisible}
+        setIsLoggedIn={setIsLoggedIn}
+      />
       <LinkContainer>
         <StyledLink to="/">
           <StyledLogoIllustration />
@@ -89,9 +118,9 @@ const Navbar = (): React.ReactElement => {
             <StyledUser />
           </StyledLink>
         </MiddleIconsContainer>
-        <StyledLink to="/hello">
+        <LogoutContainer onClick={() => setLogoutVisible(true)}>
           <StyledLogout />
-        </StyledLink>
+        </LogoutContainer>
       </LinkContainer>
     </NavbarContainer>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
@@ -6,7 +6,6 @@ import { useAuthContext } from './contexts/auth/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import RequireAuth from './components/RequireAuth/RequireAuth';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Memories from './pages/Memories';
@@ -50,9 +49,11 @@ const SplitContainer = styled.span`
 
 const App = (): React.ReactElement => {
   const { user } = useAuthContext();
-  // const location = useLocation();
-  const pathName = '/'; // TODO
-  const isLoggedIn = user !== undefined;
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(user !== undefined);
+  }, [user]);
 
   return (
     <>
@@ -62,78 +63,22 @@ const App = (): React.ReactElement => {
         <BrowserRouter>
           {isLoggedIn ? (
             <SplitContainer>
-              <Navbar />
+              <Navbar setIsLoggedIn={setIsLoggedIn} />
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <RequireAuth>
-                      <Home />
-                    </RequireAuth>
-                  }
-                />
-                <Route
-                  path="/hello"
-                  element={
-                    <RequireAuth>
-                      <div>Temporary screen</div>
-                    </RequireAuth>
-                  }
-                />
-                <Route path="/login" element={<Navigate to={pathName} />} />
-                <Route
-                  path="/memories"
-                  element={
-                    <RequireAuth>
-                      <Memories />
-                    </RequireAuth>
-                  }
-                />
-                <Route
-                  path="/profile"
-                  element={
-                    <RequireAuth>
-                      <Profile />
-                    </RequireAuth>
-                  }
-                />
+                <Route path="/" element={<Home />} />
+                <Route path="/hello" element={<div>Temporary screen</div>} />
+                <Route path="/login" element={<Navigate to={'/'} />} />
+                <Route path="/memories" element={<Memories />} />
+                <Route path="/profile" element={<Profile />} />
               </Routes>
             </SplitContainer>
           ) : (
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <RequireAuth>
-                    <Home />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/hello"
-                element={
-                  <RequireAuth>
-                    <div>Temporary screen</div>
-                  </RequireAuth>
-                }
-              />
+              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/hello" element={<Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
-              <Route
-                path="/memories"
-                element={
-                  <RequireAuth>
-                    <Memories />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <RequireAuth>
-                    <Profile />
-                  </RequireAuth>
-                }
-              />
+              <Route path="/memories" element={<Navigate to="/login" />} />
+              <Route path="/profile" element={<Navigate to="/login" />} />
             </Routes>
           )}
         </BrowserRouter>

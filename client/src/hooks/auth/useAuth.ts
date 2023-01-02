@@ -91,6 +91,16 @@ export const useAuth = (): {
 
   const signOut = (): void => {
     setUser(undefined);
+    toast.success('🦄 Successfully signed out!', {
+      position: 'top-right',
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'colored'
+    });
   };
 
   return { user, checkIfNewUser, signIn, signUp, signOut };
