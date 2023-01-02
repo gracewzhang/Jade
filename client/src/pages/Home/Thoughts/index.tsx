@@ -5,6 +5,7 @@ import { HiOutlineLightBulb } from 'react-icons/hi2';
 
 import Block from '../../../components/Block';
 import Input from '../../../components/Input/input';
+import Label from '../../../components/Label';
 import colors from '../../../utils/colors';
 import { ThoughtProps, ThoughtsProps } from './types';
 
@@ -22,12 +23,6 @@ const HeaderContainer = styled.span`
   height: 25%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-`;
-
-const Label = styled.h5`
-  margin: 0;
-  display: flex;
   align-items: center;
 `;
 

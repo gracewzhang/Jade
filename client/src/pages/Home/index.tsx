@@ -16,6 +16,7 @@ import { UpdateDayProps } from './types';
 import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
 import IconBar from './IconBar';
+import Favorites from './Modes/Favorites';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -86,10 +87,13 @@ const Home = (): React.ReactElement => {
 
   const retrieveDay = useCallback(async () => {
     if (user !== undefined) {
-      const existsParams = { googleId: user.google_id, date: formatDate(date) };
+      const existsParams = {
+        googleId: user.google_id,
+        date: formatDate(date)
+      };
       const res = await getDayExists(existsParams);
       if (typeof res.result === 'boolean') {
-        const dayParams = { google_id: user.google_id, date: formatDate(date) };
+        const dayParams = { googleId: user.google_id, date: formatDate(date) };
         const newDay = await createDay(dayParams);
         setDay(newDay.result);
       } else {
@@ -140,6 +144,7 @@ const Home = (): React.ReactElement => {
                   key={formatDate(date)}
                   title={day.title}
                   entry={day.entry}
+                  isFavorite={day.is_favorite}
                 />
               )}
             </EntryContainer>
@@ -174,7 +179,15 @@ const Home = (): React.ReactElement => {
         <RightContentContainer>
           <IconBar mode={mode} setMode={setMode} />
           <CalendarContainer>
-            <Calendar date={date} setDate={setDate} />
+            {mode === CalendarMode.calendar ? (
+              <Calendar date={date} setDate={setDate} />
+            ) : (
+              <Favorites
+                date={formatDate(date)}
+                setDate={setDate}
+                key={String(day?.is_favorite)}
+              />
+            )}
           </CalendarContainer>
           <ThoughtsContainer>
             {loading ? (
