@@ -4,6 +4,7 @@ import { HiOutlineCheck } from 'react-icons/hi';
 
 import Block from '../../../components/Block';
 import Input from '../../../components/Input/input';
+import Label from '../../../components/Label';
 import colors from '../../../utils/colors';
 import { SongFoodProps } from './types';
 import { SF } from '../../../utils/enums';
@@ -22,12 +23,6 @@ const HeaderContainer = styled.span`
   height: 25%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-`;
-
-const Label = styled.h5`
-  margin: 0;
-  display: flex;
   align-items: center;
 `;
 

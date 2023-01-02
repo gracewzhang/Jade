@@ -7,6 +7,7 @@ import {
 } from 'react-icons/hi2';
 
 import Block from '../../../../components/Block';
+import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
 import { useDay } from '../../../../hooks/day/useDay';
@@ -15,7 +16,6 @@ import { FavoriteContainerProps, FavoriteProps, FavoritesProps } from './types';
 
 const FavoritesContainer = styled(Block)``;
 
-// TODO: separate component
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,13 +30,6 @@ const HeaderContainer = styled.span`
   align-items: center;
   margin-bottom: 10px;
   padding-right: 4%;
-`;
-
-// TODO: separate component? used by songfood too
-const Label = styled.h5`
-  margin: 0;
-  display: flex;
-  align-items: center;
 `;
 
 const CountIndicator = styled.p`
@@ -153,7 +146,6 @@ const FavoriteContainer = styled.span<FavoriteContainerProps>`
   }
 `;
 
-// TODO: separate into another component?
 const Favorite = (props: FavoriteProps): React.ReactElement => {
   const { day, setDate, selected } = props;
   const temp = new Date(day.date);
