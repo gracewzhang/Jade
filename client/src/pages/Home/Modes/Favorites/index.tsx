@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import {
   HiOutlineBarsArrowUp,
@@ -176,12 +176,14 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
   const { date, setDate } = props;
   const { user } = useAuthContext();
   const { getFavorites } = useDay();
-  const [favoriteDays, setFavoriteDays] = useState<Day[]>();
+  const favoriteDays = useRef<Day[]>();
   const [descending, setDescending] = useState(true);
+  const [rerender, setRerender] = useState(true);
 
   const reverseDays = (days: Day[]): void => {
     const reversed = days.reverse();
-    setFavoriteDays(reversed);
+    favoriteDays.current = reversed;
+    setRerender(!rerender);
   };
 
   useEffect(() => {
@@ -196,8 +198,8 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
   }, []);
 
   useEffect(() => {
-    if (favoriteDays !== undefined) {
-      reverseDays(favoriteDays);
+    if (favoriteDays.current !== undefined) {
+      reverseDays(favoriteDays.current);
     }
   }, [descending]);
 
@@ -205,7 +207,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
     <FavoritesContainer>
       <PaddingContainer>
         <HeaderContainer>
-          <CountIndicator>{favoriteDays?.length}</CountIndicator>
+          <CountIndicator>{favoriteDays.current?.length}</CountIndicator>
           <Label>Favorite Memories</Label>
           {descending ? (
             <SortDescIcon onClick={() => setDescending(false)} />
@@ -215,7 +217,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
         </HeaderContainer>
         <OuterContainer>
           <DaysContainer>
-            {favoriteDays?.map((day, key) => (
+            {favoriteDays.current?.map((day, key) => (
               <Favorite
                 key={key}
                 day={day}
