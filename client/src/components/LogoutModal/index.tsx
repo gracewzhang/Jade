@@ -10,12 +10,12 @@ const ModalContainer = styled.div`
   top: 50vh;
   left: 50vw;
   transform: translate(-50%, -50%);
+
   min-width: 300px;
   display: flex;
   flex-direction: column;
   border-radius: 20px;
   font-size: 14px;
-
   background: white;
 `;
 
@@ -44,17 +44,26 @@ const Button = styled.button`
   padding-bottom: 8%;
 
   :hover {
-    background-color: ${colors['light-grey']};
     cursor: pointer;
   }
 `;
 
-const CloseButton = styled(Button)`
+const CancelButton = styled(Button)`
   border-radius: 0 0 0 20px;
+
+  :hover {
+    background-color: ${colors['light-grey']};
+  }
 `;
 
 const SignoutButton = styled(Button)`
+  background-color: ${colors.rose};
+  color: white;
   border-radius: 0 0 20px 0;
+
+  :hover {
+    background-color: ${colors['dark-rose']};
+  }
 `;
 
 const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
@@ -73,7 +82,7 @@ const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
         <Label>Are you sure you would like to log out?</Label>
       </Content>
       <Footer>
-        <CloseButton onClick={() => setIsVisible(false)}>Cancel</CloseButton>
+        <CancelButton onClick={() => setIsVisible(false)}>Cancel</CancelButton>
         <SignoutButton onClick={handleSignout}>Yes</SignoutButton>
       </Footer>
     </ModalContainer>
