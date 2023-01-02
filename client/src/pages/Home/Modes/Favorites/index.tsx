@@ -55,7 +55,7 @@ const OuterContainer = styled.div`
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 7px;
   }
 
   ::-webkit-scrollbar-track {
@@ -158,7 +158,6 @@ const Favorite = (props: FavoriteProps): React.ReactElement => {
   );
 };
 
-// TODO: unheart a day --> component should rerender w/o that day
 const Favorites = (props: FavoritesProps): React.ReactElement => {
   const { date, setDate } = props;
   const { user } = useAuthContext();
