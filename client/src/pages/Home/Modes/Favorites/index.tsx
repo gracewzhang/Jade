@@ -49,6 +49,20 @@ const SortDescIcon = styled(HiOutlineBarsArrowDown)`
   width: 18px;
   height: 18px;
   color: ${colors.grey};
+
+  :hover {
+    cursor: pointer;
+  }
+`;
+
+const SortAscIcon = styled(HiOutlineBarsArrowUp)`
+  width: 18px;
+  height: 18px;
+  color: ${colors.grey};
+
+  :hover {
+    cursor: pointer;
+  }
 `;
 
 const OuterContainer = styled.div`
@@ -163,17 +177,29 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
   const { user } = useAuthContext();
   const { getFavorites } = useDay();
   const [favoriteDays, setFavoriteDays] = useState<Day[]>();
+  const [descending, setDescending] = useState(true);
+
+  const reverseDays = (days: Day[]): void => {
+    const reversed = days.reverse();
+    setFavoriteDays(reversed);
+  };
 
   useEffect(() => {
     const retrieveFavoriteDays = async (): Promise<void> => {
       if (user !== undefined) {
         const res = await getFavorites({ googleId: user.google_id });
-        setFavoriteDays(res.result);
+        reverseDays(res.result);
       }
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
     retrieveFavoriteDays();
   }, []);
+
+  useEffect(() => {
+    if (favoriteDays !== undefined) {
+      reverseDays(favoriteDays);
+    }
+  }, [descending]);
 
   return (
     <FavoritesContainer>
@@ -181,8 +207,11 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
         <HeaderContainer>
           <CountIndicator>{favoriteDays?.length}</CountIndicator>
           <Label>Favorite Memories</Label>
-          {/* TODO: implement sorting */}
-          <SortDescIcon />
+          {descending ? (
+            <SortDescIcon onClick={() => setDescending(false)} />
+          ) : (
+            <SortAscIcon onClick={() => setDescending(true)} />
+          )}
         </HeaderContainer>
         <OuterContainer>
           <DaysContainer>
