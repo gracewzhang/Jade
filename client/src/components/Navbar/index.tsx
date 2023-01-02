@@ -5,8 +5,8 @@ import { LogoIllustration } from '../../illustrations/Logo.illustration';
 import { HiOutlineHeart, HiOutlineHome, HiOutlineUser } from 'react-icons/hi2';
 import { IoLogOutOutline } from 'react-icons/io5';
 import colors from '../../utils/colors';
-import { useAuth } from '../../hooks/auth/useAuth';
 import LogoutModal from '../LogoutModal';
+import { NavbarProps } from './types';
 
 const NavbarContainer = styled.div`
   position: sticky;
@@ -91,13 +91,18 @@ const BlurOverlay = styled.div`
 `;
 
 // TODO: add indicator for the page you've selected
-const Navbar = (): React.ReactElement => {
+const Navbar = (props: NavbarProps): React.ReactElement => {
+  const { setIsLoggedIn } = props;
   const [logoutVisible, setLogoutVisible] = useState(false);
 
   return (
     <NavbarContainer>
       {logoutVisible && <BlurOverlay />}
-      <LogoutModal isVisible={logoutVisible} setIsVisible={setLogoutVisible} />
+      <LogoutModal
+        isVisible={logoutVisible}
+        setIsVisible={setLogoutVisible}
+        setIsLoggedIn={setIsLoggedIn}
+      />
       <LinkContainer>
         <StyledLink to="/">
           <StyledLogoIllustration />

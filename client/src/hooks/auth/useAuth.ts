@@ -90,7 +90,6 @@ export const useAuth = (): {
   };
 
   const signOut = (): void => {
-    console.log('ey');
     setUser(undefined);
   };
 

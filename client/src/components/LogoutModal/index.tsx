@@ -58,8 +58,13 @@ const SignoutButton = styled(Button)`
 `;
 
 const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
-  const { isVisible, setIsVisible } = props;
+  const { isVisible, setIsVisible, setIsLoggedIn } = props;
   const { signOut } = useAuth();
+
+  const handleSignout = (): void => {
+    signOut();
+    setIsLoggedIn(false);
+  };
 
   if (!isVisible) return <></>;
   return (
@@ -69,7 +74,7 @@ const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
       </Content>
       <Footer>
         <CloseButton onClick={() => setIsVisible(false)}>Cancel</CloseButton>
-        <SignoutButton onClick={signOut}>Yes</SignoutButton>
+        <SignoutButton onClick={handleSignout}>Yes</SignoutButton>
       </Footer>
     </ModalContainer>
   );
