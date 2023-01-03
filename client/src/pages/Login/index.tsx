@@ -10,6 +10,7 @@ import Logo from '../../components/Logo/Logo';
 import colors from '../../utils/colors';
 
 const LoginPageContainer = styled.span`
+  height: 100%;
   display: grid;
   grid-template-columns: 50% 50%;
 `;
@@ -18,8 +19,7 @@ const LeftContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 10%;
-  padding-left: 30%;
+  padding: 5% 10% 10% 30%;
 `;
 
 const RightContainer = styled.div`
