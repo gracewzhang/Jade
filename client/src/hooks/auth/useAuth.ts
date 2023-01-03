@@ -33,6 +33,7 @@ export const useAuth = (): {
     console.log('data in signin', data);
     try {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
+      console.log('requestUrl', `${BASE_URL}/user/${data.google_id}`);
       console.log('authResult', authResult);
       const newUser = authResult?.data?.result?._doc;
       console.log('newUser', newUser);
