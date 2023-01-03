@@ -13,6 +13,7 @@ import { Day } from '../../../../types/day';
 import { useDay } from '../../../../hooks/day/useDay';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { FavoriteContainerProps, FavoriteProps, FavoritesProps } from './types';
+import { toDate } from '../../../../utils/date';
 
 const FavoritesContainer = styled(Block)``;
 
@@ -150,11 +151,7 @@ const FavoriteContainer = styled.span<FavoriteContainerProps>`
 
 const Favorite = (props: FavoriteProps): React.ReactElement => {
   const { day, setDate, selected } = props;
-  // TODO: utils
-  const temp = new Date(day.date);
-  const date = new Date(
-    temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
-  );
+  const date = toDate(day.date);
 
   return (
     <FavoriteContainer onClick={() => setDate(date)} selected={selected}>

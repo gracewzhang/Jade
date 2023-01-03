@@ -18,6 +18,7 @@ import {
 } from './types';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { useDay } from '../../../../hooks/day/useDay';
+import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
 
 const OnThisDayContainer = styled(Block)``;
 
@@ -156,10 +157,7 @@ const PastDayContainer = styled.span<PastDayItemContainerProps>`
 // TODO: extract into separate component used by Favorites too (DayItem?)
 const PastDayItem = (props: PastDayItemProps): React.ReactElement => {
   const { day, setDate, selected } = props;
-  const temp = new Date(day.date);
-  const date = new Date(
-    temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
-  );
+  const date = toDate(day.date);
 
   return (
     <PastDayContainer onClick={() => setDate(date)} selected={selected}>
@@ -186,26 +184,13 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     setRerender(!rerender);
   };
 
-  // TODO: utils
-  const monthDiff = (d1: Date, d2: Date): number => {
-    let months;
-    months = (d2.getFullYear() - d1.getFullYear()) * 12;
-    months -= d1.getMonth();
-    months += d2.getMonth();
-    return Math.abs(months);
-  };
-
   const filterPastDays = (days: Day[]): PastDay[] => {
     const newPastDays = [] as PastDay[];
     const todayDate = new Date();
 
     for (const day of days) {
-      // TODO: make this a utils thing
-      const temp = new Date(day.date);
-      const d2 = new Date(
-        temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
-      );
-      const diff = monthDiff(todayDate, d2);
+      const otherDate = toDate(day.date);
+      const diff = getMonthDifference(todayDate, otherDate);
       if (
         diff === 1 ||
         diff === 3 ||
@@ -227,8 +212,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
 
   useEffect(() => {
     const retrievePastDays = async (): Promise<void> => {
-      const queryDay = date.match('[0-9]{2}$');
-
+      const queryDay = toISO8601(new Date()).match('[0-9]{2}$');
       if (
         user !== undefined &&
         queryDay?.length !== undefined &&
@@ -256,6 +240,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     <OnThisDayContainer>
       <PaddingContainer>
         <HeaderContainer>
+          {/* TODO */}
           <CountIndicator>{`${
             new Date().getMonth() + 1
           }-${new Date().getDate()}`}</CountIndicator>
