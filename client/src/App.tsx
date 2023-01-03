@@ -50,9 +50,11 @@ const SplitContainer = styled.span`
 const App = (): React.ReactElement => {
   const { user } = useAuthContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  console.log('USER IS', user);
 
   useEffect(() => {
     setIsLoggedIn(user !== undefined);
+    console.log('IN USE EFFECT', user);
   }, [user]);
 
   return (

@@ -30,9 +30,12 @@ export const useAuth = (): {
   };
 
   const signIn = async (data: User): Promise<void> => {
+    console.log('data in signin', data);
     try {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
+      console.log('authResult', authResult);
       const newUser = authResult?.data?.result?._doc;
+      console.log('newUser', newUser);
       setUser(newUser);
       toast.success('🦄 Successfully signed in!', {
         position: 'top-right',
