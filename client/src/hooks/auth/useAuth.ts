@@ -92,6 +92,8 @@ export const useAuth = (): {
 
   const signOut = (): void => {
     setUser(undefined);
+    localStorage.setItem('user', 'undefined');
+
     toast.success('🦄 Successfully signed out!', {
       position: 'top-right',
       autoClose: 2500,
