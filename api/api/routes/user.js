@@ -110,16 +110,16 @@ router.get(
 );
 
 router.get(
-  "/:googleId/day/date/:moDay",
+  "/:googleId/day/date/:day",
   errorWrap(async (req, res) => {
     Day.find({
       google_id: req.params.googleId,
-      date: {$regex: `${req.params.moDay}$`}
+      date: {$regex: `${req.params.day}$`}
     }).lean().exec((err, docs) => {
       res.status(200).json({
         success: true,
         result: docs,
-        message: "Successfully retrieved days with given month and day",
+        message: "Successfully retrieved days with given day",
       });
     });
   })
