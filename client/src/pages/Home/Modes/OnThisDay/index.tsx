@@ -178,20 +178,20 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
     months -= d1.getMonth();
     months += d2.getMonth();
-    return months <= 0 ? 0 : months;
+    return Math.abs(months);
   };
 
   const filterPastDays = (days: Day[]): Day[] => {
     const newPastDays = [] as Day[];
+    const todayDate = new Date();
 
     for (const pastDay of days) {
-      const d1 = new Date(date);
-      const d2 = new Date(pastDay.date);
-
-      const diff = monthDiff(d1, d2);
-      console.log(diff);
-      console.log(d1);
-      console.log(d2);
+      // TODO: make this a util thing
+      const temp = new Date(pastDay.date);
+      const d2 = new Date(
+        temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
+      );
+      const diff = monthDiff(todayDate, d2);
       if (
         diff === 1 ||
         diff === 3 ||
