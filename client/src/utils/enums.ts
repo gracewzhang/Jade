@@ -4,7 +4,7 @@ export const SF = {
 };
 
 export const CalendarMode = {
-  history: 'History',
+  onThisDay: 'On This Day',
   favorites: 'Favorites',
   calendar: 'Calendar'
 };

@@ -3,20 +3,21 @@ import styled from 'styled-components';
 import {
   HiOutlineBarsArrowUp,
   HiOutlineBarsArrowDown,
-  HiOutlineHeart
+  HiOutlineCloud
 } from 'react-icons/hi2';
 
 import Block from '../../../../components/Block';
 import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
-import { useDay } from '../../../../hooks/day/useDay';
+import { PastDay, OnThisDayProps } from './types';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
-import { FavoritesProps } from './types';
+import { useDay } from '../../../../hooks/day/useDay';
+import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
 import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
 
-const FavoritesContainer = styled(Block)``;
+const OnThisDayContainer = styled(Block)``;
 
 const PaddingContainer = styled.div`
   display: flex;
@@ -61,57 +62,92 @@ const SortAscIcon = styled(HiOutlineBarsArrowUp)`
   }
 `;
 
-const DaysContainer = styled.div`
+const PastDaysContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
   padding-right: 4%;
 `;
 
-const StyledHeart = styled(HiOutlineHeart)`
+const StyledCloud = styled(HiOutlineCloud)`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
   stroke: ${colors.rose};
 `;
 
-const Favorites = (props: FavoritesProps): React.ReactElement => {
+const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   const { date, setDate } = props;
   const { user } = useAuthContext();
-  const { getFavorites } = useDay();
-  const favoriteDays = useRef<Day[]>();
+  const { getDaysDay } = useDay();
+  const pastDays = useRef<PastDay[]>();
   const [descending, setDescending] = useState(true);
   const [rerender, setRerender] = useState(true);
 
-  const reverseDays = (days: Day[]): void => {
+  const reverseDays = (days: PastDay[]): void => {
     const reversed = days.reverse();
-    favoriteDays.current = reversed;
+    pastDays.current = reversed;
     setRerender(!rerender);
   };
 
+  const filterPastDays = (days: Day[]): PastDay[] => {
+    const newPastDays = [] as PastDay[];
+    const todayDate = new Date();
+
+    for (const day of days) {
+      const otherDate = toDate(day.date);
+      const diff = getMonthDifference(todayDate, otherDate);
+      if (
+        diff === 1 ||
+        diff === 3 ||
+        diff === 6 ||
+        (diff !== 0 && diff % 12 === 0)
+      ) {
+        let when = '';
+        if (diff === 1) when = '1 month ago';
+        else if (diff < 12) when = `${diff} months ago`;
+        else if (diff === 12) when = '1 year ago';
+        else when = `${diff % 12} years ago`;
+
+        const pastDay = { ...day, when };
+        newPastDays.push(pastDay);
+      }
+    }
+    return newPastDays;
+  };
+
   useEffect(() => {
-    const retrieveFavoriteDays = async (): Promise<void> => {
-      if (user !== undefined) {
-        const res = await getFavorites({ googleId: user.google_id });
-        reverseDays(res.result);
+    const retrievePastDays = async (): Promise<void> => {
+      const queryDay = toISO8601(new Date()).match('[0-9]{2}$');
+      if (
+        user !== undefined &&
+        queryDay?.length !== undefined &&
+        queryDay.length > 0
+      ) {
+        const res = await getDaysDay({
+          googleId: user.google_id,
+          day: queryDay[0]
+        });
+        const newPastDays = filterPastDays(res.result);
+        reverseDays(newPastDays);
       }
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrieveFavoriteDays();
+    retrievePastDays();
   }, []);
 
   useEffect(() => {
-    if (favoriteDays.current !== undefined) {
-      reverseDays(favoriteDays.current);
+    if (pastDays.current !== undefined) {
+      reverseDays(pastDays.current);
     }
   }, [descending]);
 
   return (
-    <FavoritesContainer>
+    <OnThisDayContainer>
       <PaddingContainer>
         <HeaderContainer>
-          <CountIndicator>{favoriteDays.current?.length}</CountIndicator>
-          <Label>Favorite Memories</Label>
+          <CountIndicator>{toISO8601(new Date()).slice(5)}</CountIndicator>
+          <Label>On This Day</Label>
           {descending ? (
             <SortDescIcon onClick={() => setDescending(false)} />
           ) : (
@@ -119,21 +155,21 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
           )}
         </HeaderContainer>
         <ScrollContainer>
-          <DaysContainer>
-            {favoriteDays.current?.map((day, key) => (
+          <PastDaysContainer>
+            {pastDays.current?.map((day, key) => (
               <DayItem
                 key={key}
                 day={day}
                 setDate={setDate}
                 selected={day.date === date}
-                icon={<StyledHeart />}
+                icon={<StyledCloud />}
               />
             ))}
-          </DaysContainer>
+          </PastDaysContainer>
         </ScrollContainer>
       </PaddingContainer>
-    </FavoritesContainer>
+    </OnThisDayContainer>
   );
 };
 
-export default Favorites;
+export default OnThisDay;

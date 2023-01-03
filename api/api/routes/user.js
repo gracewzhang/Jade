@@ -63,6 +63,21 @@ router.get(
 );
 
 router.get(
+  "/exists/:googleId",
+  errorWrap(async (req, res) => {
+    const userExists = await User.exists({
+      google_id: req.params.googleId
+    });
+
+    res.status(200).json({
+      success: true,
+      result: userExists === null ? false : userExists,
+      message: "Successfully checked if user exists",
+    });
+  })
+);
+
+router.get(
   "/:googleId/day/",
   errorWrap(async (req, res) => {
     const days = await Day.find({
@@ -81,15 +96,35 @@ router.get(
 router.get(
   "/:googleId/day/favorites",
   errorWrap(async (req, res) => {
-    const days = await Day.find({
+    Day.find({
       google_id: req.params.googleId,
       is_favorite: true
+    }).sort({
+      date: 1
     }).lean().exec((err, docs) => {
       res.status(200).json({
-      success: true,
-      result: docs,
-      message: "Successfully retrieved favorite days",
+        success: true,
+        result: docs,
+        message: "Successfully retrieved favorite days",
+      });
     });
+  })
+);
+
+router.get(
+  "/:googleId/day/date/:day",
+  errorWrap(async (req, res) => {
+    Day.find({
+      google_id: req.params.googleId,
+      date: { $regex: `${req.params.day}$` }
+    }).sort(
+      { date: 1 }
+    ).lean().exec((err, docs) => {
+      res.status(200).json({
+        success: true,
+        result: docs,
+        message: "Successfully retrieved days with given day",
+      });
     });
   })
 );
@@ -127,24 +162,9 @@ router.get(
 
     res.status(200).json({
       success: true,
-      result: dayExists === null? false : dayExists,
+      result: dayExists === null ? false : dayExists,
       message: "Successfully checked if user exists",
     })
-  })
-);
-
-router.get(
-  "/exists/:googleId",
-  errorWrap(async (req, res) => {
-    const userExists = await User.exists({
-      google_id: req.params.googleId
-    });
-
-    res.status(200).json({
-      success: true,
-      result: userExists === null? false: userExists,
-      message: "Successfully checked if user exists",
-    });
   })
 );
 

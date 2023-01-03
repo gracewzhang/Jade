@@ -63,8 +63,8 @@ const IconBar = (props: IconBarProps): JSX.Element => {
   return (
     <IconsContainer>
       <StyledClockIcon
-        color={mode === CalendarMode.history ? 'black' : colors['light-grey']}
-        onClick={() => setMode(CalendarMode.history)}
+        color={mode === CalendarMode.onThisDay ? 'black' : colors['light-grey']}
+        onClick={() => setMode(CalendarMode.onThisDay)}
       />
       <StyledHeartIcon
         color={mode === CalendarMode.favorites ? 'black' : colors['light-grey']}

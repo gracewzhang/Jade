@@ -17,6 +17,8 @@ import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
 import IconBar from './IconBar';
 import Favorites from './Modes/Favorites';
+import OnThisDay from './Modes/OnThisDay';
+import { toISO8601 } from '../../utils/date';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -70,29 +72,25 @@ const ThoughtsContainer = styled.div`
   padding-top: 8vh;
 `;
 
-const formatDate = (date: Date): string => {
-  let newDate = date;
-  const offset = newDate.getTimezoneOffset();
-  newDate = new Date(newDate.getTime() - offset * 60 * 1000);
-  return newDate.toISOString().split('T')[0];
-};
-
 const Home = (): React.ReactElement => {
   const { user } = useAuthContext();
   const { getDayExists, getDay, createDay, editDay } = useDay();
   const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();
   const [date, setDate] = useState(new Date());
+  const [isoDate, setISODate] = useState(toISO8601(date));
 
   const retrieveDay = useCallback(async () => {
     if (user !== undefined) {
+      const newISODate = toISO8601(date);
+      setISODate(newISODate);
       const existsParams = {
         googleId: user.google_id,
-        date: formatDate(date)
+        date: newISODate
       };
       const res = await getDayExists(existsParams);
       if (typeof res.result === 'boolean') {
-        const dayParams = { google_id: user.google_id, date: formatDate(date) };
+        const dayParams = { google_id: user.google_id, date: newISODate };
         const newDay = await createDay(dayParams);
         setDay(newDay.result);
       } else {
@@ -115,7 +113,7 @@ const Home = (): React.ReactElement => {
     retrieveDay();
   }, [retrieveDay]);
 
-  const loading = day === undefined || day.date !== formatDate(date);
+  const loading = day === undefined || day.date !== isoDate;
 
   return (
     <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
@@ -128,7 +126,7 @@ const Home = (): React.ReactElement => {
             ) : (
               <Photos
                 updateDay={updateDay}
-                date={formatDate(date)}
+                date={isoDate}
                 photos={day.photos}
               />
             )}
@@ -140,7 +138,7 @@ const Home = (): React.ReactElement => {
               ) : (
                 <Entry
                   updateDay={updateDay}
-                  key={formatDate(date)}
+                  key={isoDate}
                   title={day.title}
                   entry={day.entry}
                   isFavorite={day.is_favorite}
@@ -154,7 +152,7 @@ const Home = (): React.ReactElement => {
                 ) : (
                   <SongFood
                     type={SF.song}
-                    key={formatDate(date)}
+                    key={isoDate}
                     song={day.song}
                     updateDay={updateDay}
                   />
@@ -166,7 +164,7 @@ const Home = (): React.ReactElement => {
                 ) : (
                   <SongFood
                     type={SF.food}
-                    key={formatDate(date)}
+                    key={isoDate}
                     food={day.food}
                     updateDay={updateDay}
                   />
@@ -180,12 +178,14 @@ const Home = (): React.ReactElement => {
           <CalendarContainer>
             {mode === CalendarMode.calendar ? (
               <Calendar date={date} setDate={setDate} />
-            ) : (
+            ) : mode === CalendarMode.favorites ? (
               <Favorites
-                date={formatDate(date)}
+                date={isoDate}
                 setDate={setDate}
                 key={String(day?.is_favorite)}
               />
+            ) : (
+              <OnThisDay date={isoDate} setDate={setDate} />
             )}
           </CalendarContainer>
           <ThoughtsContainer>
@@ -193,7 +193,7 @@ const Home = (): React.ReactElement => {
               <Skeleton count={10} />
             ) : (
               <Thoughts
-                key={formatDate(date)}
+                key={isoDate}
                 thoughts={day.thoughts}
                 updateDay={updateDay}
               />
