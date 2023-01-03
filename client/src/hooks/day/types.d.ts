@@ -1,3 +1,5 @@
+import { Day } from '../../types/day';
+
 export interface UseDayResults {
   getDayExists: (props: GetDayExistsProps) => Promise<GetDayExistsResults>;
   getDay: (props: GetDayProps) => Promise<GetDayResults>;
