@@ -71,6 +71,7 @@ const ThoughtsContainer = styled.div`
   padding-top: 8vh;
 `;
 
+// TODO: utils
 const formatDate = (date: Date): string => {
   let newDate = date;
   const offset = newDate.getTimezoneOffset();

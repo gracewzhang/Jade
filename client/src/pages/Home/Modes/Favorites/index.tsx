@@ -126,7 +126,7 @@ const FavoriteContainer = styled.span<FavoriteContainerProps>`
 
   background-color: ${(props) => (props.selected ? colors.rose : 'white')};
   p {
-    color: ${(props) => (props.selected ? 'white' : 'black')};
+    color: ${(props) => (props.selected ? 'white' : 'default')};
   }
   svg {
     fill: ${(props) => (props.selected ? 'white' : 'default')};
@@ -148,6 +148,7 @@ const FavoriteContainer = styled.span<FavoriteContainerProps>`
 
 const Favorite = (props: FavoriteProps): React.ReactElement => {
   const { day, setDate, selected } = props;
+  // TODO: utils
   const temp = new Date(day.date);
   const date = new Date(
     temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)

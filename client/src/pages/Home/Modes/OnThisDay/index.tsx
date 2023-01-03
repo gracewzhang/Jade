@@ -10,7 +10,12 @@ import Block from '../../../../components/Block';
 import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
-import { OnThisDayProps, PastDayContainerProps, PsatDayProps } from './types';
+import {
+  PastDay,
+  OnThisDayProps,
+  PastDayItemContainerProps,
+  PastDayItemProps
+} from './types';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { useDay } from '../../../../hooks/day/useDay';
 
@@ -110,7 +115,7 @@ const DayDate = styled(Text)`
   width: 30%;
 `;
 
-const PastDayContainer = styled.span<PastDayContainerProps>`
+const PastDayContainer = styled.span<PastDayItemContainerProps>`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -120,7 +125,7 @@ const PastDayContainer = styled.span<PastDayContainerProps>`
 
   background-color: ${(props) => (props.selected ? colors.rose : 'white')};
   p {
-    color: ${(props) => (props.selected ? 'white' : 'black')};
+    color: ${(props) => (props.selected ? 'white' : 'default')};
   }
   svg {
     fill: ${(props) => (props.selected ? 'white' : 'default')};
@@ -141,7 +146,7 @@ const PastDayContainer = styled.span<PastDayContainerProps>`
 `;
 
 // TODO: extract into separate component used by Favorites too (DayItem?)
-const PastDay = (props: PsatDayProps): React.ReactElement => {
+const PastDayItem = (props: PastDayItemProps): React.ReactElement => {
   const { day, setDate, selected } = props;
   const temp = new Date(day.date);
   const date = new Date(
@@ -154,7 +159,7 @@ const PastDay = (props: PsatDayProps): React.ReactElement => {
         <StyledCloud />
       </CloudContainer>
       <DayTitle>{day.title}</DayTitle>
-      <DayDate>{day.date}</DayDate>
+      <DayDate>{day.when}</DayDate>
     </PastDayContainer>
   );
 };
@@ -163,16 +168,17 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   const { date, setDate } = props;
   const { user } = useAuthContext();
   const { getDaysDay } = useDay();
-  const pastDays = useRef<Day[]>();
+  const pastDays = useRef<PastDay[]>();
   const [descending, setDescending] = useState(true);
   const [rerender, setRerender] = useState(true);
 
-  const reverseDays = (days: Day[]): void => {
+  const reverseDays = (days: PastDay[]): void => {
     const reversed = days.reverse();
     pastDays.current = reversed;
     setRerender(!rerender);
   };
 
+  // TODO: utils
   const monthDiff = (d1: Date, d2: Date): number => {
     let months;
     months = (d2.getFullYear() - d1.getFullYear()) * 12;
@@ -181,13 +187,13 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     return Math.abs(months);
   };
 
-  const filterPastDays = (days: Day[]): Day[] => {
-    const newPastDays = [] as Day[];
+  const filterPastDays = (days: Day[]): PastDay[] => {
+    const newPastDays = [] as PastDay[];
     const todayDate = new Date();
 
-    for (const pastDay of days) {
-      // TODO: make this a util thing
-      const temp = new Date(pastDay.date);
+    for (const day of days) {
+      // TODO: make this a utils thing
+      const temp = new Date(day.date);
       const d2 = new Date(
         temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
       );
@@ -198,6 +204,13 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
         diff === 6 ||
         (diff !== 0 && diff % 12 === 0)
       ) {
+        let when = '';
+        if (diff === 1) when = '1 month ago';
+        else if (diff < 12) when = `${diff} months ago`;
+        else if (diff === 12) when = '1 year ago';
+        else when = `${diff % 12} years ago`;
+
+        const pastDay = { ...day, when };
         newPastDays.push(pastDay);
       }
     }
@@ -245,7 +258,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
         <OuterContainer>
           <PastDaysContainer>
             {pastDays.current?.map((day, key) => (
-              <PastDay
+              <PastDayItem
                 key={key}
                 day={day}
                 setDate={setDate}
