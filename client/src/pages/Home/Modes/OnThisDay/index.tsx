@@ -25,7 +25,7 @@ const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 80%;
-  padding: 10% 4% 10% 8%;
+  padding: 10% 4% 10% 5%;
 `;
 
 const HeaderContainer = styled.span`
@@ -34,7 +34,14 @@ const HeaderContainer = styled.span`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  padding-right: 4%;
+  padding-right: 5%;
+  padding-left: 3%;
+`;
+
+const CountIndicator = styled.p`
+  margin: 0;
+  font-size: 14px;
+  color: ${colors.grey};
 `;
 
 const SortDescIcon = styled(HiOutlineBarsArrowDown)`
@@ -112,7 +119,8 @@ const DayTitle = styled(Text)`
 
 const DayDate = styled(Text)`
   color: ${colors.grey};
-  width: 30%;
+  text-align: right;
+  width: 35%;
 `;
 
 const PastDayContainer = styled.span<PastDayItemContainerProps>`
@@ -248,6 +256,9 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     <OnThisDayContainer>
       <PaddingContainer>
         <HeaderContainer>
+          <CountIndicator>{`${
+            new Date().getMonth() + 1
+          }-${new Date().getDate()}`}</CountIndicator>
           <Label>On This Day</Label>
           {descending ? (
             <SortDescIcon onClick={() => setDescending(false)} />
