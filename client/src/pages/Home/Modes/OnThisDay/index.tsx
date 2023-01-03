@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import {
   HiOutlineBarsArrowUp,
@@ -9,8 +9,10 @@ import {
 import Block from '../../../../components/Block';
 import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
-import { PastDayContainerProps } from './types';
+import { Day } from '../../../../types/day';
+import { OnThisDayProps, PastDayContainerProps } from './types';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
+import { useDay } from '../../../../hooks/day/useDay';
 
 const OnThisDayContainer = styled(Block)``;
 
@@ -71,7 +73,7 @@ const OuterContainer = styled.div`
   }
 `;
 
-const DaysContainer = styled.div`
+const PastDaysContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -138,7 +140,7 @@ const PastDayContainer = styled.span<PastDayContainerProps>`
   }
 `;
 
-const Day = (): React.ReactElement => {
+const PastDay = (): React.ReactElement => {
   const selected = false;
   return (
     <PastDayContainer selected={selected}>
@@ -151,9 +153,45 @@ const Day = (): React.ReactElement => {
   );
 };
 
-const OnThisDay = (): React.ReactElement => {
+const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
+  const { date, setDate } = props;
   const { user } = useAuthContext();
+  const { getDaysMonthDay } = useDay();
+  const pastDays = useRef<Day[]>();
   const [descending, setDescending] = useState(true);
+  const [rerender, setRerender] = useState(true);
+
+  const reverseDays = (days: Day[]): void => {
+    const reversed = days.reverse();
+    pastDays.current = reversed;
+    setRerender(!rerender);
+  };
+
+  useEffect(() => {
+    const retrievePastDays = async (): Promise<void> => {
+      const monthDay = date.match('[0-9]{2}-[0-9]{2}$');
+
+      if (
+        user !== undefined &&
+        monthDay?.length !== undefined &&
+        monthDay.length > 0
+      ) {
+        const res = await getDaysMonthDay({
+          googleId: user.google_id,
+          monthDay: monthDay[0]
+        });
+        reverseDays(res.result);
+      }
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    retrievePastDays();
+  }, []);
+
+  useEffect(() => {
+    if (pastDays.current !== undefined) {
+      reverseDays(pastDays.current);
+    }
+  }, [descending]);
 
   return (
     <OnThisDayContainer>
@@ -167,7 +205,11 @@ const OnThisDay = (): React.ReactElement => {
           )}
         </HeaderContainer>
         <OuterContainer>
-          <DaysContainer></DaysContainer>
+          <PastDaysContainer>
+            {pastDays.current?.map((day, key) => (
+              <PastDay key={key} />
+            ))}
+          </PastDaysContainer>
         </OuterContainer>
       </PaddingContainer>
     </OnThisDayContainer>

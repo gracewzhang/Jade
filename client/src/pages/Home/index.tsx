@@ -188,7 +188,7 @@ const Home = (): React.ReactElement => {
                 key={String(day?.is_favorite)}
               />
             ) : (
-              <OnThisDay />
+              <OnThisDay date={formatDate(date)} setDate={setDate} />
             )}
           </CalendarContainer>
           <ThoughtsContainer>

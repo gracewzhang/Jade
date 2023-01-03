@@ -1,6 +1,9 @@
 export interface UseDayResults {
   getDayExists: (props: GetDayExistsProps) => Promise<GetDayExistsResults>;
   getDay: (props: GetDayProps) => Promise<GetDayResults>;
+  getDaysMonthDay: (
+    props: GetDayMonthDayProps
+  ) => Promise<GetDayMonthDayResults>;
   createDay: (props: CreateDayProps) => Promise<CreateDayResults>;
   editDay: (props: EditDayProps) => Promise<EditDayResults>;
   getFavorites: (props: GetFavoritesProps) => Promise<GetFavoritesResults>;
@@ -29,6 +32,17 @@ export interface GetDayResults {
   message: string;
   success: boolean;
   result: Day;
+}
+
+export interface GetDaysMonthDayProps {
+  googleId: string;
+  monthDay: string;
+}
+
+export interface GetDaysMonthDayResults {
+  message: string;
+  success: boolean;
+  result: Array<LeanDocument<Day>>;
 }
 
 export interface CreateDayProps {
