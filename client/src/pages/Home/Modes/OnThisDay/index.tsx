@@ -10,15 +10,11 @@ import Block from '../../../../components/Block';
 import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
-import {
-  PastDay,
-  OnThisDayProps,
-  PastDayItemContainerProps,
-  PastDayItemProps
-} from './types';
+import { PastDay, OnThisDayProps } from './types';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { useDay } from '../../../../hooks/day/useDay';
 import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
+import DayItem from '../../../../components/DayItem/DayItem';
 
 const OnThisDayContainer = styled(Block)``;
 
@@ -93,82 +89,12 @@ const PastDaysContainer = styled.div`
   padding-right: 4%;
 `;
 
-const CloudContainer = styled.span`
-  width: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const StyledCloud = styled(HiOutlineCloud)`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
   stroke: ${colors.rose};
 `;
-
-const Text = styled.p`
-  line-height: 25px;
-  font-size: 0.85rem;
-  margin: 0;
-  padding: 0;
-`;
-
-const DayTitle = styled(Text)`
-  width: 50%;
-`;
-
-const DayDate = styled(Text)`
-  color: ${colors.grey};
-  text-align: right;
-  width: 35%;
-`;
-
-const PastDayContainer = styled.span<PastDayItemContainerProps>`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 20px;
-  padding: 5px;
-
-  background-color: ${(props) => (props.selected ? colors.rose : 'white')};
-  p {
-    color: ${(props) => (props.selected ? 'white' : 'default')};
-  }
-  svg {
-    fill: ${(props) => (props.selected ? 'white' : 'default')};
-  }
-
-  :hover {
-    cursor: pointer;
-    background-color: ${colors.rose};
-
-    p {
-      color: white;
-    }
-
-    svg {
-      fill: white;
-    }
-  }
-`;
-
-// TODO: extract into separate component used by Favorites too (DayItem?)
-const PastDayItem = (props: PastDayItemProps): React.ReactElement => {
-  const { day, setDate, selected } = props;
-  const date = toDate(day.date);
-
-  return (
-    <PastDayContainer onClick={() => setDate(date)} selected={selected}>
-      <CloudContainer>
-        <StyledCloud />
-      </CloudContainer>
-      <DayTitle>{day.title}</DayTitle>
-      <DayDate>{day.when}</DayDate>
-    </PastDayContainer>
-  );
-};
 
 const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   const { date, setDate } = props;
@@ -240,10 +166,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     <OnThisDayContainer>
       <PaddingContainer>
         <HeaderContainer>
-          {/* TODO */}
-          <CountIndicator>{`${
-            new Date().getMonth() + 1
-          }-${new Date().getDate()}`}</CountIndicator>
+          <CountIndicator>{toISO8601(new Date()).slice(5)}</CountIndicator>
           <Label>On This Day</Label>
           {descending ? (
             <SortDescIcon onClick={() => setDescending(false)} />
@@ -254,11 +177,12 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
         <OuterContainer>
           <PastDaysContainer>
             {pastDays.current?.map((day, key) => (
-              <PastDayItem
+              <DayItem
                 key={key}
                 day={day}
                 setDate={setDate}
                 selected={day.date === date}
+                icon={<StyledCloud />}
               />
             ))}
           </PastDaysContainer>

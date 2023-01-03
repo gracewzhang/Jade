@@ -12,8 +12,8 @@ import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
 import { useDay } from '../../../../hooks/day/useDay';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
-import { FavoriteContainerProps, FavoriteProps, FavoritesProps } from './types';
-import { toDate } from '../../../../utils/date';
+import { FavoritesProps } from './types';
+import DayItem from '../../../../components/DayItem/DayItem';
 
 const FavoritesContainer = styled(Block)``;
 
@@ -88,81 +88,12 @@ const DaysContainer = styled.div`
   padding-right: 4%;
 `;
 
-const HeartContainer = styled.span`
-  width: 10%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const StyledHeart = styled(HiOutlineHeart)`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
   stroke: ${colors.rose};
 `;
-
-const Text = styled.p`
-  line-height: 25px;
-  font-size: 0.85rem;
-  margin: 0;
-  padding: 0;
-`;
-
-const DayTitle = styled(Text)`
-  width: 50%;
-`;
-
-const DayDate = styled(Text)`
-  color: ${colors.grey};
-  text-align: right;
-  width: 35%;
-`;
-
-const FavoriteContainer = styled.span<FavoriteContainerProps>`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 20px;
-  padding: 5px;
-
-  background-color: ${(props) => (props.selected ? colors.rose : 'white')};
-  p {
-    color: ${(props) => (props.selected ? 'white' : 'default')};
-  }
-  svg {
-    fill: ${(props) => (props.selected ? 'white' : 'default')};
-  }
-
-  :hover {
-    cursor: pointer;
-    background-color: ${colors.rose};
-
-    p {
-      color: white;
-    }
-
-    svg {
-      fill: white;
-    }
-  }
-`;
-
-const Favorite = (props: FavoriteProps): React.ReactElement => {
-  const { day, setDate, selected } = props;
-  const date = toDate(day.date);
-
-  return (
-    <FavoriteContainer onClick={() => setDate(date)} selected={selected}>
-      <HeartContainer>
-        <StyledHeart />
-      </HeartContainer>
-      <DayTitle>{day.title}</DayTitle>
-      <DayDate>{day.date}</DayDate>
-    </FavoriteContainer>
-  );
-};
 
 const Favorites = (props: FavoritesProps): React.ReactElement => {
   const { date, setDate } = props;
@@ -210,11 +141,12 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
         <OuterContainer>
           <DaysContainer>
             {favoriteDays.current?.map((day, key) => (
-              <Favorite
+              <DayItem
                 key={key}
                 day={day}
                 setDate={setDate}
                 selected={day.date === date}
+                icon={<StyledHeart />}
               />
             ))}
           </DaysContainer>

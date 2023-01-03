@@ -16,13 +16,3 @@ export interface OnThisDayProps {
   date: string;
   setDate: (newDate: Date) => void;
 }
-
-export interface PastDayItemProps {
-  setDate: (newDate: Date) => void;
-  day: PastDay;
-  selected: boolean;
-}
-
-export interface PastDayItemContainerProps {
-  selected: boolean;
-}
