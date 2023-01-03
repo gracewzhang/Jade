@@ -17,6 +17,7 @@ import { CalendarMode, SF } from '../../utils/enums';
 import colors from '../../utils/colors';
 import IconBar from './IconBar';
 import Favorites from './Modes/Favorites';
+import OnThisDay from './Modes/OnThisDay';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -180,12 +181,14 @@ const Home = (): React.ReactElement => {
           <CalendarContainer>
             {mode === CalendarMode.calendar ? (
               <Calendar date={date} setDate={setDate} />
-            ) : (
+            ) : mode === CalendarMode.favorites ? (
               <Favorites
                 date={formatDate(date)}
                 setDate={setDate}
                 key={String(day?.is_favorite)}
               />
+            ) : (
+              <OnThisDay />
             )}
           </CalendarContainer>
           <ThoughtsContainer>
