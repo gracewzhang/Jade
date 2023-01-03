@@ -6,7 +6,7 @@ const getStorageValue = (
   defaultValue: undefined | User
 ): undefined | User => {
   const saved = localStorage.getItem(key);
-  if (saved != null) {
+  if (saved !== null && saved !== 'undefined') {
     const initial = JSON.parse(saved);
     return initial ?? defaultValue;
   }
@@ -16,10 +16,7 @@ const getStorageValue = (
 export const useLocalStorage = (
   key: string,
   defaultValue: undefined | User
-): [
-  undefined | User,
-  React.Dispatch<React.SetStateAction<User | undefined>>
-] => {
+): [undefined | User, (newUser: User | undefined) => void] => {
   const [value, setValue] = useState(() => {
     return getStorageValue(key, defaultValue);
   });

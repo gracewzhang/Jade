@@ -5,6 +5,7 @@ import { User } from '../../types/user';
 
 const AuthContext = createContext<AuthContextProps>({
   user: undefined,
+  setUser: (newUser: User) => {},
   checkIfNewUser: async (data: User) => {
     return true;
   },
@@ -15,6 +16,7 @@ const AuthContext = createContext<AuthContextProps>({
 
 const useAuthContext = (): {
   user: undefined | User;
+  setUser: (newUser: User) => void;
   checkIfNewUser: (data: User) => Promise<boolean>;
   signIn: (data: User) => Promise<void>;
   signUp: (data: User) => Promise<void>;

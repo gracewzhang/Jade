@@ -10,6 +10,7 @@ const BASE_URL =
 
 export const useAuth = (): {
   user: undefined | User;
+  setUser: (newUser: User) => void;
   checkIfNewUser: (data: User) => Promise<boolean>;
   signIn: (data: User) => Promise<void>;
   signUp: (data: User) => Promise<void>;
@@ -30,13 +31,9 @@ export const useAuth = (): {
   };
 
   const signIn = async (data: User): Promise<void> => {
-    console.log('data in signin', data);
     try {
       const authResult = await axios.get(`${BASE_URL}/user/${data.google_id}`);
-      console.log('requestUrl', `${BASE_URL}/user/${data.google_id}`);
-      console.log('authResult', authResult);
       const newUser = authResult?.data?.result?._doc;
-      console.log('newUser', newUser);
       setUser(newUser);
       toast.success('🦄 Successfully signed in!', {
         position: 'top-right',
@@ -95,6 +92,8 @@ export const useAuth = (): {
 
   const signOut = (): void => {
     setUser(undefined);
+    localStorage.setItem('user', 'undefined');
+
     toast.success('🦄 Successfully signed out!', {
       position: 'top-right',
       autoClose: 2500,
@@ -107,5 +106,5 @@ export const useAuth = (): {
     });
   };
 
-  return { user, checkIfNewUser, signIn, signUp, signOut };
+  return { user, setUser, checkIfNewUser, signIn, signUp, signOut };
 };

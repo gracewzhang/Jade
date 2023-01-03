@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Memories from './pages/Memories';
 import Navbar from './components/Navbar';
 import Profile from './pages/Profile';
+import { useLocalStorage } from './hooks/auth/useLocalStorage';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #ffb2a7;
@@ -48,13 +49,23 @@ const SplitContainer = styled.span`
 `;
 
 const App = (): React.ReactElement => {
+  const [storageUser, setStorageUser] = useLocalStorage('user', undefined);
   const { user } = useAuthContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  console.log('USER IS', user);
+  const context = useAuthContext();
 
   useEffect(() => {
-    setIsLoggedIn(user !== undefined);
-    console.log('IN USE EFFECT', user);
+    if (storageUser !== undefined) {
+      context.setUser(storageUser);
+      if (!isLoggedIn) setIsLoggedIn(true);
+    }
+  }, [storageUser]);
+
+  useEffect(() => {
+    if (user !== undefined) {
+      setStorageUser(user);
+      if (!isLoggedIn) setIsLoggedIn(true);
+    }
   }, [user]);
 
   return (
