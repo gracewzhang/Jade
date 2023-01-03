@@ -14,6 +14,7 @@ import { useDay } from '../../../../hooks/day/useDay';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { FavoritesProps } from './types';
 import DayItem from '../../../../components/DayItem/DayItem';
+import ScrollContainer from '../../../../components/ScrollContainer';
 
 const FavoritesContainer = styled(Block)``;
 
@@ -57,27 +58,6 @@ const SortAscIcon = styled(HiOutlineBarsArrowUp)`
 
   :hover {
     cursor: pointer;
-  }
-`;
-
-const OuterContainer = styled.div`
-  overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: white;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${colors['light-grey']};
-    border-radius: 20px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${colors.grey};
   }
 `;
 
@@ -138,7 +118,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
             <SortAscIcon onClick={() => setDescending(true)} />
           )}
         </HeaderContainer>
-        <OuterContainer>
+        <ScrollContainer>
           <DaysContainer>
             {favoriteDays.current?.map((day, key) => (
               <DayItem
@@ -150,7 +130,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
               />
             ))}
           </DaysContainer>
-        </OuterContainer>
+        </ScrollContainer>
       </PaddingContainer>
     </FavoritesContainer>
   );

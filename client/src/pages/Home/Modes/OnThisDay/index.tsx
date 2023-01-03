@@ -15,6 +15,7 @@ import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { useDay } from '../../../../hooks/day/useDay';
 import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
 import DayItem from '../../../../components/DayItem/DayItem';
+import ScrollContainer from '../../../../components/ScrollContainer';
 
 const OnThisDayContainer = styled(Block)``;
 
@@ -58,27 +59,6 @@ const SortAscIcon = styled(HiOutlineBarsArrowUp)`
 
   :hover {
     cursor: pointer;
-  }
-`;
-
-const OuterContainer = styled.div`
-  overflow-y: scroll;
-
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: white;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${colors['light-grey']};
-    border-radius: 20px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${colors.grey};
   }
 `;
 
@@ -174,7 +154,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
             <SortAscIcon onClick={() => setDescending(true)} />
           )}
         </HeaderContainer>
-        <OuterContainer>
+        <ScrollContainer>
           <PastDaysContainer>
             {pastDays.current?.map((day, key) => (
               <DayItem
@@ -186,7 +166,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
               />
             ))}
           </PastDaysContainer>
-        </OuterContainer>
+        </ScrollContainer>
       </PaddingContainer>
     </OnThisDayContainer>
   );
