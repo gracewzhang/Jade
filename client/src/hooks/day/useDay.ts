@@ -12,8 +12,8 @@ import {
   GetFavoritesProps,
   GetFavoritesResults,
   UseDayResults,
-  GetDaysMonthDayProps,
-  GetDaysMonthDayResults
+  GetDaysDayProps,
+  GetDaysDayResults
 } from './types';
 
 export const useDay = (): UseDayResults => {
@@ -61,15 +61,15 @@ export const useDay = (): UseDayResults => {
       });
   };
 
-  const getDaysMonthDay = async (
-    props: GetDaysMonthDayProps
-  ): Promise<GetDaysMonthDayResults> => {
+  const getDaysDay = async (
+    props: GetDaysDayProps
+  ): Promise<GetDaysDayResults> => {
     const requestString = `${BASE_URL}/user/${String(
       props.googleId
-    )}/day/date/${String(props.monthDay)}`;
+    )}/day/date/${String(props.day)}`;
 
     return await axios
-      .get<GetDaysMonthDayResults>(requestString, {
+      .get<GetDaysDayResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
         }
@@ -134,7 +134,7 @@ export const useDay = (): UseDayResults => {
   return {
     getDayExists,
     getDay,
-    getDaysMonthDay,
+    getDaysDay,
     createDay,
     editDay,
     getFavorites

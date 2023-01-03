@@ -10,7 +10,7 @@ import Block from '../../../../components/Block';
 import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
-import { OnThisDayProps, PastDayContainerProps } from './types';
+import { OnThisDayProps, PastDayContainerProps, PsatDayProps } from './types';
 import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { useDay } from '../../../../hooks/day/useDay';
 
@@ -140,15 +140,21 @@ const PastDayContainer = styled.span<PastDayContainerProps>`
   }
 `;
 
-const PastDay = (): React.ReactElement => {
-  const selected = false;
+// TODO: extract into separate component used by Favorites too (DayItem?)
+const PastDay = (props: PsatDayProps): React.ReactElement => {
+  const { day, setDate, selected } = props;
+  const temp = new Date(day.date);
+  const date = new Date(
+    temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000)
+  );
+
   return (
-    <PastDayContainer selected={selected}>
+    <PastDayContainer onClick={() => setDate(date)} selected={selected}>
       <CloudContainer>
         <StyledCloud />
       </CloudContainer>
-      <DayTitle>hello</DayTitle>
-      <DayDate>Hello</DayDate>
+      <DayTitle>{day.title}</DayTitle>
+      <DayDate>{day.date}</DayDate>
     </PastDayContainer>
   );
 };
@@ -156,7 +162,7 @@ const PastDay = (): React.ReactElement => {
 const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   const { date, setDate } = props;
   const { user } = useAuthContext();
-  const { getDaysMonthDay } = useDay();
+  const { getDaysDay } = useDay();
   const pastDays = useRef<Day[]>();
   const [descending, setDescending] = useState(true);
   const [rerender, setRerender] = useState(true);
@@ -167,20 +173,52 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
     setRerender(!rerender);
   };
 
+  const monthDiff = (d1: Date, d2: Date): number => {
+    let months;
+    months = (d2.getFullYear() - d1.getFullYear()) * 12;
+    months -= d1.getMonth();
+    months += d2.getMonth();
+    return months <= 0 ? 0 : months;
+  };
+
+  const filterPastDays = (days: Day[]): Day[] => {
+    const newPastDays = [] as Day[];
+
+    for (const pastDay of days) {
+      const d1 = new Date(date);
+      const d2 = new Date(pastDay.date);
+
+      const diff = monthDiff(d1, d2);
+      console.log(diff);
+      console.log(d1);
+      console.log(d2);
+      if (
+        diff === 1 ||
+        diff === 3 ||
+        diff === 6 ||
+        (diff !== 0 && diff % 12 === 0)
+      ) {
+        newPastDays.push(pastDay);
+      }
+    }
+    return newPastDays;
+  };
+
   useEffect(() => {
     const retrievePastDays = async (): Promise<void> => {
-      const monthDay = date.match('[0-9]{2}-[0-9]{2}$');
+      const queryDay = date.match('[0-9]{2}$');
 
       if (
         user !== undefined &&
-        monthDay?.length !== undefined &&
-        monthDay.length > 0
+        queryDay?.length !== undefined &&
+        queryDay.length > 0
       ) {
-        const res = await getDaysMonthDay({
+        const res = await getDaysDay({
           googleId: user.google_id,
-          monthDay: monthDay[0]
+          day: queryDay[0]
         });
-        reverseDays(res.result);
+        const newPastDays = filterPastDays(res.result);
+        reverseDays(newPastDays);
       }
     };
     // eslint-disable-next-line @typescript-eslint/no-floating-promises
@@ -207,7 +245,12 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
         <OuterContainer>
           <PastDaysContainer>
             {pastDays.current?.map((day, key) => (
-              <PastDay key={key} />
+              <PastDay
+                key={key}
+                day={day}
+                setDate={setDate}
+                selected={day.date === date}
+              />
             ))}
           </PastDaysContainer>
         </OuterContainer>
