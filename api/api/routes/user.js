@@ -99,6 +99,8 @@ router.get(
     Day.find({
       google_id: req.params.googleId,
       is_favorite: true
+    }).sort({
+      date: 1
     }).lean().exec((err, docs) => {
       res.status(200).json({
         success: true,
@@ -114,8 +116,10 @@ router.get(
   errorWrap(async (req, res) => {
     Day.find({
       google_id: req.params.googleId,
-      date: {$regex: `${req.params.day}$`}
-    }).lean().exec((err, docs) => {
+      date: { $regex: `${req.params.day}$` }
+    }).sort(
+      { date: 1 }
+    ).lean().exec((err, docs) => {
       res.status(200).json({
         success: true,
         result: docs,
