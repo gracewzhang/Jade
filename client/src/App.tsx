@@ -57,12 +57,15 @@ const App = (): React.ReactElement => {
   useEffect(() => {
     if (storageUser !== undefined) {
       context.setUser(storageUser);
-      setIsLoggedIn(true);
+      if (!isLoggedIn) setIsLoggedIn(true);
     }
   }, [storageUser]);
 
   useEffect(() => {
-    if (user !== undefined && !isLoggedIn) setIsLoggedIn(true);
+    if (user !== undefined) {
+      setStorageUser(user);
+      if (!isLoggedIn) setIsLoggedIn(true);
+    }
   }, [user]);
 
   return (
