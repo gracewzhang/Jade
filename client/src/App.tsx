@@ -49,21 +49,20 @@ const SplitContainer = styled.span`
 `;
 
 const App = (): React.ReactElement => {
-  // const { user } = useAuthContext();
-  const [user, setUser] = useLocalStorage('user', undefined);
+  const [storageUser, setStorageUser] = useLocalStorage('user', undefined);
+  const { user } = useAuthContext();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const context = useAuthContext();
 
-  if (user === undefined) {
-    if (context?.user !== undefined) {
-      setUser(context.user);
-      console.log(context.user);
+  useEffect(() => {
+    if (storageUser !== undefined) {
+      context.setUser(storageUser);
+      setIsLoggedIn(true);
     }
-  }
+  }, [storageUser]);
 
   useEffect(() => {
-    setIsLoggedIn(user !== undefined);
-    if (user !== undefined) context.setUser(user);
+    if (user !== undefined && !isLoggedIn) setIsLoggedIn(true);
   }, [user]);
 
   return (

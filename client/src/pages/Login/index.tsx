@@ -83,6 +83,9 @@ const Login = (): React.ReactElement => {
     } else {
       await signIn(user);
     }
+    if (user !== undefined) {
+      localStorage.setItem('user', JSON.stringify(user));
+    }
   };
 
   return (
