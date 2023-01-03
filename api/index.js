@@ -5,8 +5,8 @@ const helmet = require("helmet");
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const session = require("express-session");
-const apiRoutes = require("./routes");
-const { errorHandler } = require("./middleware");
+const apiRoutes = require("./api/routes");
+const { errorHandler } = require("./api/middleware");
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(bodyParser.json({ limit: "2.1mb" }));
 app.use(bodyParser.urlencoded({ limit: "2.1mb", extended: false }));
 
 // Mongo setup
-require("./utils/mongo-setup");
+require("./api/utils/mongo-setup");
 
 // Routes
 app.use("/api", apiRoutes);
