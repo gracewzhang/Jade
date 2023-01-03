@@ -6,7 +6,8 @@ const getStorageValue = (
   defaultValue: undefined | User
 ): undefined | User => {
   const saved = localStorage.getItem(key);
-  if (saved != null) {
+  console.log('saved in local storage', saved);
+  if (saved !== null && saved !== undefined && saved !== 'undefined') {
     const initial = JSON.parse(saved);
     return initial ?? defaultValue;
   }

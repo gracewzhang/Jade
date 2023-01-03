@@ -78,7 +78,6 @@ const formatDate = (date: Date): string => {
 };
 
 const Home = (): React.ReactElement => {
-  // TODO: const [user, setUser] = useLocalStorage("user", undefined);
   const { user } = useAuthContext();
   const { getDayExists, getDay, createDay, editDay } = useDay();
   const [mode, setMode] = useState(CalendarMode.calendar);

@@ -10,6 +10,7 @@ const BASE_URL =
 
 export const useAuth = (): {
   user: undefined | User;
+  setUser: (newUser: User) => void;
   checkIfNewUser: (data: User) => Promise<boolean>;
   signIn: (data: User) => Promise<void>;
   signUp: (data: User) => Promise<void>;
@@ -103,5 +104,5 @@ export const useAuth = (): {
     });
   };
 
-  return { user, checkIfNewUser, signIn, signUp, signOut };
+  return { user, setUser, checkIfNewUser, signIn, signUp, signOut };
 };
