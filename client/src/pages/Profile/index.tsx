@@ -1,10 +1,43 @@
 import React from 'react';
+import styled from 'styled-components';
+import Header from './Header';
 
+const ProfileContainer = styled.div`
+  display: grid;
+  grid-template-rows: 20% 80%;
+  padding: 7vh 7vw 9vh 7vw;
+  height: 84vh;
+`;
+
+const BottomContainer = styled.span`
+  display: grid;
+  grid-template-columns: 40% 50%;
+`;
+
+const LeftContentContainer = styled.div`
+  display: grid;
+  grid-template-rows: 40% 50%;
+`;
+
+const StatsContainer = styled.div``;
+
+const SettingsContainer = styled.div``;
+
+const GalleryContainer = styled.div``;
+
+// TODO: loading skeleton
 const Profile = (): React.ReactElement => {
   return (
-    <>
-      Profile
-    </>
+    <ProfileContainer>
+      <Header />
+      <BottomContainer>
+        <LeftContentContainer>
+          <StatsContainer></StatsContainer>
+          <SettingsContainer></SettingsContainer>
+        </LeftContentContainer>
+        <GalleryContainer></GalleryContainer>
+      </BottomContainer>
+    </ProfileContainer>
   );
 };
 
