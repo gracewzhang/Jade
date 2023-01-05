@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
+import Settings from './Settings';
 import Statistics from './Statistics';
 
 const ProfileContainer = styled.div`
@@ -36,7 +37,9 @@ const Profile = (): React.ReactElement => {
           <StatisticsContainer>
             <Statistics />
           </StatisticsContainer>
-          <SettingsContainer></SettingsContainer>
+          <SettingsContainer>
+            <Settings />
+          </SettingsContainer>
         </LeftContentContainer>
         <GalleryContainer></GalleryContainer>
       </BottomContainer>
