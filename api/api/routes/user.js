@@ -55,7 +55,7 @@ router.get(
     } else {
       res.status(200).json({
         success: true,
-        result: { ...user },
+        result: user,
         message: "Successfully retrieved user",
       });
     }
