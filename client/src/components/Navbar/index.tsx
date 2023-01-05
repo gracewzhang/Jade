@@ -104,6 +104,21 @@ const Indicator = styled.div`
   border-radius: 0px 20px 20px 0px;
 `;
 
+const navLinks = [
+  {
+    to: '/',
+    icon: <StyledHome />
+  },
+  {
+    to: '/messages',
+    icon: <StyledChat />
+  },
+  {
+    to: '/profile',
+    icon: <StyledUser />
+  }
+];
+
 const Navbar = (props: NavbarProps): React.ReactElement => {
   const { setIsLoggedIn } = props;
   const [logoutVisible, setLogoutVisible] = useState(false);
@@ -123,18 +138,12 @@ const Navbar = (props: NavbarProps): React.ReactElement => {
           <StyledLogoIllustration />
         </StyledLink>
         <MiddleIconsContainer>
-          <StyledLink to="/">
-            <StyledHome />
-            {page === '/' && <Indicator />}
-          </StyledLink>
-          <StyledLink to="/messages">
-            <StyledChat />
-            {page === '/messages' && <Indicator />}
-          </StyledLink>
-          <StyledLink to="/profile">
-            <StyledUser />
-            {page === '/profile' && <Indicator />}
-          </StyledLink>
+          {navLinks.map((navLink, key) => (
+            <StyledLink to={navLink.to} key={key}>
+              {navLink.icon}
+              {page === navLink.to && <Indicator />}
+            </StyledLink>
+          ))}
         </MiddleIconsContainer>
         <LogoutContainer onClick={() => setLogoutVisible(true)}>
           <StyledLogout />
