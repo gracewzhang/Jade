@@ -13,7 +13,9 @@ import {
   GetFavoritesResults,
   UseDayResults,
   GetDaysDayProps,
-  GetDaysDayResults
+  GetDaysDayResults,
+  GetRandomDayProps,
+  GetRandomDayResults
 } from './types';
 
 export const useDay = (): UseDayResults => {
@@ -110,6 +112,27 @@ export const useDay = (): UseDayResults => {
       });
   };
 
+  const getRandomDay = async (
+    props: GetRandomDayProps
+  ): Promise<GetRandomDayResults> => {
+    const requestString = `${BASE_URL}/user/${String(
+      props.googleId
+    )}/day/random`;
+
+    return await axios
+      .get<GetRandomDayResults>(requestString, {
+        headers: {
+          'Content-Type': 'application/JSON'
+        }
+      })
+      .then((e) => {
+        return e.data;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
   const getFavorites = async (
     props: GetFavoritesProps
   ): Promise<GetFavoritesResults> => {
@@ -137,6 +160,7 @@ export const useDay = (): UseDayResults => {
     getDaysDay,
     createDay,
     editDay,
+    getRandomDay,
     getFavorites
   };
 };
