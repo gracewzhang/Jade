@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from './Header';
+import Statistics from './Statistics';
 
 const ProfileContainer = styled.div`
   display: grid;
@@ -19,7 +20,7 @@ const LeftContentContainer = styled.div`
   grid-template-rows: 40% 50%;
 `;
 
-const StatsContainer = styled.div``;
+const StatisticsContainer = styled.div``;
 
 const SettingsContainer = styled.div``;
 
@@ -32,7 +33,9 @@ const Profile = (): React.ReactElement => {
       <Header />
       <BottomContainer>
         <LeftContentContainer>
-          <StatsContainer></StatsContainer>
+          <StatisticsContainer>
+            <Statistics />
+          </StatisticsContainer>
           <SettingsContainer></SettingsContainer>
         </LeftContentContainer>
         <GalleryContainer></GalleryContainer>
