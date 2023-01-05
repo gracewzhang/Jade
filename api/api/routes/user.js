@@ -87,8 +87,23 @@ router.get(
 
     res.status(200).json({
       success: true,
-      result: { ...days },
+      result: days,
       message: "Successfully retrieved days",
+    });
+  })
+);
+
+router.get(
+  "/:googleId/day/random",
+  errorWrap(async (req, res) => {
+    const days = await Day.aggregate([
+      { $match: { google_id: req.params.googleId } }, { $sample: { size: 1 } }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      result: days,
+      message: "Successfully retrieved favorite days",
     });
   })
 );
