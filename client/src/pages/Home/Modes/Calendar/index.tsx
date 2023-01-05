@@ -2,14 +2,15 @@ import React, { BaseSyntheticEvent } from 'react';
 import styled from 'styled-components';
 
 import Block from '../../../../components/Block';
-import { Calendar as _Calendar } from 'react-calendar';
+import { Calendar as _Calendar, CalendarTileProperties } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import colors from '../../../../utils/colors';
-import { CalendarProps } from './types';
+import { CalendarItemProps, CalendarProps } from './types';
+import { toISO8601 } from '../../../../utils/date';
 
 const CalendarContainer = styled(Block)``;
 
-const StyledCalendar = styled(_Calendar)`
+const StyledCalendar = styled(_Calendar)<CalendarItemProps>`
   border: 0;
   border-radius: 20px;
   width: 100%;
@@ -38,6 +39,12 @@ const StyledCalendar = styled(_Calendar)`
 
   .react-calendar__viewContainer {
     height: 90%;
+  }
+
+  .react-calendar__year-view__months__month,
+  .react-calendar__decade-view__years__year {
+    height: 65px;
+    padding: 10px 5px 10px 5px;
   }
 
   .react-calendar__month-view {
@@ -87,6 +94,11 @@ const StyledCalendar = styled(_Calendar)`
     color: white;
   }
 
+  .calendar__tile--hasActive:enabled:focus,
+  .calendar__tile--hasActive:enabled:focus {
+    background: ${colors.yellow};
+  }
+
   .react-calendar__tile--active:enabled:focus:hover,
   .react-calendar__tile--now:enabled:focus:hover {
     background: ${colors.yellow};
@@ -94,6 +106,11 @@ const StyledCalendar = styled(_Calendar)`
   }
 
   .react-calendar__tile--hasActive {
+    background: ${colors['light-yellow']};
+    color: white;
+  }
+
+  .j-${(props) => props.selectedDayClass}-month {
     background: ${colors['light-yellow']};
     color: white;
   }
@@ -125,14 +142,20 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
     setDate(value);
   };
 
+  const getTileClassName = (props: CalendarTileProperties): string => {
+    return `j-${toISO8601(props.date)}-${props.view}`;
+  };
+
   return (
     <CalendarContainer>
       <StyledCalendar
         calendarType="US"
+        selectedDayClass={`${toISO8601(date)}`}
         defaultValue={date}
         maxDate={new Date()}
         showFixedNumberOfWeeks
         onClickDay={handleDayChange}
+        tileClassName={getTileClassName}
       />
     </CalendarContainer>
   );
