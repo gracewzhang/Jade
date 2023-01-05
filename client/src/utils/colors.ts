@@ -8,7 +8,6 @@ const colors = {
   'dark-rose': '#fa9a8c',
   'light-yellow': '#fae0af',
   yellow: '#fcd07c'
-  // TODO: should black be #68696B?
 };
 
 export default colors;

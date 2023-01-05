@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { LogoIllustration } from '../../illustrations/Logo.illustration';
-import { HiOutlineHeart, HiOutlineHome, HiOutlineUser } from 'react-icons/hi2';
+import {
+  HiOutlineChatBubbleBottomCenterText,
+  HiOutlineHome,
+  HiOutlineUser
+} from 'react-icons/hi2';
 import { IoLogOutOutline } from 'react-icons/io5';
 import colors from '../../utils/colors';
 import LogoutModal from '../LogoutModal';
@@ -49,6 +53,7 @@ const StyledLogoIllustration = styled(LogoIllustration)`
 const StyledLink = styled(Link)`
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const iconLen = '25px';
@@ -59,7 +64,7 @@ const StyledHome = styled(HiOutlineHome)`
   color: black;
 `;
 
-const StyledHeart = styled(HiOutlineHeart)`
+const StyledChat = styled(HiOutlineChatBubbleBottomCenterText)`
   width: ${iconLen};
   height: ${iconLen};
   color: black;
@@ -90,10 +95,35 @@ const BlurOverlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-// TODO: add indicator for the page you've selected
+const Indicator = styled.div`
+  position: absolute;
+  left: 0;
+  width: 4px;
+  height: 40px;
+  background-color: black;
+  border-radius: 0px 20px 20px 0px;
+`;
+
+const navLinks = [
+  {
+    to: '/',
+    icon: <StyledHome />
+  },
+  {
+    to: '/messages',
+    icon: <StyledChat />
+  },
+  {
+    to: '/profile',
+    icon: <StyledUser />
+  }
+];
+
 const Navbar = (props: NavbarProps): React.ReactElement => {
   const { setIsLoggedIn } = props;
   const [logoutVisible, setLogoutVisible] = useState(false);
+  const loc = useLocation();
+  const page = loc.pathname;
 
   return (
     <NavbarContainer>
@@ -108,15 +138,12 @@ const Navbar = (props: NavbarProps): React.ReactElement => {
           <StyledLogoIllustration />
         </StyledLink>
         <MiddleIconsContainer>
-          <StyledLink to="/">
-            <StyledHome />
-          </StyledLink>
-          <StyledLink to="/memories">
-            <StyledHeart />
-          </StyledLink>
-          <StyledLink to="/profile">
-            <StyledUser />
-          </StyledLink>
+          {navLinks.map((navLink, key) => (
+            <StyledLink to={navLink.to} key={key}>
+              {navLink.icon}
+              {page === navLink.to && <Indicator />}
+            </StyledLink>
+          ))}
         </MiddleIconsContainer>
         <LogoutContainer onClick={() => setLogoutVisible(true)}>
           <StyledLogout />

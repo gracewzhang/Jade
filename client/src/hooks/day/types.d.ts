@@ -43,7 +43,7 @@ export interface GetDaysDayProps {
 export interface GetDaysDayResults {
   message: string;
   success: boolean;
-  result: Array<LeanDocument<Day>>; // TODO: can I replace this with Day[]?
+  result: Day[];
 }
 
 export interface CreateDayProps {
@@ -91,5 +91,5 @@ export interface GetFavoritesProps {
 export interface GetFavoritesResults {
   message: string;
   success: boolean;
-  result: Array<LeanDocument<Day>>;
+  result: Day[];
 }
