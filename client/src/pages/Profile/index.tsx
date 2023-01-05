@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Gallery from './Gallery';
 import Header from './Header';
 import Settings from './Settings';
 import Statistics from './Statistics';
@@ -41,7 +42,9 @@ const Profile = (): React.ReactElement => {
             <Settings />
           </SettingsContainer>
         </LeftContentContainer>
-        <GalleryContainer></GalleryContainer>
+        <GalleryContainer>
+          <Gallery />
+        </GalleryContainer>
       </BottomContainer>
     </ProfileContainer>
   );
