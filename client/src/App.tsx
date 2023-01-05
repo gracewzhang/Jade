@@ -8,8 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import Home from './pages/Home';
 import Login from './pages/Login';
-import Memories from './pages/Memories';
 import Navbar from './components/Navbar';
+import Messages from './pages/Messages';
 import Profile from './pages/Profile';
 import { useLocalStorage } from './hooks/auth/useLocalStorage';
 
@@ -81,7 +81,7 @@ const App = (): React.ReactElement => {
                 <Route path="/" element={<Home />} />
                 <Route path="/hello" element={<div>Temporary screen</div>} />
                 <Route path="/login" element={<Navigate to={'/'} />} />
-                <Route path="/memories" element={<Memories />} />
+                <Route path="/messages" element={<Messages />} />
                 <Route path="/profile" element={<Profile />} />
               </Routes>
             </SplitContainer>
@@ -90,7 +90,7 @@ const App = (): React.ReactElement => {
               <Route path="/" element={<Navigate to="/login" />} />
               <Route path="/hello" element={<Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/memories" element={<Navigate to="/login" />} />
+              <Route path="/messages" element={<Navigate to="/login" />} />
               <Route path="/profile" element={<Navigate to="/login" />} />
             </Routes>
           )}
