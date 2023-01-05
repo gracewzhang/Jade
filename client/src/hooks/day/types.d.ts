@@ -6,6 +6,7 @@ export interface UseDayResults {
   getDaysDay: (props: GetDayMonthDayProps) => Promise<GetDayMonthDayResults>;
   createDay: (props: CreateDayProps) => Promise<CreateDayResults>;
   editDay: (props: EditDayProps) => Promise<EditDayResults>;
+  getRandomDay: (props: GetRandomDayProps) => Promise<GetRandomDayResults>;
   getFavorites: (props: GetFavoritesProps) => Promise<GetFavoritesResults>;
 }
 
@@ -42,7 +43,7 @@ export interface GetDaysDayProps {
 export interface GetDaysDayResults {
   message: string;
   success: boolean;
-  result: Array<LeanDocument<Day>>;
+  result: Array<LeanDocument<Day>>; // TODO: can I replace this with Day[]?
 }
 
 export interface CreateDayProps {
@@ -71,6 +72,16 @@ export interface EditDayResults {
   message: string;
   success: boolean;
   result: Day;
+}
+
+export interface GetRandomDayProps {
+  googleId: string;
+}
+
+export interface GetRandomDayResults {
+  message: string;
+  success: boolean;
+  result: Day[];
 }
 
 export interface GetFavoritesProps {

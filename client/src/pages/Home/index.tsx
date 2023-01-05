@@ -174,7 +174,7 @@ const Home = (): React.ReactElement => {
           </BottomContentContainer>
         </LeftContentContainer>
         <RightContentContainer>
-          <IconBar mode={mode} setMode={setMode} />
+          <IconBar mode={mode} setMode={setMode} setDate={setDate} />
           <CalendarContainer>
             {mode === CalendarMode.calendar ? (
               <Calendar date={date} setDate={setDate} />

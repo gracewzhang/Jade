@@ -10,6 +10,9 @@ import { CgDice3 } from 'react-icons/cg';
 import colors from '../../../utils/colors';
 import { CalendarMode } from '../../../utils/enums';
 import { IconBarProps } from './types';
+import { useDay } from '../../../hooks/day/useDay';
+import { useAuthContext } from '../../../contexts/auth/AuthContext';
+import { toDate } from '../../../utils/date';
 
 const IconsContainer = styled.span`
   display: flex;
@@ -46,6 +49,7 @@ const StyledDiceIcon = styled(CgDice3)`
 
   :hover {
     cursor: pointer;
+    color: black !important;
   }
 `;
 
@@ -58,8 +62,21 @@ const StyledCalendarIcon = styled(HiOutlineCalendar)`
   }
 `;
 
-const IconBar = (props: IconBarProps): JSX.Element => {
-  const { mode, setMode } = props;
+const IconBar = (props: IconBarProps): React.ReactElement => {
+  const { mode, setMode, setDate } = props;
+  const { user } = useAuthContext();
+  const { getRandomDay } = useDay();
+
+  const handleGetRandomDay = async (): Promise<void> => {
+    if (user !== undefined) {
+      const res = await getRandomDay({ googleId: user.google_id });
+      if (res.result.length === 1) {
+        const day = res.result[0];
+        setDate(toDate(day.date));
+      }
+    }
+  };
+
   return (
     <IconsContainer>
       <StyledClockIcon
@@ -70,9 +87,13 @@ const IconBar = (props: IconBarProps): JSX.Element => {
         color={mode === CalendarMode.favorites ? 'black' : colors['light-grey']}
         onClick={() => setMode(CalendarMode.favorites)}
       />
-      <StyledDiceIcon
-        color={mode === CalendarMode.calendar ? 'black' : colors['light-grey']}
-      />
+      {mode === CalendarMode.calendar && (
+        <StyledDiceIcon
+          color={colors['light-grey']}
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
+          onClick={handleGetRandomDay}
+        />
+      )}
       <StyledCalendarIcon
         color={mode === CalendarMode.calendar ? 'black' : colors['light-grey']}
         onClick={() => setMode(CalendarMode.calendar)}
