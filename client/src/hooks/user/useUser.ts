@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/indent */
 import axios from 'axios';
-import { GetUserProps, GetUserResults, UseUserResults } from './types';
+import {
+  GetNumberOfDaysProps,
+  GetNumberOfDaysResults,
+  GetUserProps,
+  GetUserResults,
+  UseUserResults
+} from './types';
 
 export const useUser = (): UseUserResults => {
   const BASE_URL =
@@ -25,7 +31,29 @@ export const useUser = (): UseUserResults => {
       });
   };
 
+  const getNumberOfDays = async (
+    props: GetNumberOfDaysProps
+  ): Promise<GetNumberOfDaysResults> => {
+    const requestString = `${BASE_URL}/user/${String(
+      props.googleId
+    )}/day/count`;
+
+    return await axios
+      .get<GetNumberOfDaysResults>(requestString, {
+        headers: {
+          'Content-Type': 'application/JSON'
+        }
+      })
+      .then((e) => {
+        return e.data;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
   return {
-    getUser
+    getUser,
+    getNumberOfDays
   };
 };
