@@ -10,6 +10,10 @@ export const toDate = (date: string): Date => {
   return new Date(temp.getTime() + Math.abs(temp.getTimezoneOffset() * 60000));
 };
 
+export const getDayDifference = (d1: Date, d2: Date): number => {
+  return Math.round(Math.abs(Number(d1) - Number(d2)) / (1000 * 60 * 60 * 24));
+};
+
 export const getMonthDifference = (d1: Date, d2: Date): number => {
   let months;
   months = (d2.getFullYear() - d1.getFullYear()) * 12;
