@@ -17,7 +17,7 @@ const ProfileContainer = styled.div`
 
 const ContentContainer = styled.span`
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: 45% 55%;
 `;
 
 const LeftContentContainer = styled.div`

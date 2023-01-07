@@ -55,7 +55,7 @@ router.get(
     } else {
       res.status(200).json({
         success: true,
-        result: { ...user },
+        result: user,
         message: "Successfully retrieved user",
       });
     }
@@ -78,7 +78,7 @@ router.get(
 );
 
 router.get(
-  "/:googleId/day/",
+  "/:googleId/day",
   errorWrap(async (req, res) => {
     const days = await Day.find({
       google_id: req.params.googleId
@@ -90,6 +90,28 @@ router.get(
       result: days,
       message: "Successfully retrieved days",
     });
+  })
+);
+
+router.get(
+  "/:googleId/day/count",
+  errorWrap(async (req, res) => {
+    try {
+      const numDays = await Day.countDocuments({
+        google_id: req.params.googleId
+      });
+
+      res.status(200).json({
+        success: true,
+        result: numDays,
+        message: "Successfully counted number of days",
+      });
+    } catch {
+      res.status(404).json({
+        success: false,
+        message: "User with given google ID not found"
+      })
+    }
   })
 );
 

@@ -6,7 +6,7 @@ import colors from '../../../utils/colors';
 const HeaderContainer = styled.div``;
 
 const Heading = styled.h1`
-  font-weight: 400;
+  font-weight: 500;
   font-size: 1.8em;
 `;
 
