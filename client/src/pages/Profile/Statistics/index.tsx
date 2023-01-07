@@ -6,6 +6,7 @@ import Label from '../../../components/Label';
 import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import { useUser } from '../../../hooks/user/useUser';
 import { getDayDifference } from '../../../utils/date';
+import { StatisticProps } from './types';
 // import colors from '../../../utils/colors';
 
 const StatisticsContainer = styled(Block)``;
@@ -14,8 +15,8 @@ const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 70%;
-  padding: 10%;
+  height: 90%;
+  padding: 5%;
 `;
 
 const HeaderContainer = styled.span`
@@ -24,6 +25,38 @@ const HeaderContainer = styled.span`
   justify-content: center;
   align-items: center;
 `;
+
+const ContentContainer = styled.span`
+  display: grid;
+  grid-template-columns: 50% 50%;
+  height: 75%;
+`;
+
+const StatisticContainer = styled.div``;
+
+const StatLabel = styled.h1`
+  justify-content: center;
+  padding-top: 5%;
+  font-size: 3em;
+  font-weight: 500;
+`;
+
+const DescriptionLabel = styled.h3`
+  text-align: center;
+  font-weight: 500;
+  color: #4d4d4d;
+  padding-top: 10%;
+`;
+
+const Statistic = (props: StatisticProps): React.ReactElement => {
+  const { stat, description } = props;
+  return (
+    <StatisticContainer>
+      <StatLabel>{stat}</StatLabel>
+      <DescriptionLabel>{description}</DescriptionLabel>
+    </StatisticContainer>
+  );
+};
 
 const Statistics = (): React.ReactElement => {
   const { user } = useAuthContext();
@@ -58,8 +91,10 @@ const Statistics = (): React.ReactElement => {
         <HeaderContainer>
           <Label>Statistics</Label>
         </HeaderContainer>
-        {numDays}
-        {daysSinceJoined}
+        <ContentContainer>
+          <Statistic stat={numDays} description="hello" />
+          <Statistic stat={daysSinceJoined} description="bye" />
+        </ContentContainer>
       </PaddingContainer>
     </StatisticsContainer>
   );
