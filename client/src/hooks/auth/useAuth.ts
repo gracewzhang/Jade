@@ -2,20 +2,14 @@ import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { User } from '../../types/user';
+import { UseAuthResults } from './types';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined
     ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
     : 'http://localhost:9000/api';
 
-export const useAuth = (): {
-  user: undefined | User;
-  setUser: (newUser: User) => void;
-  checkIfNewUser: (data: User) => Promise<boolean>;
-  signIn: (data: User) => Promise<void>;
-  signUp: (data: User) => Promise<void>;
-  signOut: () => void;
-} => {
+export const useAuth = (): UseAuthResults => {
   const [user, setUser] = useState<User>();
 
   const checkIfNewUser = async (data: User): Promise<boolean> => {
