@@ -37,7 +37,7 @@ const StatisticContainer = styled.div``;
 const StatLabel = styled.h1`
   justify-content: center;
   padding-top: 5%;
-  font-size: 3em;
+  font-size: 2.5em;
   font-weight: 500;
 `;
 
@@ -92,8 +92,11 @@ const Statistics = (): React.ReactElement => {
           <Label>Statistics</Label>
         </HeaderContainer>
         <ContentContainer>
-          <Statistic stat={numDays} description="hello" />
-          <Statistic stat={daysSinceJoined} description="bye" />
+          <Statistic stat={numDays} description="memories recorded" />
+          <Statistic
+            stat={daysSinceJoined}
+            description="days since you began"
+          />
         </ContentContainer>
       </PaddingContainer>
     </StatisticsContainer>
