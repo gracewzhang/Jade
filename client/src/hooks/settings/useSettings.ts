@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { UseSettingsResults } from './types';
+import {
+  ChangeNameProps,
+  ChangePrimaryColorProps,
+  ChangeSecondaryColorProps,
+  UseSettingsResults
+} from './types';
 
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined
@@ -12,12 +17,50 @@ export const useSettings = (): UseSettingsResults => {
   const [primaryColor, setPrimaryColor] = useState('');
   const [secondaryColor, setSecondaryColor] = useState('');
 
+  const handleChangeName = async (props: ChangeNameProps): Promise<void> => {
+    const { googleId, name } = props;
+    try {
+      await axios.put(`${BASE_URL}/user/${String(googleId)}`, { name });
+      setName(name);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChangePrimaryColor = async (
+    props: ChangePrimaryColorProps
+  ): Promise<void> => {
+    const { googleId, primaryColor } = props;
+    try {
+      await axios.put(`${BASE_URL}/user/${String(googleId)}`, {
+        primary_color: primaryColor
+      });
+      setPrimaryColor(primaryColor);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleChangeSecondaryColor = async (
+    props: ChangeSecondaryColorProps
+  ): Promise<void> => {
+    const { googleId, secondaryColor } = props;
+    try {
+      await axios.put(`${BASE_URL}/user/${String(googleId)}`, {
+        secondary_color: secondaryColor
+      });
+      setSecondaryColor(secondaryColor);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return {
     name,
-    setName,
+    handleChangeName,
     primaryColor,
-    setPrimaryColor,
+    handleChangePrimaryColor,
     secondaryColor,
-    setSecondaryColor
+    handleChangeSecondaryColor
   };
 };

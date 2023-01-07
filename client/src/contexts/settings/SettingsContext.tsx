@@ -1,15 +1,20 @@
 import React, { createContext, PropsWithChildren, useContext } from 'react';
+import {
+  ChangeNameProps,
+  ChangePrimaryColorProps,
+  ChangeSecondaryColorProps
+} from '../../hooks/settings/types';
 import { useSettings } from '../../hooks/settings/useSettings';
 import colors from '../../utils/colors';
 import { SettingsContextProps } from './types';
 
 const SettingsContext = createContext<SettingsContextProps>({
   name: '',
-  setName: (newName: string) => {},
+  handleChangeName: async (props: ChangeNameProps) => {},
   primaryColor: colors.rose,
-  setPrimaryColor: (newPrimaryColor: string) => {},
+  handleChangePrimaryColor: async (props: ChangePrimaryColorProps) => {},
   secondaryColor: colors['light-yellow'],
-  setSecondaryColor: (newSecondaryColor: string) => {}
+  handleChangeSecondaryColor: async (props: ChangeSecondaryColorProps) => {}
 });
 
 const useSettingsContext = (): SettingsContextProps =>

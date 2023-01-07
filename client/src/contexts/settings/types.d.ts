@@ -1,8 +1,10 @@
 export interface SettingsContextProps {
   name: string;
-  setName: (newName: string) => void;
+  handleChangeName: (props: ChangeNameProps) => Promise<void>;
   primaryColor: string;
-  setPrimaryColor: (newPrimaryColor: string) => void;
+  handleChangePrimaryColor: (props: ChangePrimaryColorProps) => Promise<void>;
   secondaryColor: string;
-  setSecondaryColor: (newSecondaryColor: string) => void;
+  handleChangeSecondaryColor: (
+    props: ChangeSecondaryColorProps
+  ) => Promise<void>;
 }

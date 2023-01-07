@@ -1,8 +1,25 @@
 export interface UseSettingsResults {
   name: string;
-  setName: (newName: string) => void;
+  handleChangeName: (props: ChangeNameProps) => Promise<void>;
   primaryColor: string;
-  setPrimaryColor: (newPrimaryColor: string) => void;
+  handleChangePrimaryColor: (props: ChangePrimaryColorProps) => Promise<void>;
   secondaryColor: string;
-  setSecondaryColor: (newSecondaryColor: string) => void;
+  handleChangeSecondaryColor: (
+    props: ChangeSecondaryColorProps
+  ) => Promise<void>;
+}
+
+export interface ChangeNameProps {
+  googleId: string;
+  name: string;
+}
+
+export interface ChangePrimaryColorProps {
+  googleId: string;
+  primaryColor: string;
+}
+
+export interface ChangeSecondaryColorProps {
+  googleId: string;
+  secondaryColor: string;
 }
