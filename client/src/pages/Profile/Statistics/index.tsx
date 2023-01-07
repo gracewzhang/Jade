@@ -7,7 +7,6 @@ import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import { useUser } from '../../../hooks/user/useUser';
 import { getDayDifference } from '../../../utils/date';
 import { StatisticProps } from './types';
-// import colors from '../../../utils/colors';
 
 const StatisticsContainer = styled(Block)``;
 
