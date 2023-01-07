@@ -4,6 +4,16 @@ export interface User {
   name: string;
   image: string;
   created_at: Date;
+  primary_color: string;
+  secondary_color: string;
+}
+
+export interface AuthUser {
+  google_id: string;
+  email: string;
+  name: string;
+  image: string;
+  created_at: Date;
 }
 
 export interface DecodedUser {
