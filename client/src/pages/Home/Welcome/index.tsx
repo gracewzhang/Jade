@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { useAuthContext } from '../../../contexts/auth/AuthContext';
+import useStore from '../../../stores';
 import colors from '../../../utils/colors';
 
 const WelcomeContainer = styled.div``;
@@ -28,7 +28,7 @@ const Subheading = styled.h3`
 `;
 
 const Welcome = (): React.ReactElement => {
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const subheadingText = 'Make every day your masterpiece.';
 
   return (

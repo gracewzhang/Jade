@@ -11,10 +11,10 @@ import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
 import { useDay } from '../../../../hooks/day/useDay';
-import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { FavoritesProps } from './types';
 import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
+import useStore from '../../../../stores';
 
 const FavoritesContainer = styled(Block)``;
 
@@ -77,7 +77,7 @@ const StyledHeart = styled(HiOutlineHeart)`
 
 const Favorites = (props: FavoritesProps): React.ReactElement => {
   const { date, setDate } = props;
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const { getFavorites } = useDay();
   const favoriteDays = useRef<Day[]>();
   const [descending, setDescending] = useState(true);
