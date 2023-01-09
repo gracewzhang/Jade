@@ -21,7 +21,7 @@ const useStore = create<StoreResults>()((set, get) => ({
       return false;
     }
   },
-  // TODO: can we check for local storage here?
+
   signIn: async (data: AuthUser): Promise<void> => {
     try {
       const authResult = await axios.get(
@@ -29,7 +29,6 @@ const useStore = create<StoreResults>()((set, get) => ({
       );
       const newUser = authResult?.data?.result;
       set({ user: newUser });
-      // TODO: can I extract all of these toasts?
       toastSuccess('Successfully signed in!');
     } catch (err) {
       console.error(err);
@@ -50,7 +49,6 @@ const useStore = create<StoreResults>()((set, get) => ({
   signOut: (): void => {
     set({ user: undefined });
     localStorage.setItem('user', 'undefined');
-    // TODO: wait we're updating local storage here
     toastSuccess('Successfully signed out!');
   },
   updateUser: async (props: UpdateUserProps) => {
@@ -68,7 +66,7 @@ const useStore = create<StoreResults>()((set, get) => ({
         newUser.secondary_color = newSecondaryColor;
         set({ user: newUser });
       }
-      // TODO: update local storage
+      localStorage.setItem('user', JSON.stringify(newUser));
     } catch (err) {
       console.log(err);
     }
