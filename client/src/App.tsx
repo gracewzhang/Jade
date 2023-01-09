@@ -11,7 +11,7 @@ import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import Messages from './pages/Messages';
 import Profile from './pages/Profile';
-import { useLocalStorage } from './hooks/auth/useLocalStorage';
+import { useLocalStorage } from './hooks/storage/useLocalStorage';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #ffb2a7;

@@ -14,14 +14,7 @@ const AuthContext = createContext<AuthContextProps>({
   signOut: () => {}
 });
 
-const useAuthContext = (): {
-  user: undefined | User;
-  setUser: (newUser: User) => void;
-  checkIfNewUser: (data: User) => Promise<boolean>;
-  signIn: (data: User) => Promise<void>;
-  signUp: (data: User) => Promise<void>;
-  signOut: () => void;
-} => useContext(AuthContext);
+const useAuthContext = (): AuthContextProps => useContext(AuthContext);
 
 const AuthProvider = (props: PropsWithChildren): JSX.Element => {
   const auth = useAuth();

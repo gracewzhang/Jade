@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import jwt_decode from 'jwt-decode';
 
 import { useAuthContext } from '../../contexts/auth/AuthContext';
-import { DecodedUser, User } from '../../types/user';
+import { AuthUser, DecodedUser } from '../../types/user';
 import { LoginIllustration } from '../../illustrations/Login.illustration';
 import Logo from '../../components/Logo/Logo';
 import colors from '../../utils/colors';
@@ -69,14 +69,14 @@ const Login = (): React.ReactElement => {
     const userInfo: DecodedUser = jwt_decode(
       credentialResponse.credential ?? ''
     );
-    const user: User = {
+    const user: AuthUser = {
       google_id: userInfo?.sub,
       email: userInfo?.email,
       name: userInfo?.name,
       image: userInfo?.picture,
       created_at: new Date()
     };
-    const isNewUser = await checkIfNewUser(user);
+    const isNewUser = await checkIfNewUser(userInfo?.sub);
 
     if (isNewUser) {
       await signUp(user);

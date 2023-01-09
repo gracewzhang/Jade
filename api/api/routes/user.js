@@ -37,6 +37,29 @@ router.post(
   })
 );
 
+router.put(
+  "/:googleId",
+  errorWrap(async (req, res) => {
+    let updatedUser = await User.updateOne({ google_id: req.params.googleId }, req.body);
+
+    if (!updatedUser) {
+      res.status(404).json({
+        success: false,
+        message: "User with given google ID not found",
+      });
+      return;
+    }
+
+    updatedUser = await User.findOne({ google_id: req.params.googleId });
+
+    res.status(200).json({
+      success: true,
+      message: "Successfully updated user",
+      result: updatedUser,
+    });
+  })
+);
+
 /**
  * Return a user by google id
  */

@@ -7,6 +7,8 @@ const User = new mongoose.Schema(
     name: { type: String, default: "" },
     image: { type: String, default: "" },
     created_at: { type: Date, default: new Date() },
+    primary_color: {type: String, default: '#FFB2A7'},
+    secondary_color: {type: String, default: '#FAE0AF'}
   },
   { collection: "users" }
 );
