@@ -30,7 +30,7 @@ const StatisticsContainer = styled.div`
   padding-bottom: 8vh;
 `;
 
-const SettingsContainer = styled.div``;
+const SettingsContainer = styled.div``; // TODO: necessary?
 
 const GalleryContainer = styled.div``;
 
