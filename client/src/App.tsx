@@ -69,34 +69,32 @@ const App = (): React.ReactElement => {
   }, [user]);
 
   return (
-    <>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
-        <GlobalStyle />
-        <StyledToastContainer />
-        <BrowserRouter>
-          {isLoggedIn ? (
-            <SplitContainer>
-              <Navbar setIsLoggedIn={setIsLoggedIn} />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/hello" element={<div>Temporary screen</div>} />
-                <Route path="/login" element={<Navigate to={'/'} />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route path="/profile" element={<Profile />} />
-              </Routes>
-            </SplitContainer>
-          ) : (
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
+      <GlobalStyle />
+      <StyledToastContainer />
+      <BrowserRouter>
+        {isLoggedIn ? (
+          <SplitContainer>
+            <Navbar setIsLoggedIn={setIsLoggedIn} />
             <Routes>
-              <Route path="/" element={<Navigate to="/login" />} />
-              <Route path="/hello" element={<Navigate to="/login" />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/messages" element={<Navigate to="/login" />} />
-              <Route path="/profile" element={<Navigate to="/login" />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/hello" element={<div>Temporary screen</div>} />
+              <Route path="/login" element={<Navigate to={'/'} />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
-          )}
-        </BrowserRouter>
-      </GoogleOAuthProvider>
-    </>
+          </SplitContainer>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/hello" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/messages" element={<Navigate to="/login" />} />
+            <Route path="/profile" element={<Navigate to="/login" />} />
+          </Routes>
+        )}
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 };
 

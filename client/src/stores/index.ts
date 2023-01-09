@@ -4,7 +4,6 @@ import { AuthUser } from '../types/user';
 import { toastError, toastSuccess } from '../utils/toast';
 import { StoreResults, UpdateUserProps } from './types';
 
-// TODO: extract BASE_URL
 const BASE_URL =
   process.env.REACT_APP_VERCEL_URL !== undefined
     ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
