@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import create from 'zustand';
 import { AuthUser } from '../types/user';
+import { toastError, toastSuccess } from '../utils/toast';
 import { StoreResults, UpdateUserProps } from './types';
 
 // TODO: extract BASE_URL
@@ -31,28 +31,10 @@ const useStore = create<StoreResults>()((set, get) => ({
       const newUser = authResult?.data?.result;
       set({ user: newUser });
       // TODO: can I extract all of these toasts?
-      toast.success('🦄 Successfully signed in!', {
-        position: 'top-right',
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored'
-      });
+      toastSuccess('Successfully signed in!');
     } catch (err) {
       console.error(err);
-      toast.error('🦄 Unsuccessful login :(', {
-        position: 'top-right',
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored'
-      });
+      toastError('Unsuccessfully signed in :(');
     }
   },
   signUp: async (data: AuthUser): Promise<void> => {
@@ -60,44 +42,17 @@ const useStore = create<StoreResults>()((set, get) => ({
       const authResult = await axios.post(`${BASE_URL}/user`, data);
       const newUser = authResult?.data.result;
       set({ user: newUser });
-      toast.success('🦄 Successfully signed up!', {
-        position: 'top-right',
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored'
-      });
+      toastSuccess('Successfully signed up!');
     } catch (error) {
       console.error(error);
-      toast.error('🦄 Unsuccessfully signed up :(', {
-        position: 'top-right',
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'colored'
-      });
+      toastError('Unsuccessfully signed up :(');
     }
   },
   signOut: (): void => {
     set({ user: undefined });
     localStorage.setItem('user', 'undefined');
-
-    toast.success('🦄 Successfully signed out!', {
-      position: 'top-right',
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'colored'
-    });
+    // TODO: wait we're updating local storage here
+    toastSuccess('Successfully signed out!');
   },
   updateUser: async (props: UpdateUserProps) => {
     const { googleId, newName, newPrimaryColor, newSecondaryColor } = props;
