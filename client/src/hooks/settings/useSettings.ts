@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useState } from 'react';
+import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { UpdateSettingsProps, UseSettingsResults } from './types';
 
 const BASE_URL =
@@ -8,9 +9,10 @@ const BASE_URL =
     : 'http://localhost:9000/api';
 
 export const useSettings = (): UseSettingsResults => {
-  const [name, setName] = useState('');
-  const [primaryColor, setPrimaryColor] = useState('');
-  const [secondaryColor, setSecondaryColor] = useState('');
+  const { user } = useAuthContext();
+  const [name, setName] = useState(user?.name);
+  const [primaryColor, setPrimaryColor] = useState(user?.primary_color);
+  const [secondaryColor, setSecondaryColor] = useState(user?.secondary_color);
 
   const updateSettings = async (props: UpdateSettingsProps): Promise<void> => {
     const { googleId, newName, newPrimaryColor, newSecondaryColor } = props;

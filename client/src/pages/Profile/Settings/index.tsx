@@ -9,6 +9,7 @@ import colors from '../../../utils/colors';
 import Input from '../../../components/Input/input';
 import { useSettingsContext } from '../../../contexts/settings/SettingsContext';
 import { ColorPickerButtonProps, ColorPickerProps } from './types';
+import { useAuthContext } from '../../../contexts/auth/AuthContext';
 
 const SettingsContainer = styled(Block)``;
 
@@ -53,7 +54,7 @@ const SettingLabel = styled(Label)`
 const RowsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 `;
 
 const NameInput = styled(Input)`
@@ -85,10 +86,11 @@ const ColorPickerButton = styled.button<ColorPickerButtonProps>`
 const Settings = (): React.ReactElement => {
   const { name, primaryColor, secondaryColor, updateSettings } =
     useSettingsContext();
+  const { user } = useAuthContext();
   const [pColorPickerOpen, setPColorPickerOpen] = useState(false);
   const [sColorPickerOpen, setSColorPickerOpen] = useState(false);
 
-  const [tName, setTName] = useState('');
+  const [tName, setTName] = useState(user?.name);
   const [tPrimaryColor, setTPrimaryColor] = useState(colors.rose);
   const [tSecondaryColor, setTSecondaryColor] = useState(
     colors['light-yellow']
@@ -116,7 +118,7 @@ const Settings = (): React.ReactElement => {
             <NameInput
               maxLength={30}
               rows={1}
-              defaultValue={name}
+              defaultValue={user?.name}
               placeholder="Name"
             />
           </SettingContainer>
