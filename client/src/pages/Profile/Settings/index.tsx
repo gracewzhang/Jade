@@ -8,6 +8,7 @@ import Label from '../../../components/Label';
 import colors from '../../../utils/colors';
 import Input from '../../../components/Input/input';
 import { ColorPickerButtonProps, ColorPickerProps } from './types';
+import useStore from '../../../stores';
 
 const SettingsContainer = styled(Block)``;
 
@@ -88,27 +89,51 @@ const ColorPickerButton = styled.button<ColorPickerButtonProps>`
 const MAX_NAME_LEN = 30;
 
 const Settings = (): React.ReactElement => {
-  const [tName, setTName] = useState('');
-  const [tPrimaryColor, setTPrimaryColor] = useState(colors.rose);
-  const [tSecondaryColor, setTSecondaryColor] = useState(
-    colors['light-yellow']
-  );
+  const user = useStore((state) => state.user);
+  const updateUser = useStore((state) => state.updateUser);
+
+  const [name, setName] = useState('');
+  const [primaryColor, setPrimaryColor] = useState(colors.rose);
+  const [secondaryColor, setSecondaryColor] = useState(colors['light-yellow']);
+
   const [pColorPickerOpen, setPColorPickerOpen] = useState(false);
   const [sColorPickerOpen, setSColorPickerOpen] = useState(false);
 
   const onNameChange = (e: BaseSyntheticEvent): void => {
     const newName = e.target.value;
     if ((newName as string).length <= MAX_NAME_LEN) {
-      setTName(newName);
+      setName(newName);
     }
   };
 
+  const saveSettings = (): void => {
+    if (user !== undefined) {
+      const newUserSettings = {
+        googleId: user.google_id,
+        newName: name,
+        newPrimaryColor: primaryColor,
+        newSecondaryColor: secondaryColor
+      };
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      updateUser(newUserSettings);
+    }
+  };
+
+  useEffect(() => {
+    if (user !== undefined) {
+      setName(user.name);
+      setPrimaryColor(user.primary_color);
+      setSecondaryColor(user.secondary_color);
+    }
+  }, [user]);
+
+  // Color pickers
   const onPrimaryChange: ColorChangeHandler = (color) => {
-    setTPrimaryColor(color.hex);
+    setPrimaryColor(color.hex);
   };
 
   const onSecondaryChange: ColorChangeHandler = (color) => {
-    setTSecondaryColor(color.hex);
+    setSecondaryColor(color.hex);
   };
 
   const handleOutsideClick = (event: MouseEvent): void => {
@@ -143,7 +168,7 @@ const Settings = (): React.ReactElement => {
       <PaddingContainer>
         <HeaderContainer>
           <Label>Settings</Label>
-          <StyledCheck />
+          <StyledCheck onClick={saveSettings} />
         </HeaderContainer>
         <RowsContainer>
           <SettingContainer>
@@ -151,7 +176,7 @@ const Settings = (): React.ReactElement => {
             <NameInput
               maxLength={MAX_NAME_LEN}
               rows={1}
-              defaultValue={tName}
+              defaultValue={name}
               placeholder="Name"
               onChange={onNameChange}
             />
@@ -159,11 +184,11 @@ const Settings = (): React.ReactElement => {
           <SettingContainer>
             <SettingLabel>Primary Color</SettingLabel>
             <ColorPickerContainer id="primary-picker">
-              <ColorPickerButton color={tPrimaryColor} />
+              <ColorPickerButton color={primaryColor} />
               {pColorPickerOpen && (
                 <ColorPicker
                   open={pColorPickerOpen}
-                  color={tPrimaryColor}
+                  color={primaryColor}
                   onChange={onPrimaryChange}
                 />
               )}
@@ -172,11 +197,11 @@ const Settings = (): React.ReactElement => {
           <SettingContainer>
             <SettingLabel>Secondary Color</SettingLabel>
             <ColorPickerContainer id="secondary-picker">
-              <ColorPickerButton color={tSecondaryColor} />
+              <ColorPickerButton color={secondaryColor} />
               {sColorPickerOpen && (
                 <SecondaryColorPicker
                   open={sColorPickerOpen}
-                  color={tSecondaryColor}
+                  color={secondaryColor}
                   onChange={onSecondaryChange}
                 />
               )}
