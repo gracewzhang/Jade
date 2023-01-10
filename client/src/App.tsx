@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import { GoogleOAuthProvider } from '@react-oauth/google';
-import { useAuthContext } from './contexts/auth/AuthContext';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -12,6 +11,7 @@ import Navbar from './components/Navbar';
 import Messages from './pages/Messages';
 import Profile from './pages/Profile';
 import { useLocalStorage } from './hooks/storage/useLocalStorage';
+import useStore from './stores';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #ffb2a7;
@@ -50,13 +50,13 @@ const SplitContainer = styled.span`
 
 const App = (): React.ReactElement => {
   const [storageUser, setStorageUser] = useLocalStorage('user', undefined);
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
+  const setUser = useStore((state) => state.setUser);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const context = useAuthContext();
 
   useEffect(() => {
     if (storageUser !== undefined) {
-      context.setUser(storageUser);
+      setUser(storageUser);
       if (!isLoggedIn) setIsLoggedIn(true);
     }
   }, [storageUser]);
@@ -69,34 +69,32 @@ const App = (): React.ReactElement => {
   }, [user]);
 
   return (
-    <>
-      <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
-        <GlobalStyle />
-        <StyledToastContainer />
-        <BrowserRouter>
-          {isLoggedIn ? (
-            <SplitContainer>
-              <Navbar setIsLoggedIn={setIsLoggedIn} />
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/hello" element={<div>Temporary screen</div>} />
-                <Route path="/login" element={<Navigate to={'/'} />} />
-                <Route path="/messages" element={<Messages />} />
-                <Route path="/profile" element={<Profile />} />
-              </Routes>
-            </SplitContainer>
-          ) : (
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
+      <GlobalStyle />
+      <StyledToastContainer />
+      <BrowserRouter>
+        {isLoggedIn ? (
+          <SplitContainer>
+            <Navbar setIsLoggedIn={setIsLoggedIn} />
             <Routes>
-              <Route path="/" element={<Navigate to="/login" />} />
-              <Route path="/hello" element={<Navigate to="/login" />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/messages" element={<Navigate to="/login" />} />
-              <Route path="/profile" element={<Navigate to="/login" />} />
+              <Route path="/" element={<Home />} />
+              <Route path="/hello" element={<div>Temporary screen</div>} />
+              <Route path="/login" element={<Navigate to={'/'} />} />
+              <Route path="/messages" element={<Messages />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
-          )}
-        </BrowserRouter>
-      </GoogleOAuthProvider>
-    </>
+          </SplitContainer>
+        ) : (
+          <Routes>
+            <Route path="/" element={<Navigate to="/login" />} />
+            <Route path="/hello" element={<Navigate to="/login" />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/messages" element={<Navigate to="/login" />} />
+            <Route path="/profile" element={<Navigate to="/login" />} />
+          </Routes>
+        )}
+      </BrowserRouter>
+    </GoogleOAuthProvider>
   );
 };
 

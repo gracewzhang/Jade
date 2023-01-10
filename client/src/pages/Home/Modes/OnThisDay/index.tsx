@@ -11,11 +11,11 @@ import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
 import { PastDay, OnThisDayProps } from './types';
-import { useAuthContext } from '../../../../contexts/auth/AuthContext';
 import { useDay } from '../../../../hooks/day/useDay';
 import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
 import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
+import useStore from '../../../../stores';
 
 const OnThisDayContainer = styled(Block)``;
 
@@ -78,7 +78,7 @@ const StyledCloud = styled(HiOutlineCloud)`
 
 const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   const { date, setDate } = props;
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const { getDaysDay } = useDay();
   const pastDays = useRef<PastDay[]>();
   const [descending, setDescending] = useState(true);

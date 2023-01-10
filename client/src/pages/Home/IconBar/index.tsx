@@ -11,8 +11,8 @@ import colors from '../../../utils/colors';
 import { CalendarMode } from '../../../utils/enums';
 import { IconBarProps } from './types';
 import { useDay } from '../../../hooks/day/useDay';
-import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import { toDate } from '../../../utils/date';
+import useStore from '../../../stores';
 
 const IconsContainer = styled.span`
   display: flex;
@@ -64,7 +64,7 @@ const StyledCalendarIcon = styled(HiOutlineCalendar)`
 
 const IconBar = (props: IconBarProps): React.ReactElement => {
   const { mode, setMode, setDate } = props;
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const { getRandomDay } = useDay();
 
   const handleGetRandomDay = async (): Promise<void> => {

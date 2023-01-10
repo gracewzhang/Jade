@@ -9,7 +9,6 @@ import Entry from './Entry';
 import SongFood from './SongFood';
 import Calendar from './Modes/Calendar';
 import Thoughts from './Thoughts';
-import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
@@ -19,6 +18,7 @@ import IconBar from './IconBar';
 import Favorites from './Modes/Favorites';
 import OnThisDay from './Modes/OnThisDay';
 import { toISO8601 } from '../../utils/date';
+import useStore from '../../stores';
 
 const HomeContainer = styled.div`
   display: grid;
@@ -73,7 +73,7 @@ const ThoughtsContainer = styled.div`
 `;
 
 const Home = (): React.ReactElement => {
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const { getDayExists, getDay, createDay, editDay } = useDay();
   const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();

@@ -2,8 +2,8 @@ import React from 'react';
 import { LogoutModalProps } from './types';
 
 import styled from 'styled-components';
-import { useAuth } from '../../hooks/auth/useAuth';
 import colors from '../../utils/colors';
+import useStore from '../../stores';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -68,7 +68,7 @@ const SignoutButton = styled(Button)`
 
 const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
   const { isVisible, setIsVisible, setIsLoggedIn } = props;
-  const { signOut } = useAuth();
+  const signOut = useStore((state) => state.signOut);
 
   const handleSignout = (): void => {
     signOut();

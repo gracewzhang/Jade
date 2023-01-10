@@ -111,6 +111,8 @@ const Settings = (): React.ReactElement => {
     setTSecondaryColor(color.hex);
   };
 
+  // TODO: clicking on the color picker also closes the component
+  // maybe check if event.target is not the color picker
   const handleClick = (event: MouseEvent): void => {
     setPColorPickerOpen(false);
     setSColorPickerOpen(false);

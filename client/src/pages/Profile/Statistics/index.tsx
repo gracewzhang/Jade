@@ -3,8 +3,8 @@ import styled from 'styled-components';
 
 import Block from '../../../components/Block';
 import Label from '../../../components/Label';
-import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import { useUser } from '../../../hooks/user/useUser';
+import useStore from '../../../stores';
 import { getDayDifference } from '../../../utils/date';
 import { StatisticProps } from './types';
 
@@ -58,7 +58,7 @@ const Statistic = (props: StatisticProps): React.ReactElement => {
 };
 
 const Statistics = (): React.ReactElement => {
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const { getNumberOfDays } = useUser();
   const [numDays, setNumDays] = useState(0);
   const [daysSinceJoined, setDaysSinceJoined] = useState(0);

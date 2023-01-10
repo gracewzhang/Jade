@@ -3,11 +3,11 @@ import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import styled from 'styled-components';
 import jwt_decode from 'jwt-decode';
 
-import { useAuthContext } from '../../contexts/auth/AuthContext';
 import { AuthUser, DecodedUser } from '../../types/user';
 import { LoginIllustration } from '../../illustrations/Login.illustration';
 import Logo from '../../components/Logo/Logo';
 import colors from '../../utils/colors';
+import useStore from '../../stores';
 
 const LoginPageContainer = styled.span`
   height: 100%;
@@ -49,7 +49,10 @@ const StyledLogo = styled(Logo)`
 `;
 
 const Login = (): React.ReactElement => {
-  const { checkIfNewUser, signIn, signUp } = useAuthContext();
+  const checkIfNewUser = useStore((state) => state.checkIfNewUser);
+  const signIn = useStore((state) => state.signIn);
+  const signUp = useStore((state) => state.signUp);
+
   const loginSubtitle =
     '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Kaori';
 

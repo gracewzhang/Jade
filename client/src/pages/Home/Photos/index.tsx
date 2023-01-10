@@ -14,8 +14,8 @@ import { Line } from 'rc-progress';
 import Block from '../../../components/Block';
 import colors from '../../../utils/colors';
 import storage from '../../../utils/firebase';
-import { useAuthContext } from '../../../contexts/auth/AuthContext';
 import { PhotoProps, PhotosProps } from './types';
+import useStore from '../../../stores';
 
 const PhotosContainer = styled(Block)`
   position: relative;
@@ -196,7 +196,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
 };
 
 const Photos = (props: PhotosProps): React.ReactElement => {
-  const { user } = useAuthContext();
+  const user = useStore((state) => state.user);
   const { date, photos, updateDay } = props;
 
   return (
