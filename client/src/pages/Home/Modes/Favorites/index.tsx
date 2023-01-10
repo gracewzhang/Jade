@@ -11,7 +11,7 @@ import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
 import { useDay } from '../../../../hooks/day/useDay';
-import { FavoritesProps } from './types';
+import { FavoritesProps, HeartProps } from './types';
 import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
 import useStore from '../../../../stores';
@@ -68,11 +68,11 @@ const DaysContainer = styled.div`
   padding-right: 4%;
 `;
 
-const StyledHeart = styled(HiOutlineHeart)`
+const StyledHeart = styled(HiOutlineHeart)<HeartProps>`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
-  stroke: ${colors.rose};
+  stroke: ${(props) => props.primaryColor};
 `;
 
 const Favorites = (props: FavoritesProps): React.ReactElement => {
@@ -126,7 +126,11 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
                 day={day}
                 setDate={setDate}
                 selected={day.date === date}
-                icon={<StyledHeart />}
+                icon={
+                  <StyledHeart
+                    primaryColor={user?.primary_color ?? colors.rose}
+                  />
+                }
               />
             ))}
           </DaysContainer>

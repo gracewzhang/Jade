@@ -1,5 +1,6 @@
 import React, { BaseSyntheticEvent } from 'react';
 import styled from 'styled-components';
+import { darken } from 'color2k';
 
 import Block from '../../../../components/Block';
 import { Calendar as _Calendar, CalendarTileProperties } from 'react-calendar';
@@ -7,6 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import colors from '../../../../utils/colors';
 import { CalendarItemProps, CalendarProps } from './types';
 import { toISO8601 } from '../../../../utils/date';
+import useStore from '../../../../stores';
 
 const CalendarContainer = styled(Block)``;
 
@@ -88,44 +90,45 @@ const StyledCalendar = styled(_Calendar)<CalendarItemProps>`
     color: white;
   }
 
+  // TODO: the select/hover colors are wack again T_T
   .react-calendar__tile--active,
   .react-calendar__tile--active:enabled:focus {
-    background-color: ${colors['light-yellow']};
+    background-color: ${(props) => props.secondaryColor};
     color: white;
   }
 
   .calendar__tile--hasActive:enabled:focus,
   .calendar__tile--hasActive:enabled:focus {
-    background: ${colors.yellow};
+    background: ${(props) => props.secondaryColor};
   }
 
   .react-calendar__tile--active:enabled:focus:hover,
   .react-calendar__tile--now:enabled:focus:hover {
-    background: ${colors.yellow};
+    background: ${(props) => props.secondaryColor};
     color: white;
   }
 
   .react-calendar__tile--hasActive {
-    background: ${colors['light-yellow']};
+    background: ${(props) => props.secondaryColor};
     color: white;
   }
 
   .j-${(props) => props.selectedDayClass}-month {
-    background: ${colors['light-yellow']};
+    background: ${(props) => props.secondaryColor};
     color: white;
   }
 
   .react-calendar__tile--hasActive:hover {
-    background: ${colors.yellow};
+    background: ${(props) => props.darkSecondaryColor};
   }
 
   .react-calendar__tile--now:hover {
-    background: ${colors['dark-rose']};
+    background: ${(props) => props.darkPrimaryColor};
     color: white;
   }
 
   .react-calendar__tile--now {
-    background: ${colors.rose};
+    background: ${(props) => props.primaryColor};
     color: white;
   }
 
@@ -137,6 +140,7 @@ const StyledCalendar = styled(_Calendar)<CalendarItemProps>`
 
 const Calendar = (props: CalendarProps): React.ReactElement => {
   const { date, setDate } = props;
+  const user = useStore((state) => state.user);
 
   const handleDayChange = (value: Date, event: BaseSyntheticEvent): void => {
     setDate(value);
@@ -156,6 +160,10 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
         showFixedNumberOfWeeks
         onClickDay={handleDayChange}
         tileClassName={getTileClassName}
+        primaryColor={user?.primary_color ?? colors.rose}
+        secondaryColor={user?.secondary_color ?? colors.yellow}
+        darkPrimaryColor={darken(user?.primary_color ?? colors.rose, 0.1)}
+        darkSecondaryColor={darken(user?.secondary_color ?? colors.yellow, 0.1)}
       />
     </CalendarContainer>
   );

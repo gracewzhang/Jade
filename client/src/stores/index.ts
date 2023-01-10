@@ -21,7 +21,6 @@ const useStore = create<StoreResults>()((set, get) => ({
       return false;
     }
   },
-
   signIn: async (data: AuthUser): Promise<void> => {
     try {
       const authResult = await axios.get(

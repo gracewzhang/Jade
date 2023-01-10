@@ -5,8 +5,9 @@ import { HiOutlineCheck } from 'react-icons/hi';
 
 import Block from '../../../components/Block';
 import colors from '../../../utils/colors';
-import { EntryProps } from './types';
+import { EntryProps, FilledHeartProps } from './types';
 import Input from '../../../components/Input/input';
+import useStore from '../../../stores';
 
 const EntryContainer = styled(Block)``;
 
@@ -35,9 +36,9 @@ const StyledHeart = styled(HiOutlineHeart)`
   }
 `;
 
-const FilledHeart = styled(StyledHeart)`
+const FilledHeart = styled(StyledHeart)<FilledHeartProps>`
   stroke-width: 0;
-  fill: ${colors.rose};
+  fill: ${(props) => props.primaryColor};
 `;
 
 const HeaderRightContainer = styled.span`
@@ -78,6 +79,7 @@ const BodyContainer = styled(Input)`
 const MAX_LEN = 200;
 
 const Entry = (props: EntryProps): React.ReactElement => {
+  const user = useStore((state) => state.user);
   const [title, setTitle] = useState(props.title);
   const [entry, setEntry] = useState(props.entry);
   const [isFavorite, setIsFavorite] = useState(props.isFavorite);
@@ -109,7 +111,10 @@ const Entry = (props: EntryProps): React.ReactElement => {
       <PaddingContainer>
         <HeaderContainer>
           {isFavorite ? (
-            <FilledHeart onClick={() => setIsFavorite(false)} />
+            <FilledHeart
+              onClick={() => setIsFavorite(false)}
+              primaryColor={user?.primary_color ?? colors.rose}
+            />
           ) : (
             <StyledHeart onClick={() => setIsFavorite(true)} />
           )}

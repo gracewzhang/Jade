@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import useStore from '../../stores';
 import colors from '../../utils/colors';
 import { toDate } from '../../utils/date';
 import { DayItemProps, DayItemContainerProps } from './types';
@@ -36,7 +37,8 @@ const DayItemContainer = styled.span<DayItemContainerProps>`
   border-radius: 20px;
   padding: 5px;
 
-  background-color: ${(props) => (props.selected ? colors.rose : 'white')};
+  background-color: ${(props) =>
+    props.selected ? props.primaryColor : 'white'};
   p {
     color: ${(props) => (props.selected ? 'white' : 'default')};
   }
@@ -46,7 +48,7 @@ const DayItemContainer = styled.span<DayItemContainerProps>`
 
   :hover {
     cursor: pointer;
-    background-color: ${colors.rose};
+    background-color: ${(props) => props.primaryColor};
 
     p {
       color: white;
@@ -60,11 +62,16 @@ const DayItemContainer = styled.span<DayItemContainerProps>`
 
 const DayItem = (props: DayItemProps): React.ReactElement => {
   const { day, setDate, selected, icon } = props;
+  const user = useStore((state) => state.user);
   const date = toDate(day.date);
   const subtitle = 'when' in day ? day.when : day.date;
 
   return (
-    <DayItemContainer onClick={() => setDate(date)} selected={selected}>
+    <DayItemContainer
+      onClick={() => setDate(date)}
+      selected={selected}
+      primaryColor={user?.primary_color ?? colors.rose}
+    >
       <IconContainer>{icon}</IconContainer>
       <DayTitle>{day.title}</DayTitle>
       <DayDate>{subtitle}</DayDate>

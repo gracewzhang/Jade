@@ -14,7 +14,7 @@ import { Line } from 'rc-progress';
 import Block from '../../../components/Block';
 import colors from '../../../utils/colors';
 import storage from '../../../utils/firebase';
-import { PhotoProps, PhotosProps } from './types';
+import { PhotoProps, PhotosProps, StyledPlusIconProps } from './types';
 import useStore from '../../../stores';
 
 const PhotosContainer = styled(Block)`
@@ -48,8 +48,8 @@ const StyledDropzone = styled.div`
   }
 `;
 
-const StyledPlusIcon = styled(HiOutlinePlus)`
-  color: ${colors.rose};
+const StyledPlusIcon = styled(HiOutlinePlus)<StyledPlusIconProps>`
+  color: ${(props) => props.primaryColor};
   width: 40px;
   height: 40px;
   stroke-width: 3px;
@@ -93,7 +93,7 @@ const ImgContainer = styled.div`
 `;
 
 const Photo = (props: PhotoProps): React.ReactElement => {
-  const { idx, googleId, date, photos, updateDay } = props;
+  const { idx, googleId, primaryColor, date, photos, updateDay } = props;
   const [src, setSrc] = useState(photos[idx]);
 
   const [progress, setProgress] = useState(0);
@@ -176,13 +176,13 @@ const Photo = (props: PhotoProps): React.ReactElement => {
           percent={progress}
           strokeWidth={4}
           trailWidth={4}
-          strokeColor={colors.rose}
+          strokeColor={primaryColor}
           trailColor={colors['light-grey']}
         />
       ) : src === '' ? (
         <StyledDropzone {...getRootProps()}>
           <input {...getInputProps()} />
-          <StyledPlusIcon />
+          <StyledPlusIcon primaryColor={primaryColor} />
         </StyledDropzone>
       ) : (
         <ImgContainer>
@@ -206,6 +206,7 @@ const Photos = (props: PhotosProps): React.ReactElement => {
           key={e}
           idx={e}
           googleId={user?.google_id}
+          primaryColor={user?.primary_color ?? colors.rose}
           date={date}
           photos={photos}
           updateDay={updateDay}

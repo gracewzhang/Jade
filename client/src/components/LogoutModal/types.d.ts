@@ -3,3 +3,8 @@ export interface LogoutModalProps {
   setIsVisible: (newIsVisible: boolean) => void;
   setIsLoggedIn: (newIsLoggedIn: boolean) => void;
 }
+
+export interface SignoutButtonProps {
+  primaryColor: string;
+  darkPrimaryColor: string;
+}

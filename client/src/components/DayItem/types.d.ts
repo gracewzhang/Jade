@@ -10,4 +10,5 @@ export interface DayItemProps {
 
 export interface DayItemContainerProps {
   selected: boolean;
+  primaryColor: string;
 }

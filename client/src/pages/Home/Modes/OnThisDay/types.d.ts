@@ -16,3 +16,7 @@ export interface OnThisDayProps {
   date: string;
   setDate: (newDate: Date) => void;
 }
+
+export interface StyledCloudProps {
+  primaryColor: string;
+}

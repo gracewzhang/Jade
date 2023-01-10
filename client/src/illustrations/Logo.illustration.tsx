@@ -1,8 +1,12 @@
 import React from 'react';
+import useStore from '../stores';
 import { Style } from '../types/style';
+import colors from '../utils/colors';
 
 export const LogoIllustration = (props: Style): JSX.Element => {
   const { className } = props;
+  const user = useStore((state) => state.user);
+
   return (
     <svg
       width="65"
@@ -16,7 +20,7 @@ export const LogoIllustration = (props: Style): JSX.Element => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M29.7876 54.1593C29.7876 52.6638 31 51.4514 32.4956 51.4514H56.8672C58.3628 51.4514 59.5752 52.6638 59.5752 54.1593C59.5752 55.6549 58.3628 56.8673 56.8672 56.8673H32.4956C31 56.8673 29.7876 55.6549 29.7876 54.1593Z"
-        fill="#FDBAA3"
+        fill={user?.primary_color ?? colors.rose}
       />
       <path
         fillRule="evenodd"
