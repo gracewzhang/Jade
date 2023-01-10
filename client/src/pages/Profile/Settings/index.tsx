@@ -111,17 +111,30 @@ const Settings = (): React.ReactElement => {
     setTSecondaryColor(color.hex);
   };
 
-  // TODO: clicking on the color picker also closes the component
-  // maybe check if event.target is not the color picker
-  const handleClick = (event: MouseEvent): void => {
+  const handleOutsideClick = (event: MouseEvent): void => {
     setPColorPickerOpen(false);
     setSColorPickerOpen(false);
   };
 
+  const handlePrimaryClick = (event: MouseEvent): void => {
+    setPColorPickerOpen(true);
+  };
+
+  const handleSecondaryClick = (event: MouseEvent): void => {
+    setSColorPickerOpen(true);
+  };
+
   useEffect(() => {
-    document.addEventListener('click', handleClick, true);
+    document.addEventListener('click', handleOutsideClick, true);
+    document
+      .getElementById('primary-picker')
+      ?.addEventListener('click', handlePrimaryClick, true);
+    document
+      .getElementById('secondary-picker')
+      ?.addEventListener('click', handleSecondaryClick, true);
+
     return () => {
-      document.removeEventListener('click', handleClick, true);
+      document.removeEventListener('click', handleOutsideClick, true);
     };
   }, []);
 
@@ -145,11 +158,8 @@ const Settings = (): React.ReactElement => {
           </SettingContainer>
           <SettingContainer>
             <SettingLabel>Primary Color</SettingLabel>
-            <ColorPickerContainer>
-              <ColorPickerButton
-                onClick={() => setPColorPickerOpen(true)}
-                color={tPrimaryColor}
-              />
+            <ColorPickerContainer id="primary-picker">
+              <ColorPickerButton color={tPrimaryColor} />
               {pColorPickerOpen && (
                 <ColorPicker
                   open={pColorPickerOpen}
@@ -161,11 +171,8 @@ const Settings = (): React.ReactElement => {
           </SettingContainer>
           <SettingContainer>
             <SettingLabel>Secondary Color</SettingLabel>
-            <ColorPickerContainer>
-              <ColorPickerButton
-                onClick={() => setSColorPickerOpen(true)}
-                color={tSecondaryColor}
-              />
+            <ColorPickerContainer id="secondary-picker">
+              <ColorPickerButton color={tSecondaryColor} />
               {sColorPickerOpen && (
                 <SecondaryColorPicker
                   open={sColorPickerOpen}
