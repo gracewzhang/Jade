@@ -4,3 +4,7 @@ export interface EntryProps {
   entry: string;
   isFavorite: boolean;
 }
+
+export interface FilledHeartProps {
+  primaryColor: string;
+}

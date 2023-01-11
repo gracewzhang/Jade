@@ -5,4 +5,8 @@ export interface CalendarProps {
 
 export interface CalendarItemProps {
   selectedDayClass: string;
+  primaryColor: string;
+  darkPrimaryColor: string;
+  secondaryColor: string;
+  darkSecondaryColor: string;
 }

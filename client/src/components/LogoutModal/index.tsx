@@ -1,9 +1,10 @@
 import React from 'react';
-import { LogoutModalProps } from './types';
-
 import styled from 'styled-components';
+
+import { LogoutModalProps, SignoutButtonProps } from './types';
 import colors from '../../utils/colors';
 import useStore from '../../stores';
+import { darken } from 'color2k';
 
 const ModalContainer = styled.div`
   position: absolute;
@@ -56,19 +57,20 @@ const CancelButton = styled(Button)`
   }
 `;
 
-const SignoutButton = styled(Button)`
-  background-color: ${colors.rose};
+const SignoutButton = styled(Button)<SignoutButtonProps>`
+  background-color: ${(props) => props.primaryColor};
   color: white;
   border-radius: 0 0 20px 0;
 
   :hover {
-    background-color: ${colors['dark-rose']};
+    background-color: ${(props) => props.darkPrimaryColor};
   }
 `;
 
 const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
   const { isVisible, setIsVisible, setIsLoggedIn } = props;
   const signOut = useStore((state) => state.signOut);
+  const user = useStore((state) => state.user);
 
   const handleSignout = (): void => {
     signOut();
@@ -83,7 +85,13 @@ const LogoutModal = (props: LogoutModalProps): React.ReactElement => {
       </Content>
       <Footer>
         <CancelButton onClick={() => setIsVisible(false)}>Cancel</CancelButton>
-        <SignoutButton onClick={handleSignout}>Yes</SignoutButton>
+        <SignoutButton
+          onClick={handleSignout}
+          primaryColor={user?.primary_color ?? colors.rose}
+          darkPrimaryColor={darken(user?.primary_color ?? colors.rose, 0.1)}
+        >
+          Yes
+        </SignoutButton>
       </Footer>
     </ModalContainer>
   );

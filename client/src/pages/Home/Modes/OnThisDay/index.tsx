@@ -10,7 +10,7 @@ import Block from '../../../../components/Block';
 import Label from '../../../../components/Label';
 import colors from '../../../../utils/colors';
 import { Day } from '../../../../types/day';
-import { PastDay, OnThisDayProps } from './types';
+import { PastDay, OnThisDayProps, StyledCloudProps } from './types';
 import { useDay } from '../../../../hooks/day/useDay';
 import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
 import DayItem from '../../../../components/DayItem/DayItem';
@@ -69,11 +69,11 @@ const PastDaysContainer = styled.div`
   padding-right: 4%;
 `;
 
-const StyledCloud = styled(HiOutlineCloud)`
+const StyledCloud = styled(HiOutlineCloud)<StyledCloudProps>`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
-  stroke: ${colors.rose};
+  stroke: ${(props) => props.primaryColor};
 `;
 
 const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
@@ -162,7 +162,11 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
                 day={day}
                 setDate={setDate}
                 selected={day.date === date}
-                icon={<StyledCloud />}
+                icon={
+                  <StyledCloud
+                    primaryColor={user?.primary_color ?? colors.rose}
+                  />
+                }
               />
             ))}
           </PastDaysContainer>
