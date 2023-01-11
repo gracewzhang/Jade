@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { ref, listAll, getDownloadURL } from 'firebase/storage';
 
@@ -25,22 +25,23 @@ const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
 
 const Gallery = (): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const urls = useRef<string[]>([]);
-  const [rerender, setRerender] = useState(true);
+  const [urls, setUrls] = useState<string[]>([]);
 
   const retrievePhotos = async (): Promise<void> => {
     if (user !== undefined) {
+      const photoUrls: string[] = [];
       const storageRef = ref(storage, `/${FIREBASE_ROOT}/${user.google_id}`);
       await listAll(storageRef)
         .then(async (res) => {
           for (const itemRef of res.items) {
-            await getDownloadURL(itemRef).then((url) => urls.current.push(url));
+            await getDownloadURL(itemRef).then((url) => photoUrls.push(url));
           }
         })
         .catch((err) => {
           console.log(err);
         });
-      setRerender(!rerender);
+
+      setUrls(photoUrls);
     }
   };
 
@@ -51,7 +52,7 @@ const Gallery = (): React.ReactElement => {
 
   return (
     <GalleryContainer>
-      {urls.current.map((url, key) => (
+      {urls.map((url, key) => (
         <Photo url={url} key={key} />
       ))}
     </GalleryContainer>
