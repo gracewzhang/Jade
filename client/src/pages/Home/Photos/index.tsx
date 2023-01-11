@@ -92,6 +92,8 @@ const ImgContainer = styled.div`
   }
 `;
 
+const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
+
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { idx, googleId, primaryColor, date, photos, updateDay } = props;
   const [src, setSrc] = useState(photos[idx]);
@@ -114,7 +116,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     const file = files[0];
     const storageRef = ref(
       storage,
-      `/${googleId}/${date}-${String(idx)}.${file.name}`
+      `/${FIREBASE_ROOT}/${googleId}/${date}-${String(idx)}.${file.name}`
     );
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadRef.current = uploadTask;
