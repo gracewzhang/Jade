@@ -58,14 +58,17 @@ const useStore = create<StoreResults>()((set, get) => ({
         primary_color: newPrimaryColor,
         secondary_color: newSecondaryColor
       });
-      const newUser = get().user;
-      if (newUser !== undefined) {
+
+      const oldUser = get().user;
+      if (oldUser !== undefined) {
+        const newUser = { ...oldUser };
         newUser.name = newName;
         newUser.primary_color = newPrimaryColor;
         newUser.secondary_color = newSecondaryColor;
+
         set({ user: newUser });
+        localStorage.setItem('user', JSON.stringify(newUser));
       }
-      localStorage.setItem('user', JSON.stringify(newUser));
     } catch (err) {
       console.log(err);
     }

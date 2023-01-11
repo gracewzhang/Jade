@@ -14,5 +14,5 @@ export interface PhotoProps {
 }
 
 export interface StyledPlusIconProps {
-  primaryColor: string;
+  primarycolor: string;
 }

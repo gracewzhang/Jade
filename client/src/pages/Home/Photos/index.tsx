@@ -49,7 +49,7 @@ const StyledDropzone = styled.div`
 `;
 
 const StyledPlusIcon = styled(HiOutlinePlus)<StyledPlusIconProps>`
-  color: ${(props) => props.primaryColor};
+  stroke: ${(props) => props.primarycolor};
   width: 40px;
   height: 40px;
   stroke-width: 3px;
@@ -182,7 +182,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       ) : src === '' ? (
         <StyledDropzone {...getRootProps()}>
           <input {...getInputProps()} />
-          <StyledPlusIcon primaryColor={primaryColor} />
+          <StyledPlusIcon primarycolor={primaryColor} />
         </StyledDropzone>
       ) : (
         <ImgContainer>
