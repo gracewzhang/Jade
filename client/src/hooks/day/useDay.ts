@@ -8,6 +8,8 @@ import {
   CreateDayProps,
   EditDayResults,
   EditDayProps,
+  EditDayPhotoProps,
+  EditDayPhotoResults,
   GetDayProps,
   GetFavoritesProps,
   GetFavoritesResults,
@@ -112,6 +114,24 @@ export const useDay = (): UseDayResults => {
       });
   };
 
+  const editDayPhoto = async (
+    props: EditDayPhotoProps
+  ): Promise<EditDayPhotoResults> => {
+    const { _id, url, photoIdx } = props;
+    const requestString = `${BASE_URL}/day/${String(_id)}/photos/${String(
+      photoIdx
+    )}`;
+
+    return await axios
+      .put(requestString, { url })
+      .then((e) => {
+        return e.data;
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
+  };
+
   const getRandomDay = async (
     props: GetRandomDayProps
   ): Promise<GetRandomDayResults> => {
@@ -160,6 +180,7 @@ export const useDay = (): UseDayResults => {
     getDaysDay,
     createDay,
     editDay,
+    editDayPhoto,
     getRandomDay,
     getFavorites
   };

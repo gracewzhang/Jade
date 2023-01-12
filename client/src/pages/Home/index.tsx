@@ -128,6 +128,8 @@ const Home = (): React.ReactElement => {
                 updateDay={updateDay}
                 date={isoDate}
                 photos={day.photos}
+                day={day}
+                setDay={setDay}
               />
             )}
           </PhotosContainer>
