@@ -96,10 +96,9 @@ const ImgContainer = styled.div`
 const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
 
 const Photo = (props: PhotoProps): React.ReactElement => {
-  const { idx, googleId, primaryColor, date, photos, updateDay, day, setDay } =
-    props;
+  const { idx, googleId, primaryColor, date, day, setDay } = props;
   const { editDayPhoto } = useDay();
-  const [src, setSrc] = useState(photos[idx]);
+  const [src, setSrc] = useState(day.photos[idx]);
 
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -150,7 +149,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
   };
 
   const handleDelete = async (): Promise<void> => {
-    const storageRef = ref(storage, photos[idx]);
+    const storageRef = ref(storage, day.photos[idx]);
     await deleteObject(storageRef).then(async () => {
       const res = await editDayPhoto({ _id: day._id, url: '', photoIdx: idx });
       setDay(res.result);
@@ -196,7 +195,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
 
 const Photos = (props: PhotosProps): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const { date, photos, updateDay, day, setDay } = props;
+  const { date, day, setDay } = props;
 
   return (
     <PhotosContainer>
@@ -207,8 +206,6 @@ const Photos = (props: PhotosProps): React.ReactElement => {
           googleId={user?.google_id}
           primaryColor={user?.primary_color ?? colors.rose}
           date={date}
-          photos={photos}
-          updateDay={updateDay}
           day={day}
           setDay={setDay}
         />
