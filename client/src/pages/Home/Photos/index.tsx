@@ -131,9 +131,9 @@ const Photo = (props: PhotoProps): React.ReactElement => {
         setProgress(progress);
       },
       (error) => console.log(error),
-      () => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      async () => {
+        await getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
       }
     );
   };
@@ -154,6 +154,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     setUploading(false);
   };
 
+  // TODO: probably can't upload & delete at the same time either
   const handleDelete = async (): Promise<void> => {
     const storageRef = ref(storage, photos[idx]);
     await deleteObject(storageRef).then(async () => {
