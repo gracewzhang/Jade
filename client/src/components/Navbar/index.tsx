@@ -95,6 +95,7 @@ const BlurOverlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `;
 
+// TODO: make indicator the primary color
 const Indicator = styled.div`
   position: absolute;
   left: 0;

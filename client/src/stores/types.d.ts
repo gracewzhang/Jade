@@ -1,4 +1,4 @@
-import { AuthUser, User } from '../types/user';
+import { User } from '../types/user';
 
 export interface StoreResults {
   user: undefined | User;
