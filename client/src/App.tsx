@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import Messages from './pages/Messages';
 import Profile from './pages/Profile';
 import useStore from './stores';
+import colors from './utils/colors';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #ffb2a7;
@@ -64,7 +65,10 @@ const App = (): React.ReactElement => {
       <BrowserRouter>
         {isLoggedIn ? (
           <SplitContainer>
-            <Navbar setIsLoggedIn={setIsLoggedIn} />
+            <Navbar
+              setIsLoggedIn={setIsLoggedIn}
+              primaryColor={user?.primary_color ?? colors.rose}
+            />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hello" element={<div>Temporary screen</div>} />

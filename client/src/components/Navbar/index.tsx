@@ -10,7 +10,7 @@ import {
 import { IoLogOutOutline } from 'react-icons/io5';
 import colors from '../../utils/colors';
 import LogoutModal from '../LogoutModal';
-import { NavbarProps } from './types';
+import { IndicatorProps, NavbarProps } from './types';
 
 const NavbarContainer = styled.div`
   position: sticky;
@@ -95,13 +95,12 @@ const BlurOverlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
 `;
 
-// TODO: make indicator the primary color
-const Indicator = styled.div`
+const Indicator = styled.div<IndicatorProps>`
   position: absolute;
   left: 0;
   width: 4px;
   height: 40px;
-  background-color: black;
+  background-color: ${(props) => props.primaryColor};
   border-radius: 0px 20px 20px 0px;
 `;
 
@@ -121,7 +120,7 @@ const navLinks = [
 ];
 
 const Navbar = (props: NavbarProps): React.ReactElement => {
-  const { setIsLoggedIn } = props;
+  const { setIsLoggedIn, primaryColor } = props;
   const [logoutVisible, setLogoutVisible] = useState(false);
   const loc = useLocation();
   const page = loc.pathname;
@@ -142,7 +141,7 @@ const Navbar = (props: NavbarProps): React.ReactElement => {
           {navLinks.map((navLink, key) => (
             <StyledLink to={navLink.to} key={key}>
               {navLink.icon}
-              {page === navLink.to && <Indicator />}
+              {page === navLink.to && <Indicator primaryColor={primaryColor} />}
             </StyledLink>
           ))}
         </MiddleIconsContainer>
