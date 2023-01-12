@@ -91,7 +91,12 @@ const Statistics = (): React.ReactElement => {
           <Label>Statistics</Label>
         </HeaderContainer>
         <ContentContainer>
-          <Statistic stat={numDays} description="memories recorded" />
+          <Statistic
+            stat={numDays}
+            description={
+              numDays === 1 ? 'memory recorded' : 'memories recorded'
+            }
+          />
           <Statistic
             stat={daysSinceJoined}
             description="days since you began"

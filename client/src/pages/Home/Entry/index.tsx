@@ -38,7 +38,7 @@ const StyledHeart = styled(HiOutlineHeart)`
 
 const FilledHeart = styled(StyledHeart)<FilledHeartProps>`
   stroke-width: 0;
-  fill: ${(props) => props.primaryColor};
+  fill: ${(props) => props.primarycolor};
 `;
 
 const HeaderRightContainer = styled.span`
@@ -113,7 +113,7 @@ const Entry = (props: EntryProps): React.ReactElement => {
           {isFavorite ? (
             <FilledHeart
               onClick={() => setIsFavorite(false)}
-              primaryColor={user?.primary_color ?? colors.rose}
+              primarycolor={user?.primary_color ?? colors.rose}
             />
           ) : (
             <StyledHeart onClick={() => setIsFavorite(true)} />

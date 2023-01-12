@@ -6,6 +6,7 @@ export interface UseDayResults {
   getDaysDay: (props: GetDayMonthDayProps) => Promise<GetDayMonthDayResults>;
   createDay: (props: CreateDayProps) => Promise<CreateDayResults>;
   editDay: (props: EditDayProps) => Promise<EditDayResults>;
+  editDayPhoto: (props: EditDayPhotoProps) => Promise<EditDayPhotoResults>;
   getRandomDay: (props: GetRandomDayProps) => Promise<GetRandomDayResults>;
   getFavorites: (props: GetFavoritesProps) => Promise<GetFavoritesResults>;
 }
@@ -69,6 +70,18 @@ export interface EditDayProps {
 }
 
 export interface EditDayResults {
+  message: string;
+  success: boolean;
+  result: Day;
+}
+
+export interface EditDayPhotoProps {
+  _id: string;
+  url: string;
+  photoIdx: number;
+}
+
+export interface EditDayPhotoResults {
   message: string;
   success: boolean;
   result: Day;

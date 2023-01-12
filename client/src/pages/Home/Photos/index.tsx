@@ -16,6 +16,7 @@ import colors from '../../../utils/colors';
 import storage from '../../../utils/firebase';
 import { PhotoProps, PhotosProps, StyledPlusIconProps } from './types';
 import useStore from '../../../stores';
+import { useDay } from '../../../hooks/day/useDay';
 
 const PhotosContainer = styled(Block)`
   position: relative;
@@ -95,8 +96,9 @@ const ImgContainer = styled.div`
 const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
 
 const Photo = (props: PhotoProps): React.ReactElement => {
-  const { idx, googleId, primaryColor, date, photos, updateDay } = props;
-  const [src, setSrc] = useState(photos[idx]);
+  const { idx, googleId, primaryColor, date, day, setDay } = props;
+  const { editDayPhoto } = useDay();
+  const [src, setSrc] = useState(day.photos[idx]);
 
   const [progress, setProgress] = useState(0);
   const [uploading, setUploading] = useState(false);
@@ -131,32 +133,26 @@ const Photo = (props: PhotoProps): React.ReactElement => {
         setProgress(progress);
       },
       (error) => console.log(error),
-      () => {
-        // eslint-disable-next-line @typescript-eslint/no-floating-promises
-        getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      async () => {
+        await getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
       }
     );
   };
 
   const handleUploadFinish = async (url: string): Promise<void> => {
     setSrc(url);
-    const newPhotos = photos.map((photo, key) => {
-      if (key === idx) return url;
-      return photo;
-    });
-    await updateDay({ photos: newPhotos });
+    const res = await editDayPhoto({ _id: day._id, url, photoIdx: idx });
+    setDay(res.result);
     uploadRef.current = undefined;
     setUploading(false);
   };
 
   const handleDelete = async (): Promise<void> => {
-    const storageRef = ref(storage, photos[idx]);
+    const storageRef = ref(storage, day.photos[idx]);
     await deleteObject(storageRef).then(async () => {
-      const newPhotos = photos.map((photo, key) => {
-        if (key === idx) return '';
-        return photo;
-      });
-      await updateDay({ photos: newPhotos });
+      const res = await editDayPhoto({ _id: day._id, url: '', photoIdx: idx });
+      setDay(res.result);
       setSrc('');
     });
   };
@@ -199,7 +195,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
 
 const Photos = (props: PhotosProps): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const { date, photos, updateDay } = props;
+  const { date, day, setDay } = props;
 
   return (
     <PhotosContainer>
@@ -210,8 +206,8 @@ const Photos = (props: PhotosProps): React.ReactElement => {
           googleId={user?.google_id}
           primaryColor={user?.primary_color ?? colors.rose}
           date={date}
-          photos={photos}
-          updateDay={updateDay}
+          day={day}
+          setDay={setDay}
         />
       ))}
     </PhotosContainer>
