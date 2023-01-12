@@ -36,6 +36,7 @@ const DayItemContainer = styled.span<DayItemContainerProps>`
   align-items: center;
   border-radius: 20px;
   padding: 5px;
+  padding-right: 7px;
 
   background-color: ${(props) =>
     props.selected ? props.primaryColor : 'white'};

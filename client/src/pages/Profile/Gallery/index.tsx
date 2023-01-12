@@ -6,36 +6,21 @@ import Block from '../../../components/Block';
 import storage from '../../../utils/firebase';
 import useStore from '../../../stores';
 import { PhotoProps } from './types';
-import colors from '../../../utils/colors';
+import ScrollContainer from '../../../components/ScrollContainer';
 
 // TODO: cmd shift f all of the `` to <>
 const GalleryContainer = styled(Block)`
+  overflow: hidden;
+`;
+
+const GridContainer = styled.div`
+  height: 100%;
   display: grid;
   grid: repeat(5, 20%) / repeat(5, 1fr);
   align-content: start;
   gap: 0.5em;
-  overflow-y: scroll;
   grid-auto-rows: 20%;
   grid-auto-columns: 20%;
-
-  ::-webkit-scrollbar {
-    width: 7px;
-  }
-
-  ::-webkit-scrollbar-track {
-    margin-top: 8px;
-    margin-bottom: 8px;
-    background: white;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: ${colors['light-grey']};
-    border-radius: 20px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: ${colors.grey};
-  }
 `;
 
 const StyledImg = styled.img`
@@ -84,10 +69,14 @@ const Gallery = (): React.ReactElement => {
 
   return (
     <GalleryContainer>
-      {urls.map((url, key) => (
-        <Photo url={url} key={key} />
-      ))}
-      {/* {urls.length > 25 && <ViewAllButton>View All</ViewAllButton>} */}
+      <ScrollContainer>
+        <GridContainer>
+          {urls.map((url, key) => (
+            <Photo url={url} key={key} />
+          ))}
+          {/* {urls.length > 25 && <ViewAllButton>View All</ViewAllButton>} */}
+        </GridContainer>
+      </ScrollContainer>
     </GalleryContainer>
   );
 };

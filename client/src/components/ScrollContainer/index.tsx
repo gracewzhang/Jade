@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import colors from '../../utils/colors';
 
 const ScrollContainer = styled.div`
+  height: 100%;
   overflow-y: scroll;
 
   ::-webkit-scrollbar {
@@ -14,7 +15,6 @@ const ScrollContainer = styled.div`
 
   ::-webkit-scrollbar-thumb {
     background: ${colors['light-grey']};
-    border-radius: 20px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
