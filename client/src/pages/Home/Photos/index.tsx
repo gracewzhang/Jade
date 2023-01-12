@@ -138,6 +138,11 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     );
   };
 
+  /**
+   YOOOO here's the problem: let's say you're uploading 2 photos at the same time.
+   then both threads create 'newPhotos' off of the original photos, but the second 'newPhotos' doesn't
+   include the first image that's being uploaded, so it overwrites that image upload.
+   */
   const handleUploadFinish = async (url: string): Promise<void> => {
     setSrc(url);
     const newPhotos = photos.map((photo, key) => {

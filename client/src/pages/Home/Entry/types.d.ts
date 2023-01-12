@@ -6,5 +6,5 @@ export interface EntryProps {
 }
 
 export interface FilledHeartProps {
-  primaryColor: string;
+  primarycolor: string;
 }
