@@ -15,6 +15,8 @@ const useStore = create<StoreResults>()(
     (set, get) => ({
       user: undefined,
       setUser: (user) => set({ user }),
+
+      // TODO: these guys don't need to be in here
       checkIfNewUser: async (googleId: string): Promise<boolean> => {
         try {
           const authResult = await axios.get(
@@ -52,7 +54,6 @@ const useStore = create<StoreResults>()(
       },
       signOut: (): void => {
         set({ user: undefined });
-        localStorage.setItem('user', 'undefined');
         toastSuccess('Successfully signed out!');
       },
       updateUser: async (props: UpdateUserProps) => {
@@ -72,7 +73,6 @@ const useStore = create<StoreResults>()(
             newUser.secondary_color = newSecondaryColor;
 
             set({ user: newUser });
-            localStorage.setItem('user', JSON.stringify(newUser));
           }
         } catch (err) {
           console.log(err);

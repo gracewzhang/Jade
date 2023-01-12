@@ -60,8 +60,8 @@ const Statistic = (props: StatisticProps): React.ReactElement => {
 const Statistics = (): React.ReactElement => {
   const user = useStore((state) => state.user);
   const { getNumberOfDays } = useUser();
-  const [numDays, setNumDays] = useState(0);
-  const [daysSinceJoined, setDaysSinceJoined] = useState(0);
+  const [numDays, setNumDays] = useState(9); // TODO: change lol
+  const [daysSinceJoined, setDaysSinceJoined] = useState(2); // TODO: change as well lol
 
   useEffect(() => {
     const retrieveNumberOfDays = async (): Promise<void> => {
