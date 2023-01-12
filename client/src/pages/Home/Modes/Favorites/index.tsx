@@ -16,13 +16,14 @@ import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
 import useStore from '../../../../stores';
 
-const FavoritesContainer = styled(Block)``;
+const FavoritesContainer = styled(Block)`
+  overflow: hidden;
+`;
 
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80%;
-  padding: 10% 4% 10% 5%;
+  padding: 10% 10% 5% 10%;
 `;
 
 const HeaderContainer = styled.span`
@@ -30,8 +31,7 @@ const HeaderContainer = styled.span`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
-  padding-right: 5%;
+  padding-right: 3%;
   padding-left: 3%;
 `;
 
@@ -61,11 +61,19 @@ const SortAscIcon = styled(HiOutlineBarsArrowUp)`
   }
 `;
 
+const StyledScrollContainer = styled(ScrollContainer)`
+  height: 70%;
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+  }
+`;
+
 const DaysContainer = styled.div`
+  padding: 0% 8% 0% 8%;
   display: flex;
   flex-direction: column;
   gap: 5px;
-  padding-right: 4%;
 `;
 
 const StyledHeart = styled(HiOutlineHeart)<HeartProps>`
@@ -118,24 +126,24 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
             <SortAscIcon onClick={() => setDescending(true)} />
           )}
         </HeaderContainer>
-        <ScrollContainer>
-          <DaysContainer>
-            {favoriteDays.current?.map((day, key) => (
-              <DayItem
-                key={key}
-                day={day}
-                setDate={setDate}
-                selected={day.date === date}
-                icon={
-                  <StyledHeart
-                    primaryColor={user?.primary_color ?? colors.rose}
-                  />
-                }
-              />
-            ))}
-          </DaysContainer>
-        </ScrollContainer>
       </PaddingContainer>
+      <StyledScrollContainer>
+        <DaysContainer>
+          {favoriteDays.current?.map((day, key) => (
+            <DayItem
+              key={key}
+              day={day}
+              setDate={setDate}
+              selected={day.date === date}
+              icon={
+                <StyledHeart
+                  primaryColor={user?.primary_color ?? colors.rose}
+                />
+              }
+            />
+          ))}
+        </DaysContainer>
+      </StyledScrollContainer>
     </FavoritesContainer>
   );
 };
