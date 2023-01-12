@@ -54,7 +54,7 @@ router.get(
 router.put(
   "/:dayId",
   errorWrap(async (req, res) => {
-    let updatedDay = await Day.findByIdAndUpdate(req.params.dayId, req.body, {
+    const updatedDay = await Day.findByIdAndUpdate(req.params.dayId, req.body, {
       new: true,
       runValidators: true,
     });
@@ -64,16 +64,45 @@ router.put(
         success: false,
         message: "Day with given ID not found",
       });
-      return;
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated day",
+        result: updatedDay,
+      });
     }
+  })
+);
 
-    updatedDay = await Day.findById(req.params.dayId);
-
-    res.status(200).json({
-      success: true,
-      message: "Successfully updated day",
-      result: updatedDay,
+router.put(
+  "/:dayId/photos/:photoIdx",
+  errorWrap(async (req, res) => {
+    const oldPhotos = (await Day.findById(req.params.dayId)).photos;
+    const newPhotos = oldPhotos.map((photo, key) => {
+      console.log(String(key) === req.params.photoIdx);
+      if (key === req.params.photoIdx) return req.body.url;
+      return photo;
     });
+    console.log(req.body.url);
+    console.log(newPhotos);
+
+    const updatedDay = await Day.findByIdAndUpdate(req.params.dayId, { photos: newPhotos }, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedDay) {
+      res.status(404).json({
+        success: false,
+        message: "Day with given ID not found",
+      });
+    } else {
+      res.status(200).json({
+        success: true,
+        message: "Successfully updated day",
+        result: updatedDay,
+      });
+    }
   })
 );
 
