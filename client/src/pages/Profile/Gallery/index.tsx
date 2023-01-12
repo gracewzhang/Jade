@@ -6,6 +6,7 @@ import Block from '../../../components/Block';
 import storage from '../../../utils/firebase';
 import useStore from '../../../stores';
 import { PhotoProps } from './types';
+import colors from '../../../utils/colors';
 
 // TODO: cmd shift f all of the `` to <>
 const GalleryContainer = styled(Block)`
@@ -16,6 +17,25 @@ const GalleryContainer = styled(Block)`
   overflow-y: scroll;
   grid-auto-rows: 20%;
   grid-auto-columns: 20%;
+
+  ::-webkit-scrollbar {
+    width: 7px;
+  }
+
+  ::-webkit-scrollbar-track {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    background: white;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${colors['light-grey']};
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${colors.grey};
+  }
 `;
 
 const StyledImg = styled.img`
@@ -24,6 +44,7 @@ const StyledImg = styled.img`
   object-fit: cover;
 `;
 
+//  TODO: onclick, open modal w/the picture on the left & a button for jumping to the respective day on the right
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { url } = props;
 
