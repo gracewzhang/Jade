@@ -79,12 +79,9 @@ router.put(
   errorWrap(async (req, res) => {
     const oldPhotos = (await Day.findById(req.params.dayId)).photos;
     const newPhotos = oldPhotos.map((photo, key) => {
-      console.log(String(key) === req.params.photoIdx);
-      if (key === req.params.photoIdx) return req.body.url;
+      if (String(key) === req.params.photoIdx) return req.body.url;
       return photo;
     });
-    console.log(req.body.url);
-    console.log(newPhotos);
 
     const updatedDay = await Day.findByIdAndUpdate(req.params.dayId, { photos: newPhotos }, {
       new: true,
