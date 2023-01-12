@@ -9,6 +9,7 @@ import colors from '../../../utils/colors';
 import Input from '../../../components/Input/input';
 import { ColorPickerButtonProps, ColorPickerProps } from './types';
 import useStore from '../../../stores';
+import { useAuth } from '../../../hooks/auth/useAuth';
 
 const SettingsContainer = styled(Block)``;
 
@@ -90,7 +91,7 @@ const MAX_NAME_LEN = 30;
 
 const Settings = (): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const updateUser = useStore((state) => state.updateUser);
+  const { updateUser } = useAuth();
 
   const [name, setName] = useState('');
   const [primaryColor, setPrimaryColor] = useState(colors.rose);

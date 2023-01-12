@@ -7,7 +7,7 @@ import { AuthUser, DecodedUser } from '../../types/user';
 import { LoginIllustration } from '../../illustrations/Login.illustration';
 import Logo from '../../components/Logo/Logo';
 import colors from '../../utils/colors';
-import useStore from '../../stores';
+import { useAuth } from '../../hooks/auth/useAuth';
 
 const LoginPageContainer = styled.span`
   height: 100%;
@@ -49,9 +49,7 @@ const StyledLogo = styled(Logo)`
 `;
 
 const Login = (): React.ReactElement => {
-  const checkIfNewUser = useStore((state) => state.checkIfNewUser);
-  const signIn = useStore((state) => state.signIn);
-  const signUp = useStore((state) => state.signUp);
+  const { checkIfNewUser, signIn, signUp } = useAuth();
 
   const loginSubtitle =
     '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Kaori';
