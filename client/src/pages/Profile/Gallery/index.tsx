@@ -38,7 +38,6 @@ const Photo = (props: PhotoProps): React.ReactElement => {
 
 const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
 
-// TODO: photo uploading is buggy
 const Gallery = (): React.ReactElement => {
   const user = useStore((state) => state.user);
   const [urls, setUrls] = useState<string[]>([]);
@@ -65,7 +64,7 @@ const Gallery = (): React.ReactElement => {
     retrievePhotos();
   }, []);
 
-  const loading = false; // TODO: skeleton
+  // const loading = false; // TODO: skeleton
 
   return (
     <GalleryContainer>
@@ -74,7 +73,6 @@ const Gallery = (): React.ReactElement => {
           {urls.map((url, key) => (
             <Photo url={url} key={key} />
           ))}
-          {/* {urls.length > 25 && <ViewAllButton>View All</ViewAllButton>} */}
         </GridContainer>
       </ScrollContainer>
     </GalleryContainer>
