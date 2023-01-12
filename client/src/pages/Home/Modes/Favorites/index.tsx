@@ -63,6 +63,10 @@ const SortAscIcon = styled(HiOutlineBarsArrowUp)`
 
 const StyledScrollContainer = styled(ScrollContainer)`
   height: 70%;
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 20px;
+  }
 `;
 
 const DaysContainer = styled.div`
