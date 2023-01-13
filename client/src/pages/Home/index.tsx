@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import Skeleton from 'react-loading-skeleton';
@@ -77,8 +77,7 @@ const Home = (): React.ReactElement => {
   const { getDayExists, getDay, createDay, editDay } = useDay();
   const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();
-  const [date, setDate] = useState(new Date());
-  const [isoDate, setISODate] = useState(toISO8601(date));
+  const [isoDate, setISODate] = useState(toISO8601(new Date()));
 
   const { isLoading, isError, error } = useQuery<Promise<void>, Error>(
     ['get-day', isoDate],
@@ -108,11 +107,6 @@ const Home = (): React.ReactElement => {
       setDay(res.result);
     }
   };
-
-  useEffect(() => {
-    const newISODate = toISO8601(date);
-    setISODate(newISODate);
-  }, [date]);
 
   const loading = isLoading || day === undefined || day.date !== isoDate;
 
@@ -174,18 +168,18 @@ const Home = (): React.ReactElement => {
         </BottomContentContainer>
       </LeftContentContainer>
       <RightContentContainer>
-        <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        <IconBar mode={mode} setMode={setMode} setDate={setISODate} />
         <CalendarContainer>
           {mode === CalendarMode.calendar ? (
-            <Calendar date={date} setDate={setDate} />
+            <Calendar date={isoDate} setDate={setISODate} />
           ) : mode === CalendarMode.favorites ? (
             <Favorites
               date={isoDate}
-              setDate={setDate}
+              setDate={setISODate}
               key={String(day?.is_favorite)}
             />
           ) : (
-            <OnThisDay date={isoDate} setDate={setDate} />
+            <OnThisDay date={isoDate} setDate={setISODate} />
           )}
         </CalendarContainer>
         <ThoughtsContainer>

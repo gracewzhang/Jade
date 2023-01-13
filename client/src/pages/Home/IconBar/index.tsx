@@ -11,7 +11,6 @@ import colors from '../../../utils/colors';
 import { CalendarMode } from '../../../utils/enums';
 import { IconBarProps } from './types';
 import { useDay } from '../../../hooks/day/useDay';
-import { toDate } from '../../../utils/date';
 import useStore from '../../../stores';
 
 const IconsContainer = styled.span`
@@ -72,7 +71,7 @@ const IconBar = (props: IconBarProps): React.ReactElement => {
       const res = await getRandomDay({ googleId: user.google_id });
       if (res.result.length === 1) {
         const day = res.result[0];
-        setDate(toDate(day.date));
+        setDate(day.date);
       }
     }
   };

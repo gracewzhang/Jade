@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import useStore from '../../stores';
 import colors from '../../utils/colors';
-import { toDate } from '../../utils/date';
 import { DayItemProps, DayItemContainerProps } from './types';
 
 const IconContainer = styled.span`
@@ -64,7 +63,7 @@ const DayItemContainer = styled.span<DayItemContainerProps>`
 const DayItem = (props: DayItemProps): React.ReactElement => {
   const { day, setDate, selected, icon } = props;
   const user = useStore((state) => state.user);
-  const date = toDate(day.date);
+  const date = day.date;
   const subtitle = 'when' in day ? day.when : day.date;
 
   return (

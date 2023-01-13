@@ -1,6 +1,6 @@
 export interface CalendarProps {
-  setDate: (newDate: Date) => void;
-  date: Date;
+  setDate: (newDate: string) => void;
+  date: string;
 }
 
 export interface CalendarItemProps {

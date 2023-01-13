@@ -14,7 +14,7 @@ export interface PastDay {
 
 export interface OnThisDayProps {
   date: string;
-  setDate: (newDate: Date) => void;
+  setDate: (newDate: string) => void;
 }
 
 export interface StyledCloudProps {

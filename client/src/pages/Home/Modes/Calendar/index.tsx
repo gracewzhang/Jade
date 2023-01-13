@@ -7,7 +7,7 @@ import { Calendar as _Calendar, CalendarTileProperties } from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import colors from '../../../../utils/colors';
 import { CalendarItemProps, CalendarProps } from './types';
-import { toISO8601 } from '../../../../utils/date';
+import { toDate, toISO8601 } from '../../../../utils/date';
 import useStore from '../../../../stores';
 
 const CalendarContainer = styled(Block)``;
@@ -143,7 +143,7 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
   const user = useStore((state) => state.user);
 
   const handleDayChange = (value: Date, event: BaseSyntheticEvent): void => {
-    setDate(value);
+    setDate(toISO8601(value));
   };
 
   const getTileClassName = (props: CalendarTileProperties): string => {
@@ -154,8 +154,8 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
     <CalendarContainer>
       <StyledCalendar
         calendarType="US"
-        selectedDayClass={`${toISO8601(date)}`}
-        defaultValue={date}
+        selectedDayClass={date}
+        defaultValue={toDate(date)}
         maxDate={new Date()}
         showFixedNumberOfWeeks
         onClickDay={handleDayChange}
