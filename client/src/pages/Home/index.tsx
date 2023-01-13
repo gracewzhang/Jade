@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
@@ -80,26 +81,36 @@ const Home = (): React.ReactElement => {
   const [date, setDate] = useState(new Date());
   const [isoDate, setISODate] = useState(toISO8601(date));
 
-  const retrieveDay = useCallback(async () => {
-    if (user !== undefined) {
-      const newISODate = toISO8601(date);
-      setISODate(newISODate);
-      const existsParams = {
-        googleId: user.google_id,
-        date: newISODate
-      };
-      const res = await getDayExists(existsParams);
-      if (typeof res.result === 'boolean') {
-        const dayParams = { google_id: user.google_id, date: newISODate };
-        const newDay = await createDay(dayParams);
-        setDay(newDay.result);
-      } else {
-        const dayId = res.result._id;
-        const day = await getDay({ dayId });
-        setDay(day.result);
+  // TODO: bruh the minutes & seconds for date change
+  const { isLoading, isError, data, error } = useQuery<Day | undefined, Error>(
+    ['get-day', date],
+    async () => {
+      console.log(date);
+      if (user !== undefined) {
+        const newISODate = toISO8601(date);
+        setISODate(newISODate);
+        const existsParams = {
+          googleId: user.google_id,
+          date: newISODate
+        };
+        const res = await getDayExists(existsParams);
+        if (typeof res.result === 'boolean') {
+          const dayParams = { google_id: user.google_id, date: newISODate };
+          const newDay = await createDay(dayParams);
+          return newDay.result;
+        } else {
+          const dayId = res.result._id;
+          const day = await getDay({ dayId });
+          return day.result;
+        }
+      }
+    },
+    {
+      onSuccess: (res) => {
+        setDay(res);
       }
     }
-  }, [date]);
+  );
 
   const updateDay = async (updateParams: UpdateDayProps): Promise<void> => {
     if (day !== undefined) {
@@ -108,13 +119,13 @@ const Home = (): React.ReactElement => {
     }
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrieveDay();
-  }, [retrieveDay]);
+  const loading = isLoading || day === undefined || day.date !== isoDate;
 
-  const loading = day === undefined || day.date !== isoDate;
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
 
+  // TODO: allow these components to get undefined props, and let them manage skeleton status
   return (
     <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
       <HomeContainer>
