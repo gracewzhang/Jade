@@ -67,7 +67,7 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
   };
 
   const save = useMutation({
-    mutationFn: async (event): Promise<void> => {
+    mutationFn: async (): Promise<void> => {
       await props.updateDay(
         props.type === SF.song ? { song: value } : { food: value }
       );

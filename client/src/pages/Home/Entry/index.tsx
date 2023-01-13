@@ -100,7 +100,7 @@ const Entry = (props: EntryProps): React.ReactElement => {
   };
 
   const save = useMutation({
-    mutationFn: async (event): Promise<void> => {
+    mutationFn: async (): Promise<void> => {
       await props.updateDay({ title, entry, is_favorite: isFavorite });
     }
   });

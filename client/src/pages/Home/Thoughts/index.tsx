@@ -103,7 +103,7 @@ const Thoughts = (props: ThoughtsProps): React.ReactElement => {
   const thoughts = useRef(props.thoughts);
 
   const save = useMutation({
-    mutationFn: async (event): Promise<void> => {
+    mutationFn: async (): Promise<void> => {
       await props.updateDay({ thoughts: thoughts.current });
     }
   });
