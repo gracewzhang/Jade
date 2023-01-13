@@ -1,20 +1,15 @@
-import axios from 'axios';
 import useStore from '../../stores';
 import { AuthUser } from '../../types/user';
 import { toastError, toastSuccess } from '../../utils/toast';
+import { apiClient } from '../axios';
 import { UseAuthResults } from './types';
 
 export const useAuth = (): UseAuthResults => {
-  const BASE_URL =
-    process.env.REACT_APP_VERCEL_URL !== undefined
-      ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
-      : 'http://localhost:9000/api';
-
   const setUser = useStore((state) => state.setUser);
 
   const checkIfNewUser = async (googleId: string): Promise<boolean> => {
     try {
-      const authResult = await axios.get(`${BASE_URL}/user/exists/${googleId}`);
+      const authResult = await apiClient.get(`/user/exists/${googleId}`);
       return authResult?.data.result === false;
     } catch (err) {
       console.log(err);
@@ -24,9 +19,7 @@ export const useAuth = (): UseAuthResults => {
 
   const signIn = async (data: AuthUser): Promise<void> => {
     try {
-      const authResult = await axios.get(
-        `${BASE_URL}/user/${String(data.google_id)}`
-      );
+      const authResult = await apiClient.get(`/user/${String(data.google_id)}`);
       const newUser = authResult?.data?.result;
       setUser(newUser);
       toastSuccess('Successfully signed in!');
@@ -38,7 +31,7 @@ export const useAuth = (): UseAuthResults => {
 
   const signUp = async (data: AuthUser): Promise<void> => {
     try {
-      const authResult = await axios.post(`${BASE_URL}/user`, data);
+      const authResult = await apiClient.post('/user', data);
       const newUser = authResult?.data.result;
       setUser(newUser);
       toastSuccess('Successfully signed up!');

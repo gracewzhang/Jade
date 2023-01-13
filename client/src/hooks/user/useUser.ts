@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
-import axios from 'axios';
 import useStore from '../../stores';
+import { apiClient } from '../axios';
 import {
   EditUserProps,
   GetNumberOfDaysProps,
@@ -11,17 +11,13 @@ import {
 } from './types';
 
 export const useUser = (): UseUserResults => {
-  const BASE_URL =
-    process.env.REACT_APP_VERCEL_URL !== undefined
-      ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
-      : 'http://localhost:9000/api';
   const user = useStore((state) => state.user);
   const setUser = useStore((state) => state.setUser);
 
   const getUser = async (props: GetUserProps): Promise<GetUserResults> => {
-    const requestString = `${BASE_URL}/user/${String(props.googleId)}`;
+    const requestString = `/user/${String(props.googleId)}`;
 
-    return await axios
+    return await apiClient
       .get<GetUserResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
@@ -38,11 +34,9 @@ export const useUser = (): UseUserResults => {
   const getNumberOfDays = async (
     props: GetNumberOfDaysProps
   ): Promise<number> => {
-    const requestString = `${BASE_URL}/user/${String(
-      props.googleId
-    )}/day/count`;
+    const requestString = `/user/${String(props.googleId)}/day/count`;
 
-    return await axios
+    return await apiClient
       .get<GetNumberOfDaysResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
@@ -59,7 +53,7 @@ export const useUser = (): UseUserResults => {
   const editUser = async (props: EditUserProps): Promise<void> => {
     const { googleId, newName, newPrimaryColor, newSecondaryColor } = props;
     try {
-      await axios.put(`${BASE_URL}/user/${String(googleId)}`, {
+      await apiClient.put(`/user/${String(googleId)}`, {
         name: newName,
         primary_color: newPrimaryColor,
         secondary_color: newSecondaryColor

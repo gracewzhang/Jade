@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import axios from 'axios';
+import { apiClient } from '../axios';
 import {
   GetDayResults,
   GetDayExistsProps,
@@ -21,20 +21,15 @@ import {
 } from './types';
 
 export const useDay = (): UseDayResults => {
-  const BASE_URL =
-    process.env.REACT_APP_VERCEL_URL !== undefined
-      ? `https://${process.env.REACT_APP_VERCEL_URL}/api`
-      : 'http://localhost:9000/api';
-
   const getDayExists = async (
     props: GetDayExistsProps
   ): Promise<GetDayExistsResults> => {
     const { googleId, date } = props;
-    const requestString = `${BASE_URL}/user/${String(
-      googleId
-    )}/day/exists/date/${String(date)}`;
+    const requestString = `/user/${String(googleId)}/day/exists/date/${String(
+      date
+    )}`;
 
-    return await axios
+    return await apiClient
       .get<GetDayExistsResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
@@ -49,9 +44,9 @@ export const useDay = (): UseDayResults => {
   };
 
   const getDay = async (props: GetDayProps): Promise<GetDayResults> => {
-    const requestString = `${BASE_URL}/day/${String(props.dayId)}`;
+    const requestString = `/day/${String(props.dayId)}`;
 
-    return await axios
+    return await apiClient
       .get<GetDayResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
@@ -68,11 +63,11 @@ export const useDay = (): UseDayResults => {
   const getDaysDay = async (
     props: GetDaysDayProps
   ): Promise<GetDaysDayResults> => {
-    const requestString = `${BASE_URL}/user/${String(
-      props.googleId
-    )}/day/date/${String(props.day)}`;
+    const requestString = `/user/${String(props.googleId)}/day/date/${String(
+      props.day
+    )}`;
 
-    return await axios
+    return await apiClient
       .get<GetDaysDayResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
@@ -89,9 +84,9 @@ export const useDay = (): UseDayResults => {
   const createDay = async (
     props: CreateDayProps
   ): Promise<CreateDayResults> => {
-    const requestString = `${BASE_URL}/day`;
+    const requestString = '/day';
 
-    return await axios
+    return await apiClient
       .post(requestString, props)
       .then((e) => {
         return e.data;
@@ -102,9 +97,9 @@ export const useDay = (): UseDayResults => {
   };
 
   const editDay = async (props: EditDayProps): Promise<EditDayResults> => {
-    const requestString = `${BASE_URL}/day/${String(props._id)}`;
+    const requestString = `/day/${String(props._id)}`;
 
-    return await axios
+    return await apiClient
       .put(requestString, props)
       .then((e) => {
         return e.data;
@@ -118,11 +113,9 @@ export const useDay = (): UseDayResults => {
     props: EditDayPhotoProps
   ): Promise<EditDayPhotoResults> => {
     const { _id, url, photoIdx } = props;
-    const requestString = `${BASE_URL}/day/${String(_id)}/photos/${String(
-      photoIdx
-    )}`;
+    const requestString = `/day/${String(_id)}/photos/${String(photoIdx)}`;
 
-    return await axios
+    return await apiClient
       .put(requestString, { url })
       .then((e) => {
         return e.data;
@@ -135,11 +128,9 @@ export const useDay = (): UseDayResults => {
   const getRandomDay = async (
     props: GetRandomDayProps
   ): Promise<GetRandomDayResults> => {
-    const requestString = `${BASE_URL}/user/${String(
-      props.googleId
-    )}/day/random`;
+    const requestString = `/user/${String(props.googleId)}/day/random`;
 
-    return await axios
+    return await apiClient
       .get<GetRandomDayResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'
@@ -156,11 +147,9 @@ export const useDay = (): UseDayResults => {
   const getFavorites = async (
     props: GetFavoritesProps
   ): Promise<GetFavoritesResults> => {
-    const requestString = `${BASE_URL}/user/${String(
-      props.googleId
-    )}/day/favorites`;
+    const requestString = `/user/${String(props.googleId)}/day/favorites`;
 
-    return await axios
+    return await apiClient
       .get<GetFavoritesResults>(requestString, {
         headers: {
           'Content-Type': 'application/JSON'

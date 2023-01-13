@@ -1,4 +1,3 @@
-// import axios from 'axios';
 import { getDownloadURL, listAll, ref } from 'firebase/storage';
 import storage from '../../utils/firebase';
 import { GetPhotosProps, UsePhotosResults } from './types';
