@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
 import Skeleton from 'react-loading-skeleton';
@@ -80,33 +80,24 @@ const Home = (): React.ReactElement => {
   const [date, setDate] = useState(new Date());
   const [isoDate, setISODate] = useState(toISO8601(date));
 
-  // TODO: bruh the minutes & seconds for date change
-  const { isLoading, isError, data, error } = useQuery<Day | undefined, Error>(
-    ['get-day', date],
+  const { isLoading, isError, error } = useQuery<Promise<void>, Error>(
+    ['get-day', isoDate],
     async () => {
-      console.log(date);
       if (user !== undefined) {
-        const newISODate = toISO8601(date);
-        setISODate(newISODate);
         const existsParams = {
           googleId: user.google_id,
-          date: newISODate
+          date: isoDate
         };
         const res = await getDayExists(existsParams);
         if (typeof res.result === 'boolean') {
-          const dayParams = { google_id: user.google_id, date: newISODate };
+          const dayParams = { google_id: user.google_id, date: isoDate };
           const newDay = await createDay(dayParams);
-          return newDay.result;
+          setDay(newDay.result);
         } else {
           const dayId = res.result._id;
           const day = await getDay({ dayId });
-          return day.result;
+          setDay(day.result);
         }
-      }
-    },
-    {
-      onSuccess: (res) => {
-        setDay(res);
       }
     }
   );
@@ -118,13 +109,17 @@ const Home = (): React.ReactElement => {
     }
   };
 
+  useEffect(() => {
+    const newISODate = toISO8601(date);
+    setISODate(newISODate);
+  }, [date]);
+
   const loading = isLoading || day === undefined || day.date !== isoDate;
 
   if (isError) {
     return <div>{error.message}</div>;
   }
 
-  // TODO: allow these components to get undefined props, and let them manage skeleton status
   return (
     <HomeContainer>
       <LeftContentContainer>
