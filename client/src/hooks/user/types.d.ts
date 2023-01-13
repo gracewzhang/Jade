@@ -2,9 +2,7 @@ import { User } from '../../types/user';
 
 export interface UseUserResults {
   getUser: (props: GetUserProps) => Promise<GetUserResults>;
-  getNumberOfDays: (
-    props: GetNumberOfDaysProps
-  ) => Promise<GetNumberOfDaysResults>;
+  getNumberOfDays: (props: GetNumberOfDaysProps) => Promise<number>;
   editUser: (props: EditUserProps) => Promise<void>;
 }
 

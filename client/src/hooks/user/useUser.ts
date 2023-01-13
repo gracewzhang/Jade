@@ -37,7 +37,7 @@ export const useUser = (): UseUserResults => {
 
   const getNumberOfDays = async (
     props: GetNumberOfDaysProps
-  ): Promise<GetNumberOfDaysResults> => {
+  ): Promise<number> => {
     const requestString = `${BASE_URL}/user/${String(
       props.googleId
     )}/day/count`;
@@ -49,7 +49,7 @@ export const useUser = (): UseUserResults => {
         }
       })
       .then((e) => {
-        return e.data;
+        return e.data.result ?? 0;
       })
       .catch((error) => {
         throw new Error(error);

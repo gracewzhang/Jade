@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
 
 import Block from '../../../components/Block';
 import Label from '../../../components/Label';
@@ -60,21 +61,17 @@ const Statistic = (props: StatisticProps): React.ReactElement => {
 const Statistics = (): React.ReactElement => {
   const user = useStore((state) => state.user);
   const { getNumberOfDays } = useUser();
-  const [numDays, setNumDays] = useState(9); // TODO: change lol
-  const [daysSinceJoined, setDaysSinceJoined] = useState(2); // TODO: change as well lol
+  const [daysSinceJoined, setDaysSinceJoined] = useState(0);
 
-  useEffect(() => {
-    const retrieveNumberOfDays = async (): Promise<void> => {
-      if (user !== undefined) {
-        const res = await getNumberOfDays({ googleId: user.google_id });
-        if (res.result !== undefined) {
-          setNumDays(res.result);
-        }
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrieveNumberOfDays();
-  }, []);
+  const {
+    isLoading: isLoadingNumDays,
+    isError: isErrorNumDays,
+    data: numDays,
+    error: numDaysError
+  } = useQuery<number, Error>(
+    ['get-num-days', user?.google_id],
+    async () => await getNumberOfDays({ googleId: user?.google_id ?? '' })
+  );
 
   useEffect(() => {
     if (user !== undefined) {
@@ -84,6 +81,14 @@ const Statistics = (): React.ReactElement => {
     }
   }, []);
 
+  if (isLoadingNumDays) {
+    return <div>LOADING</div>;
+  }
+
+  if (isErrorNumDays) {
+    return <div>{numDaysError.message}</div>;
+  }
+
   return (
     <StatisticsContainer>
       <PaddingContainer>
@@ -92,7 +97,7 @@ const Statistics = (): React.ReactElement => {
         </HeaderContainer>
         <ContentContainer>
           <Statistic
-            stat={numDays}
+            stat={numDays ?? 1}
             description={
               numDays === 1 ? 'memory recorded' : 'memories recorded'
             }
