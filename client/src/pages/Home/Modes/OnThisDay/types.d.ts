@@ -18,5 +18,5 @@ export interface OnThisDayProps {
 }
 
 export interface StyledCloudProps {
-  primaryColor: string;
+  primarycolor: string;
 }

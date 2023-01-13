@@ -82,7 +82,7 @@ const StyledHeart = styled(HiOutlineHeart)<HeartProps>`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
-  stroke: ${(props) => props.primaryColor};
+  stroke: ${(props) => props.primarycolor};
 `;
 
 const Favorites = (props: FavoritesProps): React.ReactElement => {
@@ -147,7 +147,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
               selected={day.date === date}
               icon={
                 <StyledHeart
-                  primaryColor={user?.primary_color ?? colors.rose}
+                  primarycolor={user?.primary_color ?? colors.rose}
                 />
               }
             />

@@ -16,6 +16,8 @@ import { getMonthDifference, toDate, toISO8601 } from '../../../../utils/date';
 import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
 import useStore from '../../../../stores';
+import { useQuery } from 'react-query';
+import Skeleton from 'react-loading-skeleton';
 
 const OnThisDayContainer = styled(Block)``;
 
@@ -73,7 +75,7 @@ const StyledCloud = styled(HiOutlineCloud)<StyledCloudProps>`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
-  stroke: ${(props) => props.primaryColor};
+  stroke: ${(props) => props.primarycolor};
 `;
 
 const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
@@ -83,6 +85,25 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   const pastDays = useRef<PastDay[]>();
   const [descending, setDescending] = useState(true);
   const [rerender, setRerender] = useState(true);
+
+  const queryDay = toISO8601(new Date()).match('[0-9]{2}$');
+  const { isLoading, isError, error } = useQuery<Promise<void>, Error>(
+    ['get-on-this-day', queryDay],
+    async () => {
+      if (
+        user !== undefined &&
+        queryDay?.length !== undefined &&
+        queryDay.length > 0
+      ) {
+        const res = await getDaysDay({
+          googleId: user.google_id,
+          day: queryDay[0]
+        });
+        const newPastDays = filterPastDays(res.result);
+        reverseDays(newPastDays);
+      }
+    }
+  );
 
   const reverseDays = (days: PastDay[]): void => {
     const reversed = days.reverse();
@@ -117,30 +138,18 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   };
 
   useEffect(() => {
-    const retrievePastDays = async (): Promise<void> => {
-      const queryDay = toISO8601(new Date()).match('[0-9]{2}$');
-      if (
-        user !== undefined &&
-        queryDay?.length !== undefined &&
-        queryDay.length > 0
-      ) {
-        const res = await getDaysDay({
-          googleId: user.google_id,
-          day: queryDay[0]
-        });
-        const newPastDays = filterPastDays(res.result);
-        reverseDays(newPastDays);
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrievePastDays();
-  }, []);
-
-  useEffect(() => {
     if (pastDays.current !== undefined) {
       reverseDays(pastDays.current);
     }
   }, [descending]);
+
+  if (isLoading) {
+    return <Skeleton count={18} />;
+  }
+
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <OnThisDayContainer>
@@ -164,7 +173,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
                 selected={day.date === date}
                 icon={
                   <StyledCloud
-                    primaryColor={user?.primary_color ?? colors.rose}
+                    primarycolor={user?.primary_color ?? colors.rose}
                   />
                 }
               />

@@ -4,5 +4,5 @@ export interface FavoritesProps {
 }
 
 export interface HeartProps {
-  primaryColor: string;
+  primarycolor: string;
 }
