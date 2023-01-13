@@ -1,7 +1,7 @@
 import useStore from '../../stores';
 import { AuthUser } from '../../types/user';
 import { toastError, toastSuccess } from '../../utils/toast';
-import { apiClient } from '../axios';
+import { apiClient } from '../apiClient';
 import { UseAuthResults } from './types';
 
 export const useAuth = (): UseAuthResults => {

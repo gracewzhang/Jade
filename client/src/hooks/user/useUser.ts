@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/indent */
 import useStore from '../../stores';
-import { apiClient } from '../axios';
+import { apiClient } from '../apiClient';
 import {
   EditUserProps,
   GetNumberOfDaysProps,

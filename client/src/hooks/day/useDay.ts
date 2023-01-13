@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/indent */
-import { apiClient } from '../axios';
+import { apiClient } from '../apiClient';
 import {
   GetDayResults,
   GetDayExistsProps,
