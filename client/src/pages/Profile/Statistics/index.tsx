@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 
 import Block from '../../../components/Block';
 import Label from '../../../components/Label';
@@ -9,7 +9,6 @@ import { useUser } from '../../../hooks/user/useUser';
 import useStore from '../../../stores';
 import { getDayDifference } from '../../../utils/date';
 import { StatisticProps } from './types';
-import colors from '../../../utils/colors';
 
 const StatisticsContainer = styled(Block)``;
 
@@ -89,11 +88,7 @@ const Statistics = (): React.ReactElement => {
   });
 
   if (isLoadingNumDays || isLoadingDaysJoined) {
-    return (
-      <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
-        <Skeleton count={9} />
-      </SkeletonTheme>
-    );
+    return <Skeleton count={9} />;
   }
 
   if (isErrorNumDays || isErrorDaysJoined) {

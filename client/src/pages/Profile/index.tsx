@@ -1,12 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import Gallery from './Gallery';
 import Header from './Header';
 import Settings from './Settings';
 import Statistics from './Statistics';
-import colors from '../../utils/colors';
 
 const ProfileContainer = styled.div`
   display: grid;
@@ -35,27 +33,23 @@ const SettingsContainer = styled.div``; // TODO: necessary?
 const GalleryContainer = styled.div``;
 
 const Profile = (): React.ReactElement => {
-  const loading = false; // TODO
-
   return (
-    <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
-      <ProfileContainer>
-        <Header />
-        <ContentContainer>
-          <LeftContentContainer>
-            <StatisticsContainer>
-              {loading ? <Skeleton count={13} /> : <Statistics />}
-            </StatisticsContainer>
-            <SettingsContainer>
-              {loading ? <Skeleton count={15} /> : <Settings />}
-            </SettingsContainer>
-          </LeftContentContainer>
-          <GalleryContainer>
-            {loading ? <Skeleton count={31} /> : <Gallery />}
-          </GalleryContainer>
-        </ContentContainer>
-      </ProfileContainer>
-    </SkeletonTheme>
+    <ProfileContainer>
+      <Header />
+      <ContentContainer>
+        <LeftContentContainer>
+          <StatisticsContainer>
+            <Statistics />
+          </StatisticsContainer>
+          <SettingsContainer>
+            <Settings />
+          </SettingsContainer>
+        </LeftContentContainer>
+        <GalleryContainer>
+          <Gallery />
+        </GalleryContainer>
+      </ContentContainer>
+    </ProfileContainer>
   );
 };
 

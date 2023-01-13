@@ -1,14 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 
 import Block from '../../../components/Block';
 import useStore from '../../../stores';
 import { PhotoProps } from './types';
 import ScrollContainer from '../../../components/ScrollContainer';
 import { usePhotos } from '../../../hooks/photos/usePhotos';
-import colors from '../../../utils/colors';
 
 const GalleryContainer = styled(Block)`
   overflow: hidden;
@@ -46,12 +45,9 @@ const Gallery = (): React.ReactElement => {
   );
 
   if (isLoading) {
-    return (
-      <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
-        <Skeleton count={30} />
-      </SkeletonTheme>
-    );
+    return <Skeleton count={30} />;
   }
+
   if (isError) {
     return <div>{error.message}</div>;
   }

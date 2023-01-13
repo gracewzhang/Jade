@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import Welcome from './Welcome';
@@ -14,7 +14,6 @@ import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
 import { CalendarMode, SF } from '../../utils/enums';
-import colors from '../../utils/colors';
 import IconBar from './IconBar';
 import Favorites from './Modes/Favorites';
 import OnThisDay from './Modes/OnThisDay';
@@ -127,88 +126,86 @@ const Home = (): React.ReactElement => {
 
   // TODO: allow these components to get undefined props, and let them manage skeleton status
   return (
-    <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
-      <HomeContainer>
-        <LeftContentContainer>
-          <Welcome />
-          <PhotosContainer>
+    <HomeContainer>
+      <LeftContentContainer>
+        <Welcome />
+        <PhotosContainer>
+          {loading ? (
+            <Skeleton count={9} />
+          ) : (
+            <Photos date={isoDate} day={day} setDay={setDay} />
+          )}
+        </PhotosContainer>
+        <BottomContentContainer>
+          <EntryContainer>
             {loading ? (
-              <Skeleton count={9} />
+              <Skeleton count={16} />
             ) : (
-              <Photos date={isoDate} day={day} setDay={setDay} />
+              <Entry
+                updateDay={updateDay}
+                key={isoDate}
+                title={day.title}
+                entry={day.entry}
+                isFavorite={day.is_favorite}
+              />
             )}
-          </PhotosContainer>
-          <BottomContentContainer>
-            <EntryContainer>
+          </EntryContainer>
+          <BottomRightContentContainer>
+            <SongFoodContainer>
               {loading ? (
-                <Skeleton count={16} />
+                <Skeleton count={7} />
               ) : (
-                <Entry
-                  updateDay={updateDay}
+                <SongFood
+                  type={SF.song}
                   key={isoDate}
-                  title={day.title}
-                  entry={day.entry}
-                  isFavorite={day.is_favorite}
+                  song={day.song}
+                  updateDay={updateDay}
                 />
               )}
-            </EntryContainer>
-            <BottomRightContentContainer>
-              <SongFoodContainer>
-                {loading ? (
-                  <Skeleton count={7} />
-                ) : (
-                  <SongFood
-                    type={SF.song}
-                    key={isoDate}
-                    song={day.song}
-                    updateDay={updateDay}
-                  />
-                )}
-              </SongFoodContainer>
-              <SongFoodContainer>
-                {loading ? (
-                  <Skeleton count={7} />
-                ) : (
-                  <SongFood
-                    type={SF.food}
-                    key={isoDate}
-                    food={day.food}
-                    updateDay={updateDay}
-                  />
-                )}
-              </SongFoodContainer>
-            </BottomRightContentContainer>
-          </BottomContentContainer>
-        </LeftContentContainer>
-        <RightContentContainer>
-          <IconBar mode={mode} setMode={setMode} setDate={setDate} />
-          <CalendarContainer>
-            {mode === CalendarMode.calendar ? (
-              <Calendar date={date} setDate={setDate} />
-            ) : mode === CalendarMode.favorites ? (
-              <Favorites
-                date={isoDate}
-                setDate={setDate}
-                key={String(day?.is_favorite)}
-              />
-            ) : (
-              <OnThisDay date={isoDate} setDate={setDate} />
-            )}
-          </CalendarContainer>
-          <ThoughtsContainer>
-            {loading ? (
-              <Skeleton count={10} />
-            ) : (
-              <Thoughts
-                key={isoDate}
-                thoughts={day.thoughts}
-                updateDay={updateDay}
-              />
-            )}
-          </ThoughtsContainer>
-        </RightContentContainer>
-      </HomeContainer>
-    </SkeletonTheme>
+            </SongFoodContainer>
+            <SongFoodContainer>
+              {loading ? (
+                <Skeleton count={7} />
+              ) : (
+                <SongFood
+                  type={SF.food}
+                  key={isoDate}
+                  food={day.food}
+                  updateDay={updateDay}
+                />
+              )}
+            </SongFoodContainer>
+          </BottomRightContentContainer>
+        </BottomContentContainer>
+      </LeftContentContainer>
+      <RightContentContainer>
+        <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        <CalendarContainer>
+          {mode === CalendarMode.calendar ? (
+            <Calendar date={date} setDate={setDate} />
+          ) : mode === CalendarMode.favorites ? (
+            <Favorites
+              date={isoDate}
+              setDate={setDate}
+              key={String(day?.is_favorite)}
+            />
+          ) : (
+            <OnThisDay date={isoDate} setDate={setDate} />
+          )}
+        </CalendarContainer>
+        <ThoughtsContainer>
+          {loading ? (
+            <Skeleton count={10} />
+          ) : (
+            <Thoughts
+              key={isoDate}
+              thoughts={day.thoughts}
+              updateDay={updateDay}
+            />
+          )}
+        </ThoughtsContainer>
+      </RightContentContainer>
+    </HomeContainer>
   );
 };
 
