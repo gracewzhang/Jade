@@ -77,19 +77,19 @@ const Home = (): React.ReactElement => {
   const { getDayExists, getDay, createDay, editDay } = useDay();
   const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();
-  const [isoDate, setISODate] = useState(toISO8601(new Date()));
+  const [date, setDate] = useState(toISO8601(new Date()));
 
   const { isLoading, isError, error } = useQuery<Promise<void>, Error>(
-    ['get-day', isoDate],
+    ['get-day', date],
     async () => {
       if (user !== undefined) {
         const existsParams = {
           googleId: user.google_id,
-          date: isoDate
+          date
         };
         const res = await getDayExists(existsParams);
         if (typeof res.result === 'boolean') {
-          const dayParams = { google_id: user.google_id, date: isoDate };
+          const dayParams = { google_id: user.google_id, date };
           const newDay = await createDay(dayParams);
           setDay(newDay.result);
         } else {
@@ -108,7 +108,7 @@ const Home = (): React.ReactElement => {
     }
   };
 
-  const loading = isLoading || day === undefined || day.date !== isoDate;
+  const loading = isLoading || day === undefined || day.date !== date;
 
   if (isError) {
     return <div>{error.message}</div>;
@@ -122,7 +122,7 @@ const Home = (): React.ReactElement => {
           {loading ? (
             <Skeleton count={9} />
           ) : (
-            <Photos date={isoDate} day={day} setDay={setDay} />
+            <Photos date={date} day={day} setDay={setDay} />
           )}
         </PhotosContainer>
         <BottomContentContainer>
@@ -132,7 +132,7 @@ const Home = (): React.ReactElement => {
             ) : (
               <Entry
                 updateDay={updateDay}
-                key={isoDate}
+                key={date}
                 title={day.title}
                 entry={day.entry}
                 isFavorite={day.is_favorite}
@@ -146,7 +146,7 @@ const Home = (): React.ReactElement => {
               ) : (
                 <SongFood
                   type={SF.song}
-                  key={isoDate}
+                  key={date}
                   song={day.song}
                   updateDay={updateDay}
                 />
@@ -158,7 +158,7 @@ const Home = (): React.ReactElement => {
               ) : (
                 <SongFood
                   type={SF.food}
-                  key={isoDate}
+                  key={date}
                   food={day.food}
                   updateDay={updateDay}
                 />
@@ -168,18 +168,18 @@ const Home = (): React.ReactElement => {
         </BottomContentContainer>
       </LeftContentContainer>
       <RightContentContainer>
-        <IconBar mode={mode} setMode={setMode} setDate={setISODate} />
+        <IconBar mode={mode} setMode={setMode} setDate={setDate} />
         <CalendarContainer>
           {mode === CalendarMode.calendar ? (
-            <Calendar date={isoDate} setDate={setISODate} />
+            <Calendar date={date} setDate={setDate} />
           ) : mode === CalendarMode.favorites ? (
             <Favorites
-              date={isoDate}
-              setDate={setISODate}
+              date={date}
+              setDate={setDate}
               key={String(day?.is_favorite)}
             />
           ) : (
-            <OnThisDay date={isoDate} setDate={setISODate} />
+            <OnThisDay date={date} setDate={setDate} />
           )}
         </CalendarContainer>
         <ThoughtsContainer>
@@ -187,7 +187,7 @@ const Home = (): React.ReactElement => {
             <Skeleton count={10} />
           ) : (
             <Thoughts
-              key={isoDate}
+              key={date}
               thoughts={day.thoughts}
               updateDay={updateDay}
             />
