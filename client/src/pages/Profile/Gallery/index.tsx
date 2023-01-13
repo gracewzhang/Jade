@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
 import { ref, listAll, getDownloadURL } from 'firebase/storage';
 
 import Block from '../../../components/Block';
@@ -40,37 +41,40 @@ const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
 
 const Gallery = (): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const [urls, setUrls] = useState<string[]>([]);
 
-  const retrievePhotos = async (): Promise<void> => {
-    if (user !== undefined) {
+  const { isLoading, isError, data, error } = useQuery<string[], Error>(
+    'query-tutorials',
+    async () => {
       const photoUrls: string[] = [];
-      const storageRef = ref(storage, `/${FIREBASE_ROOT}/${user.google_id}`);
-      await listAll(storageRef)
-        .then(async (res) => {
-          for (const itemRef of res.items) {
-            await getDownloadURL(itemRef).then((url) => photoUrls.push(url));
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      setUrls(photoUrls);
+      if (user !== undefined) {
+        const storageRef = ref(storage, `/${FIREBASE_ROOT}/${user.google_id}`);
+        await listAll(storageRef)
+          .then(async (res) => {
+            for (const itemRef of res.items) {
+              await getDownloadURL(itemRef).then((url) => photoUrls.push(url));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+      return photoUrls;
     }
-  };
+  );
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrievePhotos();
-  }, []);
-
-  // const loading = false; // TODO: skeleton
+  // TODO: skeleton
+  if (isLoading) {
+    return <div>LOADING</div>;
+  }
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <GalleryContainer>
       <ScrollContainer>
         <GridContainer>
-          {urls.map((url, key) => (
+          {data?.map((url, key) => (
             <Photo url={url} key={key} />
           ))}
         </GridContainer>
