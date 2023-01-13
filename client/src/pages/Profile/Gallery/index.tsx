@@ -1,14 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
 import Block from '../../../components/Block';
 import useStore from '../../../stores';
 import { PhotoProps } from './types';
 import ScrollContainer from '../../../components/ScrollContainer';
 import { usePhotos } from '../../../hooks/photos/usePhotos';
+import colors from '../../../utils/colors';
 
-// TODO: cmd shift f all of the `` to <>
 const GalleryContainer = styled(Block)`
   overflow: hidden;
 `;
@@ -29,7 +30,6 @@ const StyledImg = styled.img`
   object-fit: cover;
 `;
 
-//  TODO: onclick, open modal w/the picture on the left & a button for jumping to the respective day on the right
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { url } = props;
 
@@ -41,13 +41,16 @@ const Gallery = (): React.ReactElement => {
   const { getPhotos } = usePhotos();
 
   const { isLoading, isError, data, error } = useQuery<string[], Error>(
-    ['query-tutorials', user?.google_id],
+    ['get-user-photos', user?.google_id],
     async () => await getPhotos({ googleId: user?.google_id })
   );
 
-  // TODO: skeleton
   if (isLoading) {
-    return <div>LOADING</div>;
+    return (
+      <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
+        <Skeleton count={30} />
+      </SkeletonTheme>
+    );
   }
   if (isError) {
     return <div>{error.message}</div>;
