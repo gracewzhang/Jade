@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { useQuery } from 'react-query';
+import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 import Welcome from './Welcome';
@@ -13,7 +14,6 @@ import { useDay } from '../../hooks/day/useDay';
 import { Day } from '../../types/day';
 import { UpdateDayProps } from './types';
 import { CalendarMode, SF } from '../../utils/enums';
-import colors from '../../utils/colors';
 import IconBar from './IconBar';
 import Favorites from './Modes/Favorites';
 import OnThisDay from './Modes/OnThisDay';
@@ -77,29 +77,29 @@ const Home = (): React.ReactElement => {
   const { getDayExists, getDay, createDay, editDay } = useDay();
   const [mode, setMode] = useState(CalendarMode.calendar);
   const [day, setDay] = useState<Day>();
-  const [date, setDate] = useState(new Date());
-  const [isoDate, setISODate] = useState(toISO8601(date));
+  const [date, setDate] = useState(toISO8601(new Date()));
 
-  const retrieveDay = useCallback(async () => {
-    if (user !== undefined) {
-      const newISODate = toISO8601(date);
-      setISODate(newISODate);
-      const existsParams = {
-        googleId: user.google_id,
-        date: newISODate
-      };
-      const res = await getDayExists(existsParams);
-      if (typeof res.result === 'boolean') {
-        const dayParams = { google_id: user.google_id, date: newISODate };
-        const newDay = await createDay(dayParams);
-        setDay(newDay.result);
-      } else {
-        const dayId = res.result._id;
-        const day = await getDay({ dayId });
-        setDay(day.result);
+  const { isLoading, isError, error } = useQuery<Promise<void>, Error>(
+    ['get-day', date],
+    async () => {
+      if (user !== undefined) {
+        const existsParams = {
+          googleId: user.google_id,
+          date
+        };
+        const res = await getDayExists(existsParams);
+        if (typeof res.result === 'boolean') {
+          const dayParams = { google_id: user.google_id, date };
+          const newDay = await createDay(dayParams);
+          setDay(newDay.result);
+        } else {
+          const dayId = res.result._id;
+          const day = await getDay({ dayId });
+          setDay(day.result);
+        }
       }
     }
-  }, [date]);
+  );
 
   const updateDay = async (updateParams: UpdateDayProps): Promise<void> => {
     if (day !== undefined) {
@@ -108,96 +108,93 @@ const Home = (): React.ReactElement => {
     }
   };
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrieveDay();
-  }, [retrieveDay]);
+  const loading = isLoading || day === undefined || day.date !== date;
 
-  const loading = day === undefined || day.date !== isoDate;
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
 
   return (
-    <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
-      <HomeContainer>
-        <LeftContentContainer>
-          <Welcome />
-          <PhotosContainer>
+    <HomeContainer>
+      <LeftContentContainer>
+        <Welcome />
+        <PhotosContainer>
+          {loading ? (
+            <Skeleton count={9} />
+          ) : (
+            <Photos date={date} day={day} setDay={setDay} />
+          )}
+        </PhotosContainer>
+        <BottomContentContainer>
+          <EntryContainer>
             {loading ? (
-              <Skeleton count={9} />
+              <Skeleton count={16} />
             ) : (
-              <Photos date={isoDate} day={day} setDay={setDay} />
+              <Entry
+                updateDay={updateDay}
+                key={date}
+                title={day.title}
+                entry={day.entry}
+                isFavorite={day.is_favorite}
+              />
             )}
-          </PhotosContainer>
-          <BottomContentContainer>
-            <EntryContainer>
+          </EntryContainer>
+          <BottomRightContentContainer>
+            <SongFoodContainer>
               {loading ? (
-                <Skeleton count={16} />
+                <Skeleton count={7} />
               ) : (
-                <Entry
+                <SongFood
+                  type={SF.song}
+                  key={date}
+                  song={day.song}
                   updateDay={updateDay}
-                  key={isoDate}
-                  title={day.title}
-                  entry={day.entry}
-                  isFavorite={day.is_favorite}
                 />
               )}
-            </EntryContainer>
-            <BottomRightContentContainer>
-              <SongFoodContainer>
-                {loading ? (
-                  <Skeleton count={7} />
-                ) : (
-                  <SongFood
-                    type={SF.song}
-                    key={isoDate}
-                    song={day.song}
-                    updateDay={updateDay}
-                  />
-                )}
-              </SongFoodContainer>
-              <SongFoodContainer>
-                {loading ? (
-                  <Skeleton count={7} />
-                ) : (
-                  <SongFood
-                    type={SF.food}
-                    key={isoDate}
-                    food={day.food}
-                    updateDay={updateDay}
-                  />
-                )}
-              </SongFoodContainer>
-            </BottomRightContentContainer>
-          </BottomContentContainer>
-        </LeftContentContainer>
-        <RightContentContainer>
-          <IconBar mode={mode} setMode={setMode} setDate={setDate} />
-          <CalendarContainer>
-            {mode === CalendarMode.calendar ? (
-              <Calendar date={date} setDate={setDate} />
-            ) : mode === CalendarMode.favorites ? (
-              <Favorites
-                date={isoDate}
-                setDate={setDate}
-                key={String(day?.is_favorite)}
-              />
-            ) : (
-              <OnThisDay date={isoDate} setDate={setDate} />
-            )}
-          </CalendarContainer>
-          <ThoughtsContainer>
-            {loading ? (
-              <Skeleton count={10} />
-            ) : (
-              <Thoughts
-                key={isoDate}
-                thoughts={day.thoughts}
-                updateDay={updateDay}
-              />
-            )}
-          </ThoughtsContainer>
-        </RightContentContainer>
-      </HomeContainer>
-    </SkeletonTheme>
+            </SongFoodContainer>
+            <SongFoodContainer>
+              {loading ? (
+                <Skeleton count={7} />
+              ) : (
+                <SongFood
+                  type={SF.food}
+                  key={date}
+                  food={day.food}
+                  updateDay={updateDay}
+                />
+              )}
+            </SongFoodContainer>
+          </BottomRightContentContainer>
+        </BottomContentContainer>
+      </LeftContentContainer>
+      <RightContentContainer>
+        <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        <CalendarContainer>
+          {mode === CalendarMode.calendar ? (
+            <Calendar date={date} setDate={setDate} />
+          ) : mode === CalendarMode.favorites ? (
+            <Favorites
+              date={date}
+              setDate={setDate}
+              key={String(day?.is_favorite)}
+            />
+          ) : (
+            <OnThisDay date={date} setDate={setDate} />
+          )}
+        </CalendarContainer>
+        <ThoughtsContainer>
+          {loading ? (
+            <Skeleton count={10} />
+          ) : (
+            <Thoughts
+              key={date}
+              thoughts={day.thoughts}
+              updateDay={updateDay}
+            />
+          )}
+        </ThoughtsContainer>
+      </RightContentContainer>
+    </HomeContainer>
   );
 };
 

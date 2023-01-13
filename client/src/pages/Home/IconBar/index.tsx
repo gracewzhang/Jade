@@ -11,8 +11,8 @@ import colors from '../../../utils/colors';
 import { CalendarMode } from '../../../utils/enums';
 import { IconBarProps } from './types';
 import { useDay } from '../../../hooks/day/useDay';
-import { toDate } from '../../../utils/date';
 import useStore from '../../../stores';
+import { useQuery } from 'react-query';
 
 const IconsContainer = styled.span`
   display: flex;
@@ -67,15 +67,22 @@ const IconBar = (props: IconBarProps): React.ReactElement => {
   const user = useStore((state) => state.user);
   const { getRandomDay } = useDay();
 
-  const handleGetRandomDay = async (): Promise<void> => {
-    if (user !== undefined) {
-      const res = await getRandomDay({ googleId: user.google_id });
-      if (res.result.length === 1) {
-        const day = res.result[0];
-        setDate(toDate(day.date));
+  const { refetch } = useQuery<Promise<void>, Error>(
+    'get-random-day',
+    async () => {
+      if (user !== undefined) {
+        const res = await getRandomDay({ googleId: user.google_id });
+        if (res.result.length === 1) {
+          const day = res.result[0];
+          setDate(day.date);
+        }
       }
+    },
+    {
+      enabled: false,
+      cacheTime: 0
     }
-  };
+  );
 
   return (
     <IconsContainer>
@@ -91,7 +98,7 @@ const IconBar = (props: IconBarProps): React.ReactElement => {
         <StyledDiceIcon
           color={colors['light-grey']}
           // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          onClick={handleGetRandomDay}
+          onClick={async () => await refetch()}
         />
       )}
       <StyledCalendarIcon

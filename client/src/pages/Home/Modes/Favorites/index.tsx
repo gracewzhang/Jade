@@ -15,6 +15,8 @@ import { FavoritesProps, HeartProps } from './types';
 import DayItem from '../../../../components/DayItem/DayItem';
 import ScrollContainer from '../../../../components/ScrollContainer';
 import useStore from '../../../../stores';
+import { useQuery } from 'react-query';
+import Skeleton from 'react-loading-skeleton';
 
 const FavoritesContainer = styled(Block)`
   overflow: hidden;
@@ -80,7 +82,7 @@ const StyledHeart = styled(HiOutlineHeart)<HeartProps>`
   width: 25px;
   height: 25px;
   stroke-width: 1px;
-  stroke: ${(props) => props.primaryColor};
+  stroke: ${(props) => props.primarycolor};
 `;
 
 const Favorites = (props: FavoritesProps): React.ReactElement => {
@@ -91,6 +93,17 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
   const [descending, setDescending] = useState(true);
   const [rerender, setRerender] = useState(true);
 
+  const { isLoading, isError, error } = useQuery<Promise<void>, Error>(
+    'get-user-favorites',
+    async () => {
+      if (user !== undefined) {
+        const res = await getFavorites({ googleId: user.google_id });
+        const reversed = res.result.reverse();
+        favoriteDays.current = reversed;
+      }
+    }
+  );
+
   const reverseDays = (days: Day[]): void => {
     const reversed = days.reverse();
     favoriteDays.current = reversed;
@@ -98,21 +111,18 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
   };
 
   useEffect(() => {
-    const retrieveFavoriteDays = async (): Promise<void> => {
-      if (user !== undefined) {
-        const res = await getFavorites({ googleId: user.google_id });
-        reverseDays(res.result);
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrieveFavoriteDays();
-  }, []);
-
-  useEffect(() => {
     if (favoriteDays.current !== undefined) {
       reverseDays(favoriteDays.current);
     }
   }, [descending]);
+
+  if (isLoading) {
+    return <Skeleton count={18} />;
+  }
+
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <FavoritesContainer>
@@ -137,7 +147,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
               selected={day.date === date}
               icon={
                 <StyledHeart
-                  primaryColor={user?.primary_color ?? colors.rose}
+                  primarycolor={user?.primary_color ?? colors.rose}
                 />
               }
             />

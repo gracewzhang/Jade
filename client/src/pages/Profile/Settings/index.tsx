@@ -10,6 +10,7 @@ import Input from '../../../components/Input/input';
 import { ColorPickerButtonProps, ColorPickerProps } from './types';
 import useStore from '../../../stores';
 import { useUser } from '../../../hooks/user/useUser';
+import { useMutation } from 'react-query';
 
 const SettingsContainer = styled(Block)``;
 
@@ -107,18 +108,19 @@ const Settings = (): React.ReactElement => {
     }
   };
 
-  const saveSettings = (): void => {
-    if (user !== undefined) {
-      const newUserSettings = {
-        googleId: user.google_id,
-        newName: name,
-        newPrimaryColor: primaryColor,
-        newSecondaryColor: secondaryColor
-      };
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      editUser(newUserSettings);
+  const saveSettings = useMutation({
+    mutationFn: async (): Promise<void> => {
+      if (user !== undefined) {
+        const newUserSettings = {
+          googleId: user.google_id,
+          newName: name,
+          newPrimaryColor: primaryColor,
+          newSecondaryColor: secondaryColor
+        };
+        await editUser(newUserSettings);
+      }
     }
-  };
+  });
 
   useEffect(() => {
     if (user !== undefined) {
@@ -169,7 +171,7 @@ const Settings = (): React.ReactElement => {
       <PaddingContainer>
         <HeaderContainer>
           <Label>Settings</Label>
-          <StyledCheck onClick={saveSettings} />
+          <StyledCheck onClick={() => saveSettings.mutate()} />
         </HeaderContainer>
         <RowsContainer>
           <SettingContainer>

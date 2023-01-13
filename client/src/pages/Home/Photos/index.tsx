@@ -17,6 +17,7 @@ import storage from '../../../utils/firebase';
 import { PhotoProps, PhotosProps, StyledPlusIconProps } from './types';
 import useStore from '../../../stores';
 import { useDay } from '../../../hooks/day/useDay';
+import { useMutation } from 'react-query';
 
 const PhotosContainer = styled(Block)`
   position: relative;
@@ -135,28 +136,37 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       (error) => console.log(error),
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async () => {
-        await getDownloadURL(uploadTask.snapshot.ref).then(handleUploadFinish);
+        await getDownloadURL(uploadTask.snapshot.ref).then((url) =>
+          handleUploadFinish.mutate(url)
+        );
       }
     );
   };
 
-  const handleUploadFinish = async (url: string): Promise<void> => {
-    setSrc(url);
-    const res = await editDayPhoto({ _id: day._id, url, photoIdx: idx });
-    setDay(res.result);
-    uploadRef.current = undefined;
-    setUploading(false);
-  };
-
-  const handleDelete = async (): Promise<void> => {
-    const storageRef = ref(storage, day.photos[idx]);
-    await deleteObject(storageRef).then(async () => {
-      const res = await editDayPhoto({ _id: day._id, url: '', photoIdx: idx });
+  const handleUploadFinish = useMutation({
+    mutationFn: async (url: string): Promise<void> => {
+      setSrc(url);
+      const res = await editDayPhoto({ _id: day._id, url, photoIdx: idx });
       setDay(res.result);
-      setSrc('');
-    });
-  };
+      uploadRef.current = undefined;
+      setUploading(false);
+    }
+  });
 
+  const handleDelete = useMutation({
+    mutationFn: async (): Promise<void> => {
+      const storageRef = ref(storage, day.photos[idx]);
+      await deleteObject(storageRef).then(async () => {
+        const res = await editDayPhoto({
+          _id: day._id,
+          url: '',
+          photoIdx: idx
+        });
+        setDay(res.result);
+        setSrc('');
+      });
+    }
+  });
   const { getRootProps, getInputProps } = useDropzone({
     accept: {
       'image/png': ['.png'],
@@ -185,8 +195,7 @@ const Photo = (props: PhotoProps): React.ReactElement => {
       ) : (
         <ImgContainer>
           <StyledImg src={src} />
-          {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
-          <StyledXIcon onClick={handleDelete} />
+          <StyledXIcon onClick={() => handleDelete.mutate()} />
         </ImgContainer>
       )}
     </PhotoContainer>

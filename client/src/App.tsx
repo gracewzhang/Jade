@@ -12,6 +12,7 @@ import Messages from './pages/Messages';
 import Profile from './pages/Profile';
 import useStore from './stores';
 import colors from './utils/colors';
+import { SkeletonTheme } from 'react-loading-skeleton';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #ffb2a7;
@@ -62,31 +63,33 @@ const App = (): React.ReactElement => {
     <GoogleOAuthProvider clientId={process.env.REACT_APP_CLIENT_ID ?? ''}>
       <GlobalStyle />
       <StyledToastContainer />
-      <BrowserRouter>
-        {isLoggedIn ? (
-          <SplitContainer>
-            <Navbar
-              setIsLoggedIn={setIsLoggedIn}
-              primaryColor={user?.primary_color ?? colors.rose}
-            />
+      <SkeletonTheme baseColor={colors['super-light-grey']} borderRadius="30px">
+        <BrowserRouter>
+          {isLoggedIn ? (
+            <SplitContainer>
+              <Navbar
+                setIsLoggedIn={setIsLoggedIn}
+                primaryColor={user?.primary_color ?? colors.rose}
+              />
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/hello" element={<div>Temporary screen</div>} />
+                <Route path="/login" element={<Navigate to={'/'} />} />
+                <Route path="/messages" element={<Messages />} />
+                <Route path="/profile" element={<Profile />} />
+              </Routes>
+            </SplitContainer>
+          ) : (
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/hello" element={<div>Temporary screen</div>} />
-              <Route path="/login" element={<Navigate to={'/'} />} />
-              <Route path="/messages" element={<Messages />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="/" element={<Navigate to="/login" />} />
+              <Route path="/hello" element={<Navigate to="/login" />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/messages" element={<Navigate to="/login" />} />
+              <Route path="/profile" element={<Navigate to="/login" />} />
             </Routes>
-          </SplitContainer>
-        ) : (
-          <Routes>
-            <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/hello" element={<Navigate to="/login" />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/messages" element={<Navigate to="/login" />} />
-            <Route path="/profile" element={<Navigate to="/login" />} />
-          </Routes>
-        )}
-      </BrowserRouter>
+          )}
+        </BrowserRouter>
+      </SkeletonTheme>
     </GoogleOAuthProvider>
   );
 };

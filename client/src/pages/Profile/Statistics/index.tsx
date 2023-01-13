@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useQuery } from 'react-query';
+import Skeleton from 'react-loading-skeleton';
 
 import Block from '../../../components/Block';
 import Label from '../../../components/Label';
@@ -60,29 +62,38 @@ const Statistic = (props: StatisticProps): React.ReactElement => {
 const Statistics = (): React.ReactElement => {
   const user = useStore((state) => state.user);
   const { getNumberOfDays } = useUser();
-  const [numDays, setNumDays] = useState(9); // TODO: change lol
-  const [daysSinceJoined, setDaysSinceJoined] = useState(2); // TODO: change as well lol
 
-  useEffect(() => {
-    const retrieveNumberOfDays = async (): Promise<void> => {
-      if (user !== undefined) {
-        const res = await getNumberOfDays({ googleId: user.google_id });
-        if (res.result !== undefined) {
-          setNumDays(res.result);
-        }
-      }
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrieveNumberOfDays();
-  }, []);
+  const {
+    isLoading: isLoadingNumDays,
+    isError: isErrorNumDays,
+    data: numDays,
+    error: numDaysError
+  } = useQuery<number, Error>(
+    ['get-num-days', user?.google_id],
+    async () => await getNumberOfDays({ googleId: user?.google_id ?? '' })
+  );
 
-  useEffect(() => {
+  const {
+    isLoading: isLoadingDaysJoined,
+    isError: isErrorDaysJoined,
+    data: daysJoined,
+    error: daysJoinedError
+  } = useQuery<number, Error>('get-days-joined', () => {
     if (user !== undefined) {
       const joinedDate = new Date(user.created_at);
       const daysDiff = getDayDifference(new Date(), joinedDate);
-      setDaysSinceJoined(daysDiff);
+      return daysDiff;
     }
-  }, []);
+    return 0;
+  });
+
+  if (isLoadingNumDays || isLoadingDaysJoined) {
+    return <Skeleton count={9} />;
+  }
+
+  if (isErrorNumDays || isErrorDaysJoined) {
+    return <div>{numDaysError?.message ?? daysJoinedError?.message}</div>;
+  }
 
   return (
     <StatisticsContainer>
@@ -92,13 +103,13 @@ const Statistics = (): React.ReactElement => {
         </HeaderContainer>
         <ContentContainer>
           <Statistic
-            stat={numDays}
+            stat={numDays ?? 0}
             description={
               numDays === 1 ? 'memory recorded' : 'memories recorded'
             }
           />
           <Statistic
-            stat={daysSinceJoined}
+            stat={daysJoined ?? 0}
             description="days since you began"
           />
         </ContentContainer>

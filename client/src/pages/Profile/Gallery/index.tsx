@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
+import { useQuery } from 'react-query';
+import Skeleton from 'react-loading-skeleton';
 
 import Block from '../../../components/Block';
-import storage from '../../../utils/firebase';
 import useStore from '../../../stores';
 import { PhotoProps } from './types';
 import ScrollContainer from '../../../components/ScrollContainer';
+import { usePhotos } from '../../../hooks/photos/usePhotos';
 
-// TODO: cmd shift f all of the `` to <>
 const GalleryContainer = styled(Block)`
   overflow: hidden;
 `;
@@ -29,48 +29,34 @@ const StyledImg = styled.img`
   object-fit: cover;
 `;
 
-//  TODO: onclick, open modal w/the picture on the left & a button for jumping to the respective day on the right
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { url } = props;
 
   return <StyledImg src={url} />;
 };
 
-const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
-
 const Gallery = (): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const [urls, setUrls] = useState<string[]>([]);
+  const { getPhotos } = usePhotos();
 
-  const retrievePhotos = async (): Promise<void> => {
-    if (user !== undefined) {
-      const photoUrls: string[] = [];
-      const storageRef = ref(storage, `/${FIREBASE_ROOT}/${user.google_id}`);
-      await listAll(storageRef)
-        .then(async (res) => {
-          for (const itemRef of res.items) {
-            await getDownloadURL(itemRef).then((url) => photoUrls.push(url));
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      setUrls(photoUrls);
-    }
-  };
+  const { isLoading, isError, data, error } = useQuery<string[], Error>(
+    ['get-user-photos', user?.google_id],
+    async () => await getPhotos({ googleId: user?.google_id })
+  );
 
-  useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    retrievePhotos();
-  }, []);
+  if (isLoading) {
+    return <Skeleton count={30} />;
+  }
 
-  // const loading = false; // TODO: skeleton
+  if (isError) {
+    return <div>{error.message}</div>;
+  }
 
   return (
     <GalleryContainer>
       <ScrollContainer>
         <GridContainer>
-          {urls.map((url, key) => (
+          {data?.map((url, key) => (
             <Photo url={url} key={key} />
           ))}
         </GridContainer>
