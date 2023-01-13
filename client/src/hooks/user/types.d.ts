@@ -5,6 +5,7 @@ export interface UseUserResults {
   getNumberOfDays: (
     props: GetNumberOfDaysProps
   ) => Promise<GetNumberOfDaysResults>;
+  editUser: (props: EditUserProps) => Promise<void>;
 }
 
 export interface GetUserProps {
@@ -25,4 +26,11 @@ export interface GetNumberOfDaysResults {
   message: string;
   success: boolean;
   result: number | undefined;
+}
+
+export interface EditUserProps {
+  googleId: string;
+  newName: string;
+  newPrimaryColor: string;
+  newSecondaryColor: string;
 }

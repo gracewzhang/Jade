@@ -10,8 +10,8 @@ import Login from './pages/Login';
 import Navbar from './components/Navbar';
 import Messages from './pages/Messages';
 import Profile from './pages/Profile';
-import { useLocalStorage } from './hooks/storage/useLocalStorage';
 import useStore from './stores';
+import colors from './utils/colors';
 
 const StyledToastContainer = styled(ToastContainer)`
   --toastify-color-success: #ffb2a7;
@@ -49,22 +49,12 @@ const SplitContainer = styled.span`
 `;
 
 const App = (): React.ReactElement => {
-  const [storageUser, setStorageUser] = useLocalStorage('user', undefined);
   const user = useStore((state) => state.user);
-  const setUser = useStore((state) => state.setUser);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (storageUser !== undefined) {
-      setUser(storageUser);
-      if (!isLoggedIn) setIsLoggedIn(true);
-    }
-  }, [storageUser]);
-
-  useEffect(() => {
-    if (user !== undefined) {
-      setStorageUser(user);
-      if (!isLoggedIn) setIsLoggedIn(true);
+    if (user !== undefined && !isLoggedIn) {
+      setIsLoggedIn(true);
     }
   }, [user]);
 
@@ -75,7 +65,10 @@ const App = (): React.ReactElement => {
       <BrowserRouter>
         {isLoggedIn ? (
           <SplitContainer>
-            <Navbar setIsLoggedIn={setIsLoggedIn} />
+            <Navbar
+              setIsLoggedIn={setIsLoggedIn}
+              primaryColor={user?.primary_color ?? colors.rose}
+            />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/hello" element={<div>Temporary screen</div>} />

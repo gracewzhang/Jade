@@ -9,6 +9,7 @@ import colors from '../../../utils/colors';
 import Input from '../../../components/Input/input';
 import { ColorPickerButtonProps, ColorPickerProps } from './types';
 import useStore from '../../../stores';
+import { useUser } from '../../../hooks/user/useUser';
 
 const SettingsContainer = styled(Block)``;
 
@@ -90,7 +91,7 @@ const MAX_NAME_LEN = 30;
 
 const Settings = (): React.ReactElement => {
   const user = useStore((state) => state.user);
-  const updateUser = useStore((state) => state.updateUser);
+  const { editUser } = useUser();
 
   const [name, setName] = useState('');
   const [primaryColor, setPrimaryColor] = useState(colors.rose);
@@ -115,7 +116,7 @@ const Settings = (): React.ReactElement => {
         newSecondaryColor: secondaryColor
       };
       // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      updateUser(newUserSettings);
+      editUser(newUserSettings);
     }
   };
 
