@@ -8,6 +8,7 @@ import colors from '../../../utils/colors';
 import { EntryProps, FilledHeartProps } from './types';
 import Input from '../../../components/Input/input';
 import useStore from '../../../stores';
+import { useMutation } from 'react-query';
 
 const EntryContainer = styled(Block)``;
 
@@ -98,13 +99,11 @@ const Entry = (props: EntryProps): React.ReactElement => {
     }
   };
 
-  const handleClick = (): void => {
-    const save = async (): Promise<void> => {
+  const save = useMutation({
+    mutationFn: async (event): Promise<void> => {
       await props.updateDay({ title, entry, is_favorite: isFavorite });
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    save();
-  };
+    }
+  });
 
   return (
     <EntryContainer>
@@ -122,7 +121,7 @@ const Entry = (props: EntryProps): React.ReactElement => {
             <LengthIndicator>
               {MAX_LEN - entry.length - title.length}
             </LengthIndicator>
-            <StyledCheck onClick={handleClick} />
+            <StyledCheck onClick={() => save.mutate()} />
           </HeaderRightContainer>
         </HeaderContainer>
         <TitleContainer

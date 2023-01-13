@@ -8,6 +8,7 @@ import Input from '../../../components/Input/input';
 import Label from '../../../components/Label';
 import colors from '../../../utils/colors';
 import { ThoughtProps, ThoughtsProps } from './types';
+import { useMutation } from 'react-query';
 
 const ThoughtsContainer = styled(Block)``;
 
@@ -101,20 +102,18 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
 const Thoughts = (props: ThoughtsProps): React.ReactElement => {
   const thoughts = useRef(props.thoughts);
 
-  const handleClick = (): void => {
-    const save = async (): Promise<void> => {
+  const save = useMutation({
+    mutationFn: async (event): Promise<void> => {
       await props.updateDay({ thoughts: thoughts.current });
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    save();
-  };
+    }
+  });
 
   return (
     <ThoughtsContainer>
       <PaddingContainer>
         <HeaderContainer>
           <Label>Thoughts</Label>
-          <StyledCheck onClick={handleClick} />
+          <StyledCheck onClick={() => save.mutate()} />
         </HeaderContainer>
         <BottomContainer>
           {[0, 1, 2].map((idx) => (

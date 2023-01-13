@@ -8,6 +8,7 @@ import Label from '../../../components/Label';
 import colors from '../../../utils/colors';
 import { SongFoodProps } from './types';
 import { SF } from '../../../utils/enums';
+import { useMutation } from 'react-query';
 
 const SongFoodContainer = styled(Block)``;
 
@@ -65,15 +66,13 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
     }
   };
 
-  const handleClick = (): void => {
-    const save = async (): Promise<void> => {
+  const save = useMutation({
+    mutationFn: async (event): Promise<void> => {
       await props.updateDay(
         props.type === SF.song ? { song: value } : { food: value }
       );
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    save();
-  };
+    }
+  });
 
   return (
     <SongFoodContainer>
@@ -82,7 +81,7 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
           <Label>{props.type}</Label>
           <HeaderRightContainer>
             <LengthIndicator>{MAX_LEN - (value?.length ?? 0)}</LengthIndicator>
-            <StyledCheck onClick={handleClick} />
+            <StyledCheck onClick={() => save.mutate()} />
           </HeaderRightContainer>
         </HeaderContainer>
         <StyledInput
