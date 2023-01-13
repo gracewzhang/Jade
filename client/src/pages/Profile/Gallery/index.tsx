@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from 'react-query';
-import { ref, listAll, getDownloadURL } from 'firebase/storage';
 
 import Block from '../../../components/Block';
-import storage from '../../../utils/firebase';
 import useStore from '../../../stores';
 import { PhotoProps } from './types';
 import ScrollContainer from '../../../components/ScrollContainer';
+import { usePhotos } from '../../../hooks/photos/usePhotos';
 
 // TODO: cmd shift f all of the `` to <>
 const GalleryContainer = styled(Block)`
@@ -37,29 +36,13 @@ const Photo = (props: PhotoProps): React.ReactElement => {
   return <StyledImg src={url} />;
 };
 
-const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
-
 const Gallery = (): React.ReactElement => {
   const user = useStore((state) => state.user);
+  const { getPhotos } = usePhotos();
 
   const { isLoading, isError, data, error } = useQuery<string[], Error>(
-    'query-tutorials',
-    async () => {
-      const photoUrls: string[] = [];
-      if (user !== undefined) {
-        const storageRef = ref(storage, `/${FIREBASE_ROOT}/${user.google_id}`);
-        await listAll(storageRef)
-          .then(async (res) => {
-            for (const itemRef of res.items) {
-              await getDownloadURL(itemRef).then((url) => photoUrls.push(url));
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
-      return photoUrls;
-    }
+    ['query-tutorials', user?.google_id],
+    async () => await getPhotos({ googleId: user?.google_id })
   );
 
   // TODO: skeleton
