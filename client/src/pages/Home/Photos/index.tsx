@@ -95,7 +95,7 @@ const ImgContainer = styled.div`
   }
 `;
 
-const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
+const FIREBASE_ROOT = process.env.REACT_APP_FIREBASE_ROOT ?? 'test';
 
 const Photo = (props: PhotoProps): React.ReactElement => {
   const { idx, googleId, primaryColor, date, day, setDay } = props;
