@@ -25,6 +25,7 @@
 - Hop on a time capsule by revisiting entries written on the same day of the month or by jumping to a random entry
 - Track your writing statistics
 - Customize your global theme
+- (In progress) Schedule reminders for yourself in the form of messages
 
 ## Usage
 Navigate to the live deployment at https://jade-liart.vercel.app, or:
