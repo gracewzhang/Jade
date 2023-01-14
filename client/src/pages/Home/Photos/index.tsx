@@ -178,6 +178,8 @@ const Photo = (props: PhotoProps): React.ReactElement => {
     maxFiles: 1
   });
 
+  console.log('RENDER', uploading);
+
   return (
     <PhotoContainer>
       {uploading ? (
