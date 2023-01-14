@@ -10,8 +10,6 @@ import Input from '../../../components/Input/input';
 import useStore from '../../../stores';
 import { useMutation } from 'react-query';
 
-const EntryContainer = styled(Block)``;
-
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -106,7 +104,7 @@ const Entry = (props: EntryProps): React.ReactElement => {
   });
 
   return (
-    <EntryContainer>
+    <Block>
       <PaddingContainer>
         <HeaderContainer>
           {isFavorite ? (
@@ -137,7 +135,7 @@ const Entry = (props: EntryProps): React.ReactElement => {
           defaultValue={props.entry}
         />
       </PaddingContainer>
-    </EntryContainer>
+    </Block>
   );
 };
 

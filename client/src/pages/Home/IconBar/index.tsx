@@ -15,6 +15,7 @@ import useStore from '../../../stores';
 import { useQuery } from 'react-query';
 
 const IconsContainer = styled.span`
+  height: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;

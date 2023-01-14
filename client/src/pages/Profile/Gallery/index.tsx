@@ -45,7 +45,7 @@ const Gallery = (): React.ReactElement => {
   );
 
   if (isLoading) {
-    return <Skeleton count={30} />;
+    return <Skeleton count={31} />;
   }
 
   if (isError) {
@@ -54,7 +54,7 @@ const Gallery = (): React.ReactElement => {
 
   return (
     <GalleryContainer>
-      <ScrollContainer>
+      <ScrollContainer scroll={data !== undefined && data.length > 25}>
         <GridContainer>
           {data?.map((url, key) => (
             <Photo url={url} key={key} />

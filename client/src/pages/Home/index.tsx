@@ -22,24 +22,23 @@ import useStore from '../../stores';
 
 const HomeContainer = styled.div`
   display: grid;
-  grid-template-columns: 50vw 28vw;
+  grid-template-columns: 2fr 1fr;
+  gap: 5vw;
   padding: 7vh 7vw 9vh 7vw;
   height: 84vh;
 `;
 
 const LeftContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 13vh 26vh 45vh;
+  grid-template-rows: 1fr 2fr 3.5fr;
+  max-height: 84vh;
 `;
 
-const PhotosContainer = styled.div`
-  width: 50vw;
-  padding: 0;
-`;
+const PhotosContainer = styled.div``;
 
 const BottomContentContainer = styled.span`
   display: grid;
-  grid-template-columns: 35vw 15vw;
+  grid-template-columns: 2fr 1fr;
 `;
 
 const EntryContainer = styled.div`
@@ -49,27 +48,30 @@ const EntryContainer = styled.div`
 
 const BottomRightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 50% 50%;
-  max-height: 45vh;
+  grid-template-rows: 1fr 1fr;
 `;
 
 const SongFoodContainer = styled.div`
-  width: 15vw;
   padding-top: 7vh;
 `;
 
 const RightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 9vh 41vh 34vh;
-  padding-left: 5vw;
+  grid-template-rows: 1fr 5fr 3fr;
+  max-height: 77vh;
+`;
+
+const IconBarContainer = styled.div`
+  min-height: 100%;
 `;
 
 const CalendarContainer = styled.div`
-  width: 23vw;
+  min-height: 100%;
 `;
 
 const ThoughtsContainer = styled.div`
-  padding-top: 8vh;
+  padding-top: 7vh;
+  min-height: 100%;
 `;
 
 const Home = (): React.ReactElement => {
@@ -128,7 +130,7 @@ const Home = (): React.ReactElement => {
         <BottomContentContainer>
           <EntryContainer>
             {loading ? (
-              <Skeleton count={16} />
+              <Skeleton count={17} />
             ) : (
               <Entry
                 updateDay={updateDay}
@@ -168,7 +170,9 @@ const Home = (): React.ReactElement => {
         </BottomContentContainer>
       </LeftContentContainer>
       <RightContentContainer>
-        <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        <IconBarContainer>
+          <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        </IconBarContainer>
         <CalendarContainer>
           {mode === CalendarMode.calendar ? (
             <Calendar date={date} setDate={setDate} />
@@ -184,7 +188,7 @@ const Home = (): React.ReactElement => {
         </CalendarContainer>
         <ThoughtsContainer>
           {loading ? (
-            <Skeleton count={10} />
+            <Skeleton count={11} />
           ) : (
             <Thoughts
               key={date}

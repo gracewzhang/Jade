@@ -12,8 +12,6 @@ import useStore from '../../../stores';
 import { useUser } from '../../../hooks/user/useUser';
 import { useMutation } from 'react-query';
 
-const SettingsContainer = styled(Block)``;
-
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -167,7 +165,7 @@ const Settings = (): React.ReactElement => {
   }, []);
 
   return (
-    <SettingsContainer>
+    <Block>
       <PaddingContainer>
         <HeaderContainer>
           <Label>Settings</Label>
@@ -212,7 +210,7 @@ const Settings = (): React.ReactElement => {
           </SettingContainer>
         </RowsContainer>
       </PaddingContainer>
-    </SettingsContainer>
+    </Block>
   );
 };
 

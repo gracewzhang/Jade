@@ -15,7 +15,7 @@ import { IndicatorProps, NavbarProps } from './types';
 const NavbarContainer = styled.div`
   position: sticky;
   top: 0;
-  width: 8vw;
+  width: 100%;
   z-index: 999;
   background-color: white;
   height: 100%;

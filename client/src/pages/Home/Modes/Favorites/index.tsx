@@ -137,7 +137,7 @@ const Favorites = (props: FavoritesProps): React.ReactElement => {
           )}
         </HeaderContainer>
       </PaddingContainer>
-      <StyledScrollContainer>
+      <StyledScrollContainer scroll={true}>
         <DaysContainer>
           {favoriteDays.current?.map((day, key) => (
             <DayItem

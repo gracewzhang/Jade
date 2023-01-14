@@ -52,7 +52,7 @@ const Login = (): React.ReactElement => {
   const { checkIfNewUser, signIn, signUp } = useAuth();
 
   const loginSubtitle =
-    '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Kaori';
+    '"It\'s shining with all its might. Thump, thump, like a heartbeat. This is the light of life." - Your Lie in April';
 
   const handleSuccess = (credentialResponse: CredentialResponse): void => {
     void (async (credentialResponse) => {

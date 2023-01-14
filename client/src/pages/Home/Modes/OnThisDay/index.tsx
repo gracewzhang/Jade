@@ -19,8 +19,6 @@ import useStore from '../../../../stores';
 import { useQuery } from 'react-query';
 import Skeleton from 'react-loading-skeleton';
 
-const OnThisDayContainer = styled(Block)``;
-
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -152,7 +150,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
   }
 
   return (
-    <OnThisDayContainer>
+    <Block>
       <PaddingContainer>
         <HeaderContainer>
           <CountIndicator>{toISO8601(new Date()).slice(5)}</CountIndicator>
@@ -163,7 +161,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
             <SortAscIcon onClick={() => setDescending(true)} />
           )}
         </HeaderContainer>
-        <ScrollContainer>
+        <ScrollContainer scroll={true}>
           <PastDaysContainer>
             {pastDays.current?.map((day, key) => (
               <DayItem
@@ -181,7 +179,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
           </PastDaysContainer>
         </ScrollContainer>
       </PaddingContainer>
-    </OnThisDayContainer>
+    </Block>
   );
 };
 
