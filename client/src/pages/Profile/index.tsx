@@ -10,7 +10,7 @@ const ProfileContainer = styled.div`
   display: grid;
   grid-template-rows: 13vh 71vh;
   padding: 7vh 7vw 9vh 7vw;
-  height: 84vh;
+  height: calc(100% - 7vh - 9vh);
 `;
 
 const ContentContainer = styled.span`

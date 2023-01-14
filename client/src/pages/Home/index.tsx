@@ -22,24 +22,27 @@ import useStore from '../../stores';
 
 const HomeContainer = styled.div`
   display: grid;
-  grid-template-columns: 50vw 28vw;
+  grid-template-columns: 2fr 1fr;
   padding: 7vh 7vw 9vh 7vw;
   height: 84vh;
 `;
 
 const LeftContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 13vh 26vh 45vh;
+  grid-template-rows: 1fr 2fr 3.5fr;
 `;
 
 const PhotosContainer = styled.div`
-  width: 50vw;
+  width: 100%;
+  min-width: 100%;
   padding: 0;
 `;
 
 const BottomContentContainer = styled.span`
   display: grid;
-  grid-template-columns: 35vw 15vw;
+  grid-template-columns: 2fr 1fr;
+  width: 100%;
+  max-width: 100%;
 `;
 
 const EntryContainer = styled.div`
@@ -51,10 +54,11 @@ const BottomRightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 50% 50%;
   max-height: 45vh;
+  max-width: 100%;
 `;
 
 const SongFoodContainer = styled.div`
-  width: 15vw;
+  width: 100%;
   padding-top: 7vh;
 `;
 
@@ -65,7 +69,7 @@ const RightContentContainer = styled.div`
 `;
 
 const CalendarContainer = styled.div`
-  width: 23vw;
+  width: 100%;
 `;
 
 const ThoughtsContainer = styled.div`

@@ -45,7 +45,7 @@ const GlobalStyle = createGlobalStyle`
 
 const SplitContainer = styled.span`
   display: grid;
-  grid-template-columns: 8% 92%;
+  grid-template-columns: 1fr 10fr;
   height: 100%;
 `;
 

@@ -21,8 +21,8 @@ import { useMutation } from 'react-query';
 
 const PhotosContainer = styled(Block)`
   position: relative;
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
 
   > div + div > div {
     border-left: 1px dashed ${colors['light-grey']};
@@ -31,7 +31,7 @@ const PhotosContainer = styled(Block)`
 
 const PhotoContainer = styled.div`
   position: relative;
-  width: 12.5vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
