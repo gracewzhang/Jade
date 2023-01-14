@@ -51,7 +51,6 @@ const BottomRightContentContainer = styled.div`
 `;
 
 const SongFoodContainer = styled.div`
-  width: 100%;
   padding-top: 7vh;
 `;
 
@@ -59,17 +58,20 @@ const RightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr 5fr 3fr;
   padding-left: 5vw;
-  max-height: 84vh;
+  max-height: 77vh;
 `;
 
-const IconBarContainer = styled.div``;
+const IconBarContainer = styled.div`
+  min-height: 100%;
+`;
 
 const CalendarContainer = styled.div`
-  width: 100%;
+  min-height: 100%;
 `;
 
 const ThoughtsContainer = styled.div`
   padding-top: 7vh;
+  min-height: 100%;
 `;
 
 const Home = (): React.ReactElement => {

@@ -46,6 +46,7 @@ const GlobalStyle = createGlobalStyle`
 const SplitContainer = styled.span`
   display: grid;
   grid-template-columns: 1fr 10fr;
+  height: 100%;
 `;
 
 const App = (): React.ReactElement => {
