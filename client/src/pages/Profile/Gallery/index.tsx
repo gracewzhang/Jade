@@ -54,7 +54,7 @@ const Gallery = (): React.ReactElement => {
 
   return (
     <GalleryContainer>
-      <ScrollContainer scroll={data !== undefined && data.length > 25}>
+      <ScrollContainer scroll={data !== undefined && data.length > 20}>
         <GridContainer>
           {data?.map((url, key) => (
             <Photo url={url} key={key} />
