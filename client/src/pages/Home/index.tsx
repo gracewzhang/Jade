@@ -30,19 +30,14 @@ const HomeContainer = styled.div`
 const LeftContentContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr 2fr 3.5fr;
+  max-height: 84vh;
 `;
 
-const PhotosContainer = styled.div`
-  width: 100%;
-  min-width: 100%;
-  padding: 0;
-`;
+const PhotosContainer = styled.div``;
 
 const BottomContentContainer = styled.span`
   display: grid;
   grid-template-columns: 2fr 1fr;
-  width: 100%;
-  max-width: 100%;
 `;
 
 const EntryContainer = styled.div`
@@ -52,9 +47,7 @@ const EntryContainer = styled.div`
 
 const BottomRightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 50% 50%;
-  max-height: 45vh;
-  max-width: 100%;
+  grid-template-rows: 1fr 1fr;
 `;
 
 const SongFoodContainer = styled.div`
@@ -64,16 +57,19 @@ const SongFoodContainer = styled.div`
 
 const RightContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 9vh 41vh 34vh;
+  grid-template-rows: 1fr 5fr 3fr;
   padding-left: 5vw;
+  max-height: 84vh;
 `;
+
+const IconBarContainer = styled.div``;
 
 const CalendarContainer = styled.div`
   width: 100%;
 `;
 
 const ThoughtsContainer = styled.div`
-  padding-top: 8vh;
+  padding-top: 7vh;
 `;
 
 const Home = (): React.ReactElement => {
@@ -172,7 +168,9 @@ const Home = (): React.ReactElement => {
         </BottomContentContainer>
       </LeftContentContainer>
       <RightContentContainer>
-        <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        <IconBarContainer>
+          <IconBar mode={mode} setMode={setMode} setDate={setDate} />
+        </IconBarContainer>
         <CalendarContainer>
           {mode === CalendarMode.calendar ? (
             <Calendar date={date} setDate={setDate} />
