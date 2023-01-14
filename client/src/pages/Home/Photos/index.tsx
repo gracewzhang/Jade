@@ -23,6 +23,7 @@ const PhotosContainer = styled(Block)`
   position: relative;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  overflow: hidden;
 
   > div + div > div {
     border-left: 1px dashed ${colors['light-grey']};

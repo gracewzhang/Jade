@@ -45,7 +45,7 @@ const Gallery = (): React.ReactElement => {
   );
 
   if (isLoading) {
-    return <Skeleton count={30} />;
+    return <Skeleton count={31} />;
   }
 
   if (isError) {
@@ -54,6 +54,7 @@ const Gallery = (): React.ReactElement => {
 
   return (
     <GalleryContainer>
+      {/* TODO: no overflow-y if no overflow */}
       <ScrollContainer>
         <GridContainer>
           {data?.map((url, key) => (

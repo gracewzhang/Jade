@@ -23,6 +23,7 @@ import useStore from '../../stores';
 const HomeContainer = styled.div`
   display: grid;
   grid-template-columns: 2fr 1fr;
+  gap: 5vw;
   padding: 7vh 7vw 9vh 7vw;
   height: 84vh;
 `;
@@ -57,7 +58,6 @@ const SongFoodContainer = styled.div`
 const RightContentContainer = styled.div`
   display: grid;
   grid-template-rows: 1fr 5fr 3fr;
-  padding-left: 5vw;
   max-height: 77vh;
 `;
 
@@ -130,7 +130,7 @@ const Home = (): React.ReactElement => {
         <BottomContentContainer>
           <EntryContainer>
             {loading ? (
-              <Skeleton count={16} />
+              <Skeleton count={17} />
             ) : (
               <Entry
                 updateDay={updateDay}

@@ -99,6 +99,7 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
   );
 };
 
+// TODO: thoughts css is wack
 const Thoughts = (props: ThoughtsProps): React.ReactElement => {
   const thoughts = useRef(props.thoughts);
 
