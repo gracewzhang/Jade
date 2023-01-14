@@ -188,7 +188,7 @@ const Home = (): React.ReactElement => {
         </CalendarContainer>
         <ThoughtsContainer>
           {loading ? (
-            <Skeleton count={10} />
+            <Skeleton count={11} />
           ) : (
             <Thoughts
               key={date}
