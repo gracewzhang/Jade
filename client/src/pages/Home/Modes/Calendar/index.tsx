@@ -118,7 +118,8 @@ const StyledCalendar = styled(_Calendar)<CalendarItemProps>`
     color: white;
   }
 
-  .react-calendar__tile--hasActive:hover {
+  .react-calendar__tile--active:hover,
+  .react-calendar__tile--active:enabled:focus:hover {
     background: ${(props) => props.darkSecondaryColor};
   }
 
