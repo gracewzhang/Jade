@@ -25,8 +25,6 @@ const LeftContentContainer = styled.div`
   gap: 8vh;
 `;
 
-// TODO: get rid of `` instances
-
 const Profile = (): React.ReactElement => {
   return (
     <ProfileContainer>

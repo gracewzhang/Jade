@@ -10,8 +10,6 @@ import useStore from '../../../stores';
 import { getDayDifference } from '../../../utils/date';
 import { StatisticProps } from './types';
 
-const StatisticsContainer = styled(Block)``;
-
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -96,7 +94,7 @@ const Statistics = (): React.ReactElement => {
   }
 
   return (
-    <StatisticsContainer>
+    <Block>
       <PaddingContainer>
         <HeaderContainer>
           <Label>Statistics</Label>
@@ -114,7 +112,7 @@ const Statistics = (): React.ReactElement => {
           />
         </ContentContainer>
       </PaddingContainer>
-    </StatisticsContainer>
+    </Block>
   );
 };
 

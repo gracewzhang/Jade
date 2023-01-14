@@ -10,8 +10,6 @@ import { CalendarItemProps, CalendarProps } from './types';
 import { toDate, toISO8601 } from '../../../../utils/date';
 import useStore from '../../../../stores';
 
-const CalendarContainer = styled(Block)``;
-
 const StyledCalendar = styled(_Calendar)<CalendarItemProps>`
   border: 0;
   border-radius: 20px;
@@ -90,7 +88,6 @@ const StyledCalendar = styled(_Calendar)<CalendarItemProps>`
     color: white;
   }
 
-  // TODO: the select/hover colors are wack again T_T
   .react-calendar__tile--active,
   .react-calendar__tile--active:enabled:focus {
     background-color: ${(props) => props.secondaryColor};
@@ -152,7 +149,7 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
   };
 
   return (
-    <CalendarContainer>
+    <Block>
       <StyledCalendar
         calendarType="US"
         selectedDayClass={date}
@@ -166,7 +163,7 @@ const Calendar = (props: CalendarProps): React.ReactElement => {
         darkPrimaryColor={darken(user?.primary_color ?? colors.rose, 0.1)}
         darkSecondaryColor={darken(user?.secondary_color ?? colors.yellow, 0.1)}
       />
-    </CalendarContainer>
+    </Block>
   );
 };
 

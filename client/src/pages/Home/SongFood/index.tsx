@@ -10,8 +10,6 @@ import { SongFoodProps } from './types';
 import { SF } from '../../../utils/enums';
 import { useMutation } from 'react-query';
 
-const SongFoodContainer = styled(Block)``;
-
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,7 +73,7 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
   });
 
   return (
-    <SongFoodContainer>
+    <Block>
       <PaddingContainer>
         <HeaderContainer>
           <Label>{props.type}</Label>
@@ -91,7 +89,7 @@ const SongFood = (props: SongFoodProps): React.ReactElement => {
           maxLength={MAX_LEN}
         />
       </PaddingContainer>
-    </SongFoodContainer>
+    </Block>
   );
 };
 

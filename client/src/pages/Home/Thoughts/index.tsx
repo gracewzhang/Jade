@@ -10,8 +10,6 @@ import colors from '../../../utils/colors';
 import { ThoughtProps, ThoughtsProps } from './types';
 import { useMutation } from 'react-query';
 
-const ThoughtsContainer = styled(Block)``;
-
 const PaddingContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -109,7 +107,7 @@ const Thoughts = (props: ThoughtsProps): React.ReactElement => {
   });
 
   return (
-    <ThoughtsContainer>
+    <Block>
       <PaddingContainer>
         <HeaderContainer>
           <Label>Thoughts</Label>
@@ -121,7 +119,7 @@ const Thoughts = (props: ThoughtsProps): React.ReactElement => {
           ))}
         </BottomContainer>
       </PaddingContainer>
-    </ThoughtsContainer>
+    </Block>
   );
 };
 
