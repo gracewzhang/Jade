@@ -3,7 +3,7 @@ import storage from '../../utils/firebase';
 import { GetPhotosProps, UsePhotosResults } from './types';
 
 export const usePhotos = (): UsePhotosResults => {
-  const FIREBASE_ROOT = process.env.REACT_FIREBASE_ROOT ?? 'test';
+  const FIREBASE_ROOT = process.env.REACT_APP_FIREBASE_ROOT ?? 'test';
 
   const getPhotos = async (props: GetPhotosProps): Promise<string[]> => {
     const photoUrls: string[] = [];
