@@ -163,7 +163,7 @@ const OnThisDay = (props: OnThisDayProps): React.ReactElement => {
             <SortAscIcon onClick={() => setDescending(true)} />
           )}
         </HeaderContainer>
-        <ScrollContainer>
+        <ScrollContainer scroll={true}>
           <PastDaysContainer>
             {pastDays.current?.map((day, key) => (
               <DayItem

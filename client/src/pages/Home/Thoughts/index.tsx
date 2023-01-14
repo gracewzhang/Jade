@@ -46,7 +46,7 @@ const BottomContainer = styled.div`
 `;
 
 const ThoughtContainer = styled.span`
-  height: 33%;
+  height: calc(100% / 3);
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -99,7 +99,6 @@ const Thought = (props: ThoughtProps): React.ReactElement => {
   );
 };
 
-// TODO: thoughts css is wack
 const Thoughts = (props: ThoughtsProps): React.ReactElement => {
   const thoughts = useRef(props.thoughts);
 

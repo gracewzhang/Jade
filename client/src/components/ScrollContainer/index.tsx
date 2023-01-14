@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import colors from '../../utils/colors';
 
-const ScrollContainer = styled.div`
+export interface ScrollContainerProps {
+  scroll: boolean;
+}
+
+const ScrollContainer = styled.div<ScrollContainerProps>`
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: ${(props) => (props.scroll ? 'scroll' : 'none')};
 
   ::-webkit-scrollbar {
     width: 7px;

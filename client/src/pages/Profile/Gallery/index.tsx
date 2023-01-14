@@ -54,8 +54,7 @@ const Gallery = (): React.ReactElement => {
 
   return (
     <GalleryContainer>
-      {/* TODO: no overflow-y if no overflow */}
-      <ScrollContainer>
+      <ScrollContainer scroll={data !== undefined && data.length > 25}>
         <GridContainer>
           {data?.map((url, key) => (
             <Photo url={url} key={key} />
