@@ -30,7 +30,7 @@ const HomeContainer = styled.div`
 
 const LeftContentContainer = styled.div`
   display: grid;
-  grid-template-rows: 1fr 2fr 3.5fr;
+  grid-template-rows: 1fr 24vh 3fr;
   max-height: 84vh;
 `;
 
@@ -122,7 +122,7 @@ const Home = (): React.ReactElement => {
         <Welcome />
         <PhotosContainer>
           {loading ? (
-            <Skeleton count={9} />
+            <Skeleton count={10} />
           ) : (
             <Photos date={date} day={day} setDay={setDay} />
           )}
